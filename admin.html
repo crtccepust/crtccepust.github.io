@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CRTC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #003366; --white: #ffffff; }
+        body { font-family: 'Roboto', sans-serif; background: #f4f7f6; margin: 0; }
+        
+        /* Nav */
+        nav { background: var(--primary); padding: 15px; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 1.2rem; font-weight: bold; }
+        .btn-logout { background: #e74c3c; border: none; color: white; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+
+        /* Container */
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        
+        /* Card */
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h2 { margin-top: 0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        
+        /* Form */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+        button:hover { background: #002244; }
+        button:disabled { background: #ccc; }
+
+        /* Login */
+        #login-screen { display: flex; height: 100vh; align-items: center; justify-content: center; }
+        #dashboard { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN -->
+    <div id="login-screen">
+        <div class="card" style="width: 100%; max-width: 400px;">
+            <h2 style="text-align: center;">Faculty Login</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="user" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="pass" required>
+                </div>
+                <button type="submit" id="loginBtn">Login</button>
+                <p id="loginMsg" style="color: red; text-align: center; margin-top: 10px;"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+        <nav>
+            <div class="nav-brand">CRTC Admin</div>
+            <div>
+                <a href="notice.html" style="color: white; margin-right: 15px; text-decoration: none;">View Site</a>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="card">
+                <h2><i class="fas fa-plus-circle"></i> Publish New Notice</h2>
+                <form onsubmit="postNotice(event)">
+                    <div class="form-group">
+                        <label>Notice Title</label>
+                        <input type="text" id="nTitle" required placeholder="e.g. Lab Closure">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="nCat">
+                            <option>General</option>
+                            <option>Urgent</option>
+                            <option>Results</option>
+                            <option>Maintenance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="nDesc" rows="4" required placeholder="Details..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>External Link (Optional)</label>
+                        <input type="text" id="nLink" placeholder="https://...">
+                    </div>
+                    <button type="submit" id="postBtn">Publish to Website</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2_VGnaTJLT3fVyqx67dXd1bwy8hb7Dq2BalzhZDh3dAs3KTeuCve5H53PluXzgUHP/exec"; 
+        // ---------------------
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            const btn = document.getElementById('loginBtn');
+            const msg = document.getElementById('loginMsg');
+
+            if(!GOOGLE_SCRIPT_URL) {
+                msg.innerText = "Script URL missing in code.";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Checking...";
+
+            fetch(`${GOOGLE_SCRIPT_URL}?action=login&u=${u}&p=${p}`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    localStorage.setItem('crtc_auth', 'true');
+                    showDashboard();
+                } else {
+                    msg.innerText = "Invalid Credentials";
+                    btn.disabled = false;
+                    btn.innerText = "Login";
+                }
+            })
+            .catch(err => {
+                msg.innerText = "Connection Error";
+                btn.disabled = false;
+            });
+        }
+
+        function postNotice(e) {
+            e.preventDefault();
+            const btn = document.getElementById('postBtn');
+            
+            const title = document.getElementById('nTitle').value;
+            const cat = document.getElementById('nCat').value;
+            const desc = document.getElementById('nDesc').value;
+            const link = document.getElementById('nLink').value;
+
+            btn.disabled = true;
+            btn.innerText = "Publishing...";
+
+            // Use 'no-cors' mode if simply firing and forgetting, or handle cors in script
+            // Using GET for simplicity in Apps Script without complex CORS headers
+            const url = `${GOOGLE_SCRIPT_URL}?action=addNotice&title=${encodeURIComponent(title)}&category=${encodeURIComponent(cat)}&desc=${encodeURIComponent(desc)}&link=${encodeURIComponent(link)}`;
+
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    alert("Notice Published!");
+                    e.target.reset();
+                } else {
+                    alert("Error publishing.");
+                }
+                btn.disabled = false;
+                btn.innerText = "Publish to Website";
+            });
+        }
+
+        function showDashboard() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        }
+
+        function logout() {
+            localStorage.removeItem('crtc_auth');
+            location.reload();
+        }
+
+        if(localStorage.getItem('crtc_auth') === 'true') {
+            showDashboard();
+        }
+    </script>
+</body>
+</html>

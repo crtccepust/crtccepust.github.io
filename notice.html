@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices - CRTC PUST</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #003366; --secondary-color: #e84c3d; --light-bg: #f8f9fa; --white: #ffffff; --transition: 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { background-color: var(--light-bg); color: #333; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .nav-links { display: flex; gap: 5px; list-style: none; }
+        .nav-links a { font-weight: 500; color: var(--primary-color); padding: 10px 15px; border-radius: 4px; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.05); color: var(--secondary-color); }
+
+        .page-header { background: var(--primary-color); color: white; padding: 60px 0; text-align: center; margin-bottom: 40px; }
+        .page-header h1 { font-size: 2.5rem; }
+
+        .notice-container { flex: 1; padding-bottom: 60px; }
+        
+        .notice-item { 
+            background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            margin-bottom: 25px; display: flex; overflow: hidden; transition: var(--transition);
+            animation: fadeIn 0.5s ease;
+        }
+        .notice-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        .notice-date { 
+            background: #eee; min-width: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            padding: 20px; text-align: center; font-weight: 700; color: var(--primary-color); border-right: 4px solid var(--secondary-color);
+        }
+        .notice-date i { font-size: 1.5rem; margin-bottom: 5px; color: var(--secondary-color); }
+        
+        .notice-content { padding: 25px; flex: 1; }
+        .notice-content h3 { color: var(--primary-color); margin-bottom: 10px; font-size: 1.3rem; }
+        .notice-meta { font-size: 0.85rem; color: #777; margin-bottom: 12px; display: flex; gap: 15px; }
+        .notice-meta i { color: var(--secondary-color); }
+        
+        .btn-link { 
+            display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; 
+            font-size: 0.9rem; font-weight: 600; color: var(--primary-color); text-decoration: none; 
+            border: 1px solid #ddd; padding: 8px 18px; border-radius: 4px; transition: 0.3s;
+        }
+        .btn-link:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        footer { background: #111; color: #aaa; padding: 40px 0; text-align: center; margin-top: auto; }
+        @media (max-width: 768px) { 
+            .nav-links { display: none; } 
+            .notice-item { flex-direction: column; }
+            .notice-date { width: 100%; border-right: none; border-bottom: 4px solid var(--secondary-color); padding: 15px; flex-direction: row; gap: 10px; }
+            .notice-date i { margin-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <div class="logo"><i class="fas fa-university"></i> CRTC, PUST</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="rates.html">Rates</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="notice.html" class="active">Notices</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="admin.html" style="color:#aaa;"><i class="fas fa-lock"></i></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Notice Board</h1>
+            <p>Official announcements and updates.</p>
+        </div>
+    </div>
+
+    <div class="notice-container">
+        <div class="container" id="notice-list">
+            <div style="text-align:center; padding: 60px; color:#666;">
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i><br><br>
+                Syncing with Database...
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">&copy; 2025 CRTC, PUST. All Rights Reserved.</div>
+    </footer>
+
+    <script>
+        // --- CONFIGURATION ---
+        // PASTE YOUR GOOGLE WEB APP URL HERE
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2_VGnaTJLT3fVyqx67dXd1bwy8hb7Dq2BalzhZDh3dAs3KTeuCve5H53PluXzgUHP/exec"; 
+        // ---------------------
+
+        async function fetchNotices() {
+            const container = document.getElementById('notice-list');
+            
+            if(!SCRIPT_URL) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:40px; background:white; border-radius:8px;">
+                        <h3>Configuration Required</h3>
+                        <p>Please paste the Google Apps Script URL in the source code to fetch notices.</p>
+                    </div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getNotices`);
+                const json = await response.json();
+
+                if (json.status === 'success') {
+                    container.innerHTML = '';
+                    
+                    if(json.data.length === 0) {
+                        container.innerHTML = '<p style="text-align:center">No active notices found.</p>';
+                        return;
+                    }
+
+                    json.data.forEach(notice => {
+                        // Only show button if link exists
+                        const linkHtml = notice.link ? 
+                            `<a href="${notice.link}" target="_blank" class="btn-link">Download / View <i class="fas fa-external-link-alt"></i></a>` : '';
+                        
+                        const html = `
+                            <div class="notice-item">
+                                <div class="notice-date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <div>${notice.date}</div>
+                                </div>
+                                <div class="notice-content">
+                                    <h3>${notice.title}</h3>
+                                    <div class="notice-meta">
+                                        <span><i class="fas fa-tag"></i> ${notice.category}</span>
+                                    </div>
+                                    <p>${notice.description}</p>
+                                    ${linkHtml}
+                                </div>
+                            </div>
+                        `;
+                        container.innerHTML += html;
+                    });
+                } else {
+                    container.innerHTML = '<p style="text-align:center; color:red">Error loading notices.</p>';
+                }
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = '<p style="text-align:center; color:red">Connection Failed. Please try again later.</p>';
+            }
+        }
+        
+        fetchNotices();
+    </script>
+</body>
+</html>

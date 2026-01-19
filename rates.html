@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Rates & Application - CRTC PUST</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- HTML2PDF Library for Direct Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary-color: #003366;
+            --primary-dark: #002244;
+            --secondary-color: #e84c3d;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --border-color: #e1e4e8;
+            --text-color: #333;
+            --success-color: #2ecc71;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { background-color: var(--light-bg); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 1500px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- HEADER & NAV --- */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000;  }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .nav-links { display: flex; gap: 5px; list-style: none; }
+        .nav-links a { color: var(--primary-color); padding: 10px 15px; font-weight: 500; border-radius: 4px; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.05); color: var(--secondary-color); }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            background: linear-gradient(rgba(0,51,102,0.85), rgba(0,30,60,0.9)), url('assets/rates/1.png')var(--primary-color); color: var(--white); padding: 200px 0; text-align: center;
+        }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+
+        /* --- RATES LAYOUT (GRID) --- */
+        .rates-section { padding: 40px 0; }
+        .rates-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* LEFT: RATES TABLE */
+        .rates-card { background: var(--white); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
+        
+        .search-container {
+            padding: 20px;
+            background: #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .search-bar { flex: 2; min-width: 200px; }
+        .filter-select { flex: 1; min-width: 150px; }
+
+        .search-bar input, .filter-select select { 
+            width: 100%; padding: 12px 15px; border: 1px solid #ccc; border-radius: 5px; outline: none; 
+            font-size: 0.95rem;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--primary-color); color: var(--white); }
+        th { padding: 15px; text-align: center; font-weight: 700; font-size: 0.95rem; color: white; } 
+        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; vertical-align: middle; }
+        tr:hover td { background: #f9f9f9; }
+        
+        .category-row { background-color: #e9ecef; font-weight: 700; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; text-align: center}
+
+        .price { font-weight: 700; color: var(--text-color); }
+        .btn-add {
+            background: var(--white); border: 1px solid var(--primary-color); color: var(--primary-color);
+            padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: var(--transition);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .btn-add:hover { background: var(--primary-color); color: var(--white); }
+        .btn-add.added { background: var(--success-color); border-color: var(--success-color); color: white; cursor: default; }
+
+        /* RIGHT: SELECTION SIDEBAR (STICKY) */
+        .cart-sidebar {
+            background: var(--white); border-radius: 8px; box-shadow: var(--shadow);
+            position: sticky; top: 100px; border-top: 5px solid var(--secondary-color);
+        }
+        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h3 { color: var(--primary-color); font-size: 1.2rem; }
+        
+        .cart-items { max-height: 400px; overflow-y: auto; padding: 0; list-style: none; }
+        .cart-item {
+            padding: 15px 20px; border-bottom: 1px solid #f1f1f1; display: flex; flex-direction: column; gap: 8px; position: relative;
+        }
+        .cart-item-header { display: flex; justify-content: space-between; font-weight: 500; font-size: 0.9rem; padding-right: 25px; }
+        .btn-remove { position: absolute; top: 15px; right: 15px; color: #999; cursor: pointer; }
+        .btn-remove:hover { color: var(--secondary-color); }
+        
+        .cart-controls { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #666; }
+        .qty-input { width: 50px; padding: 4px; text-align: center; border: 1px solid #ddd; border-radius: 4px; }
+
+        .cart-footer { padding: 20px; background: #f8f9fa; border-top: 1px solid #eee; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; }
+        .summary-row.total { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px; }
+        
+        .btn-checkout {
+            width: 100%; padding: 12px; background: var(--secondary-color); color: white; border: none;
+            border-radius: 5px; font-weight: 600; cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px;
+        }
+        .btn-checkout:hover { background: #c0392b; }
+        .btn-checkout:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- MODAL --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; overflow-y: auto;}
+        .modal-content { background: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 800px; position: relative; margin: 20px 0; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #999; }
+        
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.9rem; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        /* Phone Validation Styles */
+        .validation-msg { font-size: 0.8rem; margin-top: 4px; display: none; }
+        .validation-msg.error { color: #e74c3c; display: block; }
+        .validation-msg.success { color: #2ecc71; display: block; }
+        input.invalid { border-color: #e74c3c; background-color: #fff5f5; }
+        input.valid { border-color: #2ecc71; background-color: #f0fff4; }
+
+        /* --- FOOTER --- */
+        footer { background: #111; color: #aaa; padding: 60px 0 30px; text-align: center; margin-top: auto; }
+
+        /* --- PRINTABLE APPLICATION STYLE (A4 Format) --- */
+        #printableArea { display: none; } /* Hidden normally */
+
+        /* Force font for preview */
+        #previewContent {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+
+        /* Common Print Styles */
+        .print-layout {
+            font-family: 'Times New Roman', Times, serif;
+            color: black;
+            line-height: 1.3;
+            background: white;
+            padding: 40px; /* Padding for preview and PDF generation */
+        }
+
+        .print-header { text-align: center; margin-bottom: 10px; }
+        .print-header h2 { 
+            font-size: 18pt; margin: 0; text-transform: uppercase; font-weight: bold; 
+            white-space: nowrap; /* Keep on single line */
+        }
+        .print-header p { margin: 2px 0; font-size: 13pt; }
+        .header-line { border: 0; border-top: 1px solid #000; margin-top: 5px; margin-bottom: 20px; }
+
+        .print-body { margin-top: 0; }
+        .print-body p { margin-bottom: 8px; text-align: justify; font-size: 12pt; }
+        
+        .print-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11pt; }
+        .print-table th, .print-table td { border: 1px solid #000; padding: 5px 8px; }
+        .print-table th { 
+            background-color: #f0f0f0 !important; 
+            font-weight: bold !important; 
+            color: black !important;
+            -webkit-print-color-adjust: exact; 
+        }
+        
+        .bank-box { border: 1px solid #000; padding: 8px; margin-top: 15px; font-size: 11pt; }
+        
+        .print-footer { margin-top: 80px; display: flex; justify-content: flex-start; } /* Increased spacing */
+        .signature-block { text-align: center; margin-top: 40px; }
+        .signature-line { border-top: 1px solid #000; width: 220px; padding-top: 5px; }
+        .signature-seal { font-size: 11pt; margin-top: 2px; }
+
+        @media print {
+            @page { 
+                size: A4; 
+                margin: 0.5cm 1.5cm; /* Reduced margins */
+            }
+            
+            body { 
+                background: white; 
+                margin: 0; 
+                padding: 0; 
+            }
+            
+            /* Hide Website Elements */
+            header, footer, .page-header, .rates-section, .modal, .no-print { display: none !important; }
+            
+            /* Show Printable Area */
+            #printableArea {
+                display: block !important;
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            /* Ensure container has padding in print mode since page margins are small */
+            .print-layout { padding: 0 10px; }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .rates-layout { grid-template-columns: 1fr; }
+            .cart-sidebar { position: fixed; bottom: 0; left: 0; width: 100%; top: auto; border-radius: 15px 15px 0 0; z-index: 900; transform: translateY(85%); transition: transform 0.3s; }
+            .cart-sidebar.open { transform: translateY(0); }
+            .cart-header { cursor: pointer; background: var(--primary-color); color: white; border-radius: 15px 15px 0 0; }
+            .cart-header h3 { color: white; font-size: 1rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <header class="no-print">
+        <div class="container nav-container">
+            <div class="logo"><i class="fas fa-university"></i> CRTC, PUST</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="rates.html" class="active">Rates</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-header no-print">
+        <div class="container">
+            <h1>Test Rates & Application</h1>
+            <p>Select tests to prepare an official application form.</p>
+        </div>
+    </div>
+
+    <section class="rates-section no-print">
+        <div class="container">
+            <div class="rates-layout">
+                <!-- LEFT: RATES LIST -->
+                <div class="rates-content">
+                    <div class="rates-card">
+                        
+                        <!-- Search & Filter Controls -->
+                        <div class="search-container">
+                            <div class="search-bar">
+                                <input type="text" id="searchInput" placeholder="Search tests (e.g. Concrete, Soil)..." onkeyup="filterTests()">
+                            </div>
+                            <div class="filter-select">
+                                <select id="categoryFilter" onchange="filterTests()">
+                                    <option value="ALL">All Categories</option>
+                                    <option value="AGGREGATES">Aggregates</option>
+                                    <option value="BRICKS">Bricks</option>
+                                    <option value="CEMENT CONCRETE">Cement Concrete</option>
+                                    <option value="CEMENT">Cement</option>
+                                    <option value="ROD">Rod/Rebar</option>
+                                    <option value="SOIL">Soil</option>
+                                    <option value="BITUMEN">Bitumen</option>
+                                    <option value="NDT">NDT</option>
+                                    <option value="ADMIXTURE PARAMETERS">Admixture</option>
+                                    <option value="CALIBRATION">Calibration</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <table id="ratesTable">
+                            <thead>
+                                <tr>
+                                    <th>Test Description</th>
+                                    <th>Standard</th>
+                                    <th>Unit</th>
+                                    <th>*Rate (BDT)</th>
+                                    <th width="100">Select</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ratesBody">
+                                <!-- JS will populate this -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.85rem; color: #777;">* Rates include VAT (15%), University Overhead (30%).</p>
+                </div>
+
+                <!-- RIGHT: SIDEBAR -->
+                <div class="cart-sidebar" id="cartSidebar">
+                    <div class="cart-header" onclick="toggleMobileCart()">
+                        <h3><i class="fas fa-file-invoice"></i> Application Draft <span id="cartCount" style="font-size:0.8em; opacity:0.8;">(0)</span></h3>
+                        <i class="fas fa-chevron-up" style="display:none;" id="mobileToggleIcon"></i>
+                    </div>
+                    <ul class="cart-items" id="cartItems">
+                        <li style="padding:30px; text-align:center; color:#999; font-style:italic;">No tests selected</li>
+                    </ul>
+                    <div class="cart-footer">
+                        <div class="summary-row total"><span>Est. Total:</span> <span id="grandTotal">0 BDT</span></div>
+                        <button class="btn-checkout" id="checkoutBtn" disabled onclick="openOrderModal()">Draft Application <i class="fas fa-pen-nib"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL -->
+    <div id="orderModal" class="modal no-print">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeOrderModal()">&times;</span>
+            
+            <!-- STEP 1: INPUT -->
+            <div id="applicationFormStep">
+                <h2 style="color:var(--primary-color); margin-bottom:20px;">Prepare Application</h2>
+                <form onsubmit="generateLetter(event)">
+                    <div class="form-group">
+                        <label>Memo No. (Optional)</label>
+                        <input type="text" id="memoNo" placeholder="Leave blank to fill manually">
+                    </div>
+                    <div class="form-group">
+                        <label>Applicant / Client Name</label>
+                        <input type="text" id="clientName" required placeholder="e.g. Executive Engineer, LGED, Pabna">
+                    </div>
+                    <div class="form-group">
+                        <label>Client Address</label>
+                        <textarea id="clientAddress" rows="1" placeholder="e.g. LGED Bhaban, Pabna"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Name / Reference</label>
+                        <textarea id="projectRef" rows="2" placeholder="e.g. Construction of Academic Building..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contact No.</label>
+                            <input type="text" id="clientPhone" required placeholder="01XXXXXXXXX" onkeyup="validatePhone(this)">
+                            <div id="phoneMsg" class="validation-msg"></div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-checkout" style="margin-top:10px;">Generate Application</button>
+                </form>
+            </div>
+
+            <!-- STEP 2: PREVIEW -->
+            <div id="previewStep" style="display:none;">
+                <h2 style="color:var(--primary-color); text-align:center;">Application Ready</h2>
+                <p style="text-align:center; color:#666; margin-bottom:15px;">Review details before printing or downloading.</p>
+                <div style="background:#f1f1f1; padding:20px; border:1px solid #ccc; max-height:400px; overflow-y:auto; margin-bottom:20px;">
+                    <div id="previewContent" style="background:white; padding:30px; font-family:'Times New Roman', Times, serif; color:black; font-size:12px;"></div>
+                </div>
+                <div style="display:flex; gap:10px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn-checkout" style="background:#555; width:auto;" onclick="backToForm()">Edit</button>
+                    <button class="btn-checkout" style="width:auto;" onclick="printApplication()"><i class="fas fa-print"></i> Print</button>
+                    <button class="btn-checkout" style="background:#2ecc71; width:auto;" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download Direct</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRINTABLE AREA (A4) -->
+    <div id="printableArea">
+        <div class="print-layout" id="pdfContent">
+            <div class="print-header">
+                <h2>Center for Research, Testing and Consultation (CRTC)</h2>
+                <p>Department of Civil Engineering</p>
+                <p>Pabna University of Science and Technology, Pabna-6600</p>
+                <hr class="header-line">
+            </div>
+            
+            <div class="print-body">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 10px;">
+                    <span>Memo No.: <span id="printMemoNo"></span></span>
+                    <span>Date: <span id="printDate"></span></span>
+                </div>
+                
+                <p>
+                    To<br>
+                    The Chairman, CRTC<br>
+                    Department of Civil Engineering<br>
+                    PUST, Pabna-6600, Bangladesh.
+                </p>
+                <p><strong>Subject: Prayer for conducting laboratory tests.</strong></p>
+                <p>Sir,</p>
+                <p>
+                    With due respect, I would like to request you to conduct the following laboratory tests for the project mentioned below. 
+                    I am ready to pay the testing fees as per university rules.
+                </p>
+                
+                <div style="margin: 15px 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                        <span style="flex-grow: 1; margin-right: 20px;"><strong>Client Name:</strong> <span id="printClientName"></span></span>
+                        <span style="white-space: nowrap;"><strong>Contact No:</strong> <span id="printContact"></span></span>
+                    </div>
+                    <div style="margin-bottom: 8px;"><strong>Address:</strong> <span id="printClientAddress"></span></div>
+                    <div><strong>Project/Ref:</strong> <span id="printProjectRef"></span></div>
+                </div>
+
+                <table class="print-table">
+                    <thead>
+                        <tr>
+                            <th>Sl.</th>
+                            <th>Description of Test</th>
+                            <th style="text-align:center;">Qty</th>
+                            <th style="text-align:right;">Rate</th>
+                            <th style="text-align:right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="printTableBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align:right;"><strong>Total Amount</strong></td>
+                            <td id="printTotal" style="text-align:right; font-weight:bold;"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="bank-box">
+                    <strong><i class="fas fa-money-check"></i> Bank Payment Information:</strong><br>
+                    Please deposit the total amount to the following account:<br>
+                    Name: <strong>Janata Bank PLC</strong> | Branch: <strong>PUST Branch, Pabna</strong><br>
+                    Account Name: <strong>CRTC, Dept. of Civil Engineering, PUST</strong>
+                </div>
+
+                <div class="print-footer">
+                    <div class="signature-block">
+                        <div class="signature-line">
+                            Signature of Applicant
+                        </div>
+                        <div class="signature-seal">
+                            (Seal)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="no-print">
+        <div class="container">
+            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Updated Test Data with Categories
+        const testData = [
+            { id: 101, category: "AGGREGATES", name: "Sieve Analysis (Gradation/FM) of Coarse Aggregate (CA)", std: "ASTM C136", unit: "Per Sample", rate: 6000 },
+			{ id: 102, category: "AGGREGATES", name: "Sieve Analysis (Gradation/FM) of Fine Aggregate (FA)", std: "ASTM C136", unit: "Per Sample", rate: 4500 },
+			{ id: 103, category: "AGGREGATES", name: "Sieve Analysis (Gradation) of Base/Subbase", std: "ASTM D422", unit: "Per Sample", rate: 8500 },
+			{ id: 104, category: "AGGREGATES", name: "Sieve Analysis (Gradation) of Ballast", std: "ASTM D422", unit: "Per Sample", rate: 7000 },
+			{ id: 105, category: "AGGREGATES", name: "% Finer than #200 sieve by washing/Fine Content/Silt Content", std: "ASTM C117", unit: "Per Sample", rate: 3500 },
+			{ id: 106, category: "AGGREGATES", name: "Aggregate Crushing Value (ACV)", std: "BS 812-110", unit: "Per Sample", rate: 7000 },
+			{ id: 107, category: "AGGREGATES", name: "Aggregate Impact Value (AIV)", std: "BS 812-112", unit: "Per Sample", rate: 6000 },
+			{ id: 108, category: "AGGREGATES", name: "Ten Percent Fine Value (TFV)", std: "BS 812-111", unit: "Per Sample", rate: 10000 },
+			{ id: 109, category: "AGGREGATES", name: "L.A. Abrasion of CA", std: "ASTM C131", unit: "Per Sample", rate: 7000 },
+			{ id: 110, category: "AGGREGATES", name: "L.A. Abrasion of Ballast", std: "ASTM C535", unit: "Per Sample", rate: 7500 },
+			{ id: 111, category: "AGGREGATES", name: "Unit Weight of CA", std: "ASTM C29", unit: "Per Sample", rate: 5000 },
+			{ id: 112, category: "AGGREGATES", name: "Unit Weight of FA", std: "ASTM C29", unit: "Per Sample", rate: 4500 },
+			{ id: 113, category: "AGGREGATES", name: "Specific Gravity and Absorption of CA", std: "ASTM C127", unit: "Per Sample", rate: 6500 },
+			{ id: 113, category: "AGGREGATES", name: "Specific Gravity and Absorption of FA", std: "ASTM C128", unit: "Per Sample", rate: 5500 },
+			{ id: 114, category: "AGGREGATES", name: "Void Ratio/ Porosity", std: "ASTM C29", unit: "Per Sample", rate: 6000 },
+			{ id: 115, category: "AGGREGATES", name: "Standard Proctor Test of Aggregate", std: "ASTM D698", unit: "Per Sample", rate: 22500 },
+			{ id: 116, category: "AGGREGATES", name: "Modified Proctor Test of Aggregate", std: "ASTM D1557", unit: "Per Sample", rate: 30500 },
+			{ id: 117, category: "AGGREGATES", name: "CBR of Base or Sub-Base Materials", std: "ASTM D1883", unit: "Per Sample", rate: 50000 },
+			{ id: 118, category: "AGGREGATES", name: "Moisture content", std: "ASTM C566", unit: "Per Sample", rate: 2500 },
+			{ id: 119, category: "AGGREGATES", name: "Flakiness Index (FI)", std: "BS 812-105", unit: "Per Sample", rate: 7000 },
+			{ id: 120, category: "AGGREGATES", name: "Elongation Index (EI)", std: "BS 812-105", unit: "Per Sample", rate: 7500 },
+			{ id: 121, category: "AGGREGATES", name: "Percentage of Fractured Coarse Aggregate Particles", std: "ASTM D5821", unit: "Per Sample", rate: 8500 },
+			{ id: 122, category: "AGGREGATES", name: "Bulking of Sand", std: "BS 812-109", unit: "Per Sample", rate: 5000 },
+
+			{ id: 201, category: "BRICKS", name: "Absorption (ASTM) ", std: "ASTM C67", unit: "Set (5)", rate: 2000 },
+			{ id: 202, category: "BRICKS", name: "Absorption (BS) ", std: "BS EN 772-21", unit: "Set (10)", rate: 3500 },
+			{ id: 203, category: "BRICKS", name: "Crushing Strength (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 4500 },
+			{ id: 204, category: "BRICKS", name: "Crushing Strength (BS)", std: "BS EN 772-1", unit: "Set (10)", rate: 7000 },
+			{ id: 205, category: "BRICKS", name: "Size and Shape (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 2000 },
+			{ id: 206, category: "BRICKS", name: "Size and Shape (BS)", std: "BS EN 772-16", unit: "Set (10)", rate: 2500 },
+			{ id: 207, category: "BRICKS", name: "Unit Weight (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 4000 },
+			{ id: 208, category: "BRICKS", name: "Unit Weight (BS)", std: "BS EN 772-13", unit: "Set (10)", rate: 5000 },
+			{ id: 209, category: "BRICKS", name: "Efflorescence (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 4500 },
+			{ id: 210, category: "BRICKS", name: "Efflorescence (BS)", std: "BS EN 772-11", unit: "Set (10)", rate: 5000 },
+
+			{ id: 301, category: "CEMENT CONCRETE", name: "Concrete Cylinders (100x200mm)", std: "ASTM C39", unit: "Set (3)", rate: 2000 },
+			{ id: 302, category: "CEMENT CONCRETE", name: "Concrete cylinders (150x300mm)", std: "ASTM C39", unit: "Set (3)", rate: 3500 },
+			{ id: 303, category: "CEMENT CONCRETE", name: "Concrete Cubes (<200mm)", std: "BS EN 12390-3", unit: "Set (3)", rate: 3000 },
+			{ id: 304, category: "CEMENT CONCRETE", name: "Concrete Cubes (200mm-300mm)", std: "BS EN 12390-3", unit: "Set (3)", rate: 3500 },
+			{ id: 305, category: "CEMENT CONCRETE", name: "Concrete Cubes (>300mm)", std: "BS EN 12390-3", unit: "Set (3)", rate: 5500 },
+			{ id: 306, category: "CEMENT CONCRETE", name: "Concrete Beam in Flexure", std: "ASTM C78", unit: "Set (3)", rate: 7500 },
+			{ id: 307, category: "CEMENT CONCRETE", name: "Concrete Cylinders Casting & Testing", std: "ASTM C39", unit: "Set (3)", rate: 15000 },
+			{ id: 308, category: "CEMENT CONCRETE", name: "Concrete Slump Test", std: "ASTM C143", unit: "Set (3)", rate: 5000 },
+			{ id: 309, category: "CEMENT CONCRETE", name: "Concrete Density (Dry)", std: "ASTM C642", unit: "Per Sample", rate: 2000 },
+			{ id: 310, category: "CEMENT CONCRETE", name: "Concrete Density (Wet)", std: "ASTM C138", unit: "Per Sample", rate: 3500 },
+			{ id: 311, category: "CEMENT CONCRETE", name: "Moisture Content", std: "ASTM C566", unit: "Per Sample", rate: 3500 },
+			{ id: 312, category: "CEMENT CONCRETE", name: "Temperature", std: "ASTM C1064", unit: "Per Sample", rate: 2000 },
+			{ id: 313, category: "CEMENT CONCRETE", name: "Concrete Mix Design without Admixture [Cylinder; up to 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 50000 },
+			{ id: 314, category: "CEMENT CONCRETE", name: "Concrete Mix Design without Admixture [Cylinder; > 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 55000 },
+			{ id: 315, category: "CEMENT CONCRETE", name: "Concrete Mix Design with Admixture [Cylinder; up to 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 55000 },
+			{ id: 316, category: "CEMENT CONCRETE", name: "Concrete Mix Design with Admixture [Cylinder; > 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 60000 },
+
+			{ id: 401, category: "CEMENT", name: "Compressive Strength, 3, 7 & 28 days", std: "ASTM C109", unit: "Per Sample", rate: 10000 },
+			{ id: 402, category: "CEMENT", name: "Initial & Final Setting Time", std: "ASTM C191", unit: "Per Sample", rate: 4500 },
+			{ id: 403, category: "CEMENT", name: "Fineness (Blaine Air Permeability Method)", std: "ASTM C204", unit: "Per Sample", rate: 3500 },
+			{ id: 404, category: "CEMENT", name: "Fineness (Sieve Analysis Method)", std: "ASTM C430", unit: "Per Sample", rate: 2500 },
+			{ id: 405, category: "CEMENT", name: "Normal Consistency (only)", std: "ASTM C187", unit: "Per Sample", rate: 2500 },
+			{ id: 406, category: "CEMENT", name: "Density / Sp. Gr. / Unit Weight", std: "ASTM C188", unit: "Per Sample", rate: 3500 },
+			{ id: 407, category: "CEMENT", name: "Soundness", std: "ASTM C151", unit: "Per Sample", rate: 8500 },
+			{ id: 408, category: "CEMENT", name: "Weight of Cement Bag", std: "ASTM C150", unit: "Per Sample", rate: 700 },
+
+			{ id: 501, category: "ROD", name: "Tension incl. wt. & elongation (up to 25mm)", std: "ASTM A370", unit: "Per Sample", rate: 2200 },
+			{ id: 502, category: "ROD", name: "Tension incl. wt. & elongation (above 25mm & up to 32mm)", std: "ASTM A370", unit: "Per Sample", rate: 3000 },
+			{ id: 503, category: "ROD", name: "Bend (up to 25mm)", std: "ASTM E290", unit: "Per Sample", rate: 1000 },
+			{ id: 504, category: "ROD", name: "Bend (above 25mm)", std: "ASTM E290", unit: "Per Sample", rate: 1100 },
+			{ id: 505, category: "ROD", name: "Re-bend (up to 25mm)", std: "ASTM A615", unit: "Per Sample", rate: 1300 },
+			{ id: 506, category: "ROD", name: "Re-bend (above 25mm)", std: "ASTM A615", unit: "Per Sample", rate: 1500 },
+			{ id: 507, category: "ROD", name: "Stress-strain curves (Mod. of Elasticity)", std: "ASTM E8", unit: "Per Sample", rate: 10000 },
+			{ id: 508, category: "ROD", name: "Shear Test for Rod", std: "ASTM B769", unit: "Per Sample", rate: 2200 },
+
+			{ id: 601, category: "SOIL", name: "Specific Gravity", std: "ASTM D854", unit: "Per Sample", rate: 2000 },
+			{ id: 602, category: "SOIL", name: "Unit Weight", std: "ASTM D7263", unit: "Per Sample", rate: 2000 },
+			{ id: 603, category: "SOIL", name: "Void Ratio", std: "ASTM D7263", unit: "Per Sample", rate: 3000 },
+			{ id: 604, category: "SOIL", name: "Moisture Content", std: "ASTM D2216", unit: "Per Sample", rate: 1000 },
+			{ id: 605, category: "SOIL", name: "Liquid Limit and Plastic Limit", std: "ASTM D4318", unit: "Per Sample", rate: 3500 },
+			{ id: 606, category: "SOIL", name: "Grain Size Analysis (Sieve)", std: "ASTM D422", unit: "Per Sample", rate: 3500 },
+			{ id: 607, category: "SOIL", name: "Hydrometer, Sieve Analysis", std: "ASTM D422", unit: "Per Sample", rate: 5000 },
+			{ id: 608, category: "SOIL", name: "Organic Matter Content", std: "ASTM D2974", unit: "Per Sample", rate: 3000 },
+			{ id: 609, category: "SOIL", name: "Max. and Min. Density of Cohesion less Soil ", std: "ASTM D4253", unit: "Per Sample", rate: 7000 },
+			{ id: 610, category: "SOIL", name: "Standard Proctor Compaction", std: "ASTM D698", unit: "Per Sample", rate: 12000 },
+			{ id: 611, category: "SOIL", name: "Modified Proctor Compaction", std: "ASTM D1557", unit: "Per Sample", rate: 15000 },
+			{ id: 612, category: "SOIL", name: "Unconfined Compression", std: "ASTM D2166", unit: "Per Sample", rate: 75000 },
+			{ id: 613, category: "SOIL", name: "Laboratory California Bearing Ratio (CBR)", std: "ASTM D1883", unit: "Per Sample", rate: 25000 },
+			{ id: 614, category: "SOIL", name: "Consolidated Drained Test for Sand", std: "ASTM D7181", unit: "Per Sample", rate: 10500 },
+			{ id: 615, category: "SOIL", name: "Consolidated Drained Test for Clay", std: "ASTM D7181", unit: "Per Sample", rate: 11500 },
+			{ id: 616, category: "SOIL", name: "Soil Boring (within Pabna City) - depth up to 60'", std: "BNBC", unit: "Per bore", rate: 40000 },
+			{ id: 617, category: "SOIL", name: "Field Dry Density (FDD)", std: "ASTM D1556", unit: "Per bore", rate: 5500 },
+
+			{ id: 701, category: "BITUMEN", name: "Specific Gravity/ Density", std: "AASHTO T228", unit: "Per bore", rate: 5000 },
+			{ id: 702, category: "BITUMEN", name: "Penetration", std: "AASHTO T49", unit: "Per bore", rate: 5000 },
+
+			{ id: 801, category: "NDT", name: "Rebound Hammer", std: "ASTM C805", unit: "Per spot", rate: 4800 },
+			{ id: 802, category: "NDT", name: "Concrete Cover (max & min.)", std: "BS 1881-204", unit: "Per spot", rate: 1000 },
+			{ id: 803, category: "NDT", name: "Rebar Location", std: "BS 1881-204", unit: "Per spot", rate: 5000 },
+			{ id: 804, category: "NDT", name: "Rebar Location, Diameter & Concrete Cover", std: "BS 1881-204", unit: "Per spot", rate: 10000 },
+
+			{ id: 901, category: "ADMIXTURE", name: "pH", std: "ASTM E70", unit: "Per spot", rate: 2500 },
+			{ id: 902, category: "ADMIXTURE", name: "Temperature", std: "ASTM C1064", unit: "Per spot", rate: 1500 },
+			{ id: 903, category: "ADMIXTURE", name: "Specific Gravity/Density", std: "ASTM D1429", unit: "Per spot", rate: 3500 },
+			{ id: 904, category: "ADMIXTURE", name: "Dry Materials/ Solid Content", std: "ASTM C494", unit: "Per spot", rate: 4000 },
+
+			{ id: 1001, category: "CALIBRATION", name: "Proving ring (<100 kN)", std: "ASTM E74", unit: "Per spot", rate: 6000 },
+			{ id: 1002, category: "CALIBRATION", name: "Proving ring (100 kN to 500 kN)", std: "ASTM E74", unit: "Per spot", rate: 6500 },
+			{ id: 1003, category: "CALIBRATION", name: "Proving ring (>500 kN)", std: "ASTM E74", unit: "Per spot", rate: 7000 },
+			{ id: 1004, category: "CALIBRATION", name: "Electronic Balance up to 10kg", std: "ASTM E898", unit: "Per spot", rate: 7000 },
+			{ id: 1005, category: "CALIBRATION", name: "Rebound Hammer", std: "ASTM C805", unit: "Per spot", rate: 8000 },
+        ];
+
+        let cart = [];
+
+        function renderTable(data) {
+            const tbody = document.getElementById('ratesBody');
+            tbody.innerHTML = '';
+            
+            let currentCategory = "";
+
+            data.forEach(item => {
+                // Group Header Logic
+                if (item.category !== currentCategory) {
+                    currentCategory = item.category;
+                    tbody.innerHTML += `
+                        <tr class="category-row">
+                            <td colspan="5" style="background:#e9ecef; font-weight:700; color:#003366;">${currentCategory}</td>
+                        </tr>
+                    `;
+                }
+
+                const inCart = cart.find(c => c.id === item.id);
+                const btnClass = inCart ? 'btn-add added' : 'btn-add';
+                const btnText = inCart ? '<i class="fas fa-check"></i> Selected' : '<i class="fas fa-plus"></i> Select';
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${item.name}</strong></td>
+                        <td style="color:#666;font-size:0.9em;">${item.std}</td>
+                        <td>${item.unit}</td>
+                        <td class="price">${item.rate}</td>
+                        <td><button class="${btnClass}" onclick="toggleCart(${item.id})">${btnText}</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function toggleCart(id) {
+            const item = testData.find(t => t.id === id);
+            const index = cart.findIndex(c => c.id === id);
+            if (index === -1) cart.push({ ...item, qty: 1 });
+            else cart.splice(index, 1);
+            updateUI();
+        }
+
+        function updateQty(id, newQty) {
+            const item = cart.find(c => c.id === id);
+            if (item) { item.qty = parseInt(newQty) || 1; updateUI(); }
+        }
+
+        function removeCartItem(id) {
+            cart = cart.filter(c => c.id !== id);
+            updateUI();
+        }
+
+        function updateUI() {
+            renderTable(testData);
+            const cartContainer = document.getElementById('cartItems');
+            cartContainer.innerHTML = '';
+            let subTotal = 0;
+
+            if(cart.length === 0) {
+                cartContainer.innerHTML = '<li style="padding:30px; text-align:center; color:#999; font-style:italic;">No tests selected</li>';
+                document.getElementById('checkoutBtn').disabled = true;
+            } else {
+                document.getElementById('checkoutBtn').disabled = false;
+                cart.forEach(item => {
+                    subTotal += item.rate * item.qty;
+                    cartContainer.innerHTML += `<li class="cart-item"><div class="cart-item-header"><span>${item.name}</span><i class="fas fa-times btn-remove" onclick="removeCartItem(${item.id})"></i></div><div class="cart-controls"><span>Rate: ${item.rate}</span><div>Qty: <input type="number" class="qty-input" value="${item.qty}" min="1" onchange="updateQty(${item.id}, this.value)"></div><span style="font-weight:600; color:var(--primary-color);">${item.rate * item.qty}</span></div></li>`;
+                });
+            }
+
+            // No VAT calculation
+            const total = subTotal;
+            document.getElementById('grandTotal').innerText = total.toLocaleString() + ' BDT';
+            document.getElementById('cartCount').innerText = `(${cart.length})`;
+        }
+
+        function filterTests() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            
+            const filtered = testData.filter(t => {
+                const matchesTerm = t.name.toLowerCase().includes(term) || t.category.toLowerCase().includes(term);
+                const matchesCategory = category === "ALL" || t.category === category;
+                return matchesTerm && matchesCategory;
+            });
+            
+            renderTable(filtered);
+        }
+
+        function openOrderModal() {
+            document.getElementById('orderModal').style.display = 'flex';
+            document.getElementById('applicationFormStep').style.display = 'block';
+            document.getElementById('previewStep').style.display = 'none';
+        }
+
+        function closeOrderModal() { document.getElementById('orderModal').style.display = 'none'; }
+        function backToForm() {
+            document.getElementById('applicationFormStep').style.display = 'block';
+            document.getElementById('previewStep').style.display = 'none';
+        }
+
+        // Phone Validation Logic
+        function validatePhone(input) {
+            const msg = document.getElementById('phoneMsg');
+            const pattern = /^01[3-9]\d{8}$/; // Bangladesh Number Format
+            
+            if (pattern.test(input.value)) {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                msg.textContent = "Valid Number";
+                msg.className = "validation-msg success";
+                return true;
+            } else {
+                input.classList.remove('valid');
+                input.classList.add('invalid');
+                msg.textContent = "Enter a valid 11-digit mobile number (e.g. 017...)";
+                msg.className = "validation-msg error";
+                return false;
+            }
+        }
+
+        function generateLetter(e) {
+            e.preventDefault();
+            
+            // Validate Phone before proceeding
+            const phoneInput = document.getElementById('clientPhone');
+            if(!validatePhone(phoneInput)) {
+                alert("Please enter a valid mobile number.");
+                phoneInput.focus();
+                return;
+            }
+
+            document.getElementById('printDate').innerText = new Date().toLocaleDateString('en-GB');
+            document.getElementById('printMemoNo').innerText = document.getElementById('memoNo').value || "__________________";
+            document.getElementById('printClientName').innerText = document.getElementById('clientName').value;
+            // Capture Address
+            document.getElementById('printClientAddress').innerText = document.getElementById('clientAddress').value || 'N/A';
+            
+            document.getElementById('printProjectRef').innerText = document.getElementById('projectRef').value || 'N/A';
+            document.getElementById('printContact').innerText = phoneInput.value;
+
+            const tbody = document.getElementById('printTableBody');
+            tbody.innerHTML = '';
+            let subTotal = 0;
+
+            cart.forEach((item, index) => {
+                const amount = item.rate * item.qty;
+                subTotal += amount;
+                tbody.innerHTML += `<tr><td>${index + 1}</td><td>${item.name}</td><td style="text-align:center;">${item.qty}</td><td style="text-align:right;">${item.rate}</td><td style="text-align:right;">${amount}</td></tr>`;
+            });
+
+            // No VAT in print
+            const total = subTotal;
+            document.getElementById('printTotal').innerText = total + ' BDT';
+
+            // Populate Preview from Hidden Printable Area structure
+            document.getElementById('previewContent').innerHTML = document.getElementById('pdfContent').innerHTML;
+            document.getElementById('applicationFormStep').style.display = 'none';
+            document.getElementById('previewStep').style.display = 'block';
+        }
+
+        function printApplication() { window.print(); }
+        
+        function downloadPDF() {
+            const element = document.getElementById('pdfContent');
+            const opt = {
+                margin:       [0.5, 0.5, 0.5, 0.5], // inch
+                filename:     'CRTC_Application.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function toggleMobileCart() { if(window.innerWidth <= 900) document.getElementById('cartSidebar').classList.toggle('open'); }
+
+        renderTable(testData);
+    </script>
+</body>
+</html>

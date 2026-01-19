@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - CRTC PUST</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary-color: #003366;
+            --primary-dark: #002244;
+            --secondary-color: #e84c3d;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-color: #333;
+            --text-light: #555;
+            --border-color: #e1e4e8;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { line-height: 1.6; color: var(--text-color); background-color: var(--light-bg); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- HEADER & NAV --- */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .nav-links { display: flex; gap: 5px; list-style: none; }
+        .nav-links a { color: var(--primary-color); padding: 10px 15px; font-weight: 500; border-radius: 4px; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.05); color: var(--secondary-color); }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            background: linear-gradient(rgba(0,51,102,0.9), rgba(0,51,102,0.8)), url('assets/services/s_cp.jpg?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover; background-position: center;
+            padding: 80px 0; text-align: center; color: var(--white); margin-bottom: 50px;
+        }
+        .page-header h1 { font-size: 2.8rem; margin-bottom: 10px; font-weight: 700; }
+        .page-header p { font-size: 1.1rem; opacity: 0.9; }
+
+        /* --- SERVICES LAYOUT --- */
+        .services-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+            align-items: start;
+        }
+
+        /* Sidebar Navigation */
+        .service-sidebar {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            position: sticky;
+            top: 100px;
+        }
+
+        .service-nav-item {
+            display: block;
+            padding: 18px 25px;
+            color: var(--text-color);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .service-nav-item:last-child { border-bottom: none; }
+        
+        .service-nav-item:hover {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+            padding-left: 30px;
+        }
+
+        .service-nav-item.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding-left: 30px;
+        }
+        
+        .service-nav-item i { margin-right: 10px; width: 20px; text-align: center; }
+
+        /* Main Content Area */
+        .service-details {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            min-height: 600px;
+        }
+
+        .service-content { display: none; animation: fadeIn 0.5s ease; }
+        .service-content.active { display: block; }
+
+        /* --- DYNAMIC IMAGE CAROUSEL --- */
+        .service-carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            background-color: #eee;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            z-index: 1;
+        }
+
+        .carousel-item.active { opacity: 1; z-index: 2; }
+
+        .carousel-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        /* Image Caption */
+        .carousel-caption {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item.active .carousel-caption { transform: translateY(0); }
+
+        /* Manual Controls */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .carousel-btn:hover { background: var(--secondary-color); }
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+
+        /* --- TYPOGRAPHY & LISTS --- */
+        .service-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .service-content p { margin-bottom: 20px; font-size: 1rem; color: #555; text-align: justify; }
+        
+        .service-content h3 { color: var(--secondary-color); margin: 25px 0 15px; font-size: 1.3rem; }
+
+        .test-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .test-list li {
+            position: relative;
+            padding-left: 25px;
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        .test-list li::before {
+            content: '\f058'; /* FontAwesome check-circle */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute; left: 0; top: 3px;
+            color: var(--primary-color);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- FOOTER --- */
+        footer { background: #111; color: #aaa; padding: 60px 0 30px; text-align: center; margin-top: auto; }
+        
+        /* Mobile Responsive */
+        @media (max-width: 992px) {
+            .services-layout { grid-template-columns: 1fr; }
+            .service-sidebar { position: static; margin-bottom: 30px; }
+            .nav-links { display: none; }
+            .service-carousel { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo"><i class="fas fa-university"></i> CRTC, PUST</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="rates.html">Rates</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Our Services</h1>
+            <p>Comprehensive Engineering Solutions & Testing Expertise</p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <div class="services-layout">
+            
+            <!-- SIDEBAR NAV -->
+            <div class="service-sidebar">
+                <div class="service-nav-item active" onclick="showService('structural', this)">
+                    <i class="fas fa-building"></i> Structural Engineering
+                </div>
+                <div class="service-nav-item" onclick="showService('transportation', this)">
+                    <i class="fas fa-road"></i> Transportation Eng.
+                </div>
+                <div class="service-nav-item" onclick="showService('geotechnical', this)">
+                    <i class="fas fa-layer-group"></i> Geotechnical Eng.
+                </div>
+                <div class="service-nav-item" onclick="showService('environmental', this)">
+                    <i class="fas fa-leaf"></i> Environmental Eng.
+                </div>
+                <div class="service-nav-item" onclick="showService('water', this)">
+                    <i class="fas fa-water"></i> Water Resource Eng.
+                </div>
+                <div class="service-nav-item" onclick="showService('construction', this)">
+                    <i class="fas fa-hard-hat"></i> Construction Mgmt.
+                </div>
+            </div>
+
+            <!-- DETAIL CONTENT -->
+            <div class="service-details">
+                
+                <!-- 1. Structural -->
+                <div id="structural" class="service-content active">
+                    <!-- Dynamic Carousel Container -->
+                    <div class="service-carousel" id="carousel-structural"></div>
+
+                    <h2>Structural Engineering</h2>
+                    <p>The Structural Engineering Division is equipped with state-of-the-art facilities for testing construction materials and analyzing structural components. Our expert team provides consultancy for the design, assessment, and retrofitting of various civil engineering structures.</p>
+                    <p>We ensure that all tests adhere to international standards such as ASTM, AASHTO, and BNBC to guarantee the safety and durability of infrastructure projects.</p>
+                    
+                    <h3>Key Services & Tests</h3>
+                    <ul class="test-list">
+                        <li>Compressive Strength of Concrete (Cylinder/Cube)</li>
+                        <li>Tensile Strength of Mild Steel (Rebar)</li>
+                        <li>Non-Destructive Testing (NDT) / Rebound Hammer</li>
+                        <li>Structural Audit & Vulnerability Assessment</li>
+                        <li>Mix Design of Concrete</li>
+                        <li>Load Testing of Beams and Slabs</li>
+                        <li>Design of Multi-storied Buildings (RC & Steel)</li>
+                    </ul>
+                </div>
+
+                <!-- 2. Transportation -->
+                <div id="transportation" class="service-content">
+                    <div class="service-carousel" id="carousel-transportation"></div>
+                    <h2>Transportation Engineering</h2>
+                    <p>Our Transportation Engineering wing supports national infrastructure development through rigorous material testing for roads, highways, and runways. We specialize in the design of flexible and rigid pavements and the analysis of bituminous materials.</p>
+                    <p>We also offer consultancy services for traffic volume studies, intersection design, and road safety audits to improve urban and regional mobility.</p>
+                    
+                    <h3>Key Services & Tests</h3>
+                    <ul class="test-list">
+                        <li>Bitumen Penetration & Softening Point Test</li>
+                        <li>Aggregate Impact Value (AIV) & Crushing Value</li>
+                        <li>Los Angeles Abrasion Test</li>
+                        <li>Marshall Mix Design for Bituminous Pavements</li>
+                        <li>California Bearing Ratio (CBR) Test</li>
+                        <li>Traffic Impact Assessment (TIA)</li>
+                        <li>Highway Geometric Design</li>
+                    </ul>
+                </div>
+
+                <!-- 3. Geotechnical -->
+                <div id="geotechnical" class="service-content">
+                    <div class="service-carousel" id="carousel-geotechnical"></div>
+                    <h2>Geotechnical Engineering</h2>
+                    <p>The Geotechnical Engineering Division provides comprehensive soil investigation and foundation design services. Understanding the ground beneath is crucial for any construction, and our laboratory offers precise soil characterization.</p>
+                    <p>From field exploration to advanced laboratory testing, we help determine the bearing capacity and settlement characteristics of soil to ensure safe foundation designs.</p>
+                    
+                    <h3>Key Services & Tests</h3>
+                    <ul class="test-list">
+                        <li>Sub-soil Investigation & Drilling</li>
+                        <li>Grain Size Analysis & Hydrometer Test</li>
+                        <li>Atterberg Limits (Liquid & Plastic Limit)</li>
+                        <li>Direct Shear Test & Triaxial Compression</li>
+                        <li>Consolidation & Permeability Test</li>
+                        <li>Pile Load Test (PDA & PIT)</li>
+                        <li>Slope Stability Analysis</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Environmental -->
+                <div id="environmental" class="service-content">
+                    <div class="service-carousel" id="carousel-environmental"></div>
+                    <h2>Environmental Engineering</h2>
+                    <p>We are committed to sustainable development through our Environmental Engineering services. Our laboratory is equipped to analyze water quality parameters and assess environmental impacts of development projects.</p>
+                    <p>We provide solutions for water supply, wastewater treatment, and solid waste management to ensure public health and environmental protection.</p>
+                    
+                    <h3>Key Services & Tests</h3>
+                    <ul class="test-list">
+                        <li>Water Quality Analysis (pH, Arsenic, Iron, BOD, COD)</li>
+                        <li>Environmental Impact Assessment (EIA)</li>
+                        <li>Effluent Treatment Plant (ETP) Design</li>
+                        <li>Air & Noise Pollution Monitoring</li>
+                        <li>Solid Waste Management Planning</li>
+                        <li>Drainage & Sewerage System Design</li>
+                    </ul>
+                </div>
+
+                <!-- 5. Water Resource -->
+                <div id="water" class="service-content">
+                    <div class="service-carousel" id="carousel-water"></div>
+                    <h2>Water Resource Engineering</h2>
+                    <p>The Water Resource Engineering division focuses on the management and regulation of water cycles. We offer expertise in hydrological modeling, flood control, and the design of hydraulic structures.</p>
+                    <p>Our goal is to provide sustainable solutions for river management, irrigation, and urban drainage challenges facing Bangladesh.</p>
+                    
+                    <h3>Key Services & Tests</h3>
+                    <ul class="test-list">
+                        <li>Hydrological Data Analysis & Modeling</li>
+                        <li>River Bank Protection Design</li>
+                        <li>Flood Management & Control Systems</li>
+                        <li>Irrigation Channel & Canal Design</li>
+                        <li>Urban Drainage Master Planning</li>
+                        <li>Hydro-morphological Study</li>
+                    </ul>
+                </div>
+
+                <!-- 6. Construction Management -->
+                <div id="construction" class="service-content">
+                    <div class="service-carousel" id="carousel-construction"></div>
+                    <h2>Construction Engineering & Management</h2>
+                    <p>Efficient project management is key to the success of any construction venture. Our Construction Management division offers expertise in planning, scheduling, and controlling project costs and quality.</p>
+                    <p>We assist clients in optimizing resources, managing risks, and ensuring timely completion of projects through modern management techniques.</p>
+                    
+                    <h3>Key Services & Tests</h3>
+                    <ul class="test-list">
+                        <li>Project Planning & Scheduling (CPM/PERT)</li>
+                        <li>Cost Estimation & Budgeting</li>
+                        <li>Construction Supervision & Monitoring</li>
+                        <li>Quality Control & Assurance Plans</li>
+                        <li>Procurement & Contract Management</li>
+                        <li>Construction Safety Management</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // --- 1. DATA SOURCE (Simulating External File) ---
+        // Edit this object to update images and captions
+        const serviceData = {
+            "structural": [
+                { src: "assets/services/structural/UTM2000.jpg", caption: "WAW-2000B: Microcomputer Controlled Electro-Hydraulic Servo Universal Testing Machine (Added: March, 2017)" },
+				{ src: "assets/services/structural/PIT.jpg", caption: "P8000: Wireless Pile Integrity Tester (Added: December, 2025)" },
+                { src: "assets/services/structural/R660.jpg", caption: "NOVASCAN R660: 3D integrated Rebar Scanner (Added: December, 2025)" },
+                { src: "assets/services/structural/CTM2000.jpg", caption: "YES-2000 Digital Compression Testing Machine (Added: June, 2025)" }
+            ],
+            "transportation": [
+                { src: "assets/services/transport/cbr.jpeg", caption: "California Bearing Ratio (CBR) Test apparatus (Added: June, 2025)" },
+                { src: "assets/services/transport/laa.jpg", caption: "Los Angeles Abrasion Machine (Added: June, 2025)" },
+                { src: "assets/services/transport/3.jpg", caption: "Traffic Volume Study Analysis" }
+            ],
+            "geotechnical": [
+                { src: "assets/services/geotech/1.jpg", caption: "Soil Investigation Drilling" },
+                { src: "assets/services/geotech/2.jpg", caption: "Direct Shear Test Machine" },
+                { src: "assets/services/geotech/3.jpg", caption: "Foundation Design Analysis" }
+            ],
+            "environmental": [
+                { src: "assets/services/env/1.jpg", caption: "Water Quality Analysis" },
+                { src: "assets/services/env/2.jpg", caption: "Environmental Impact Assessment" },
+                { src: "assets/services/env/3.jpg", caption: "Waste Management Planning" }
+            ],
+            "water": [
+                { src: "assets/services/water/1.jpg", caption: "Hydrological Modeling" },
+                { src: "assets/services/water/2.jpg", caption: "River Bank Protection" },
+                { src: "assets/services/water/3.jpg", caption: "Flood Management System" }
+            ],
+            "construction": [
+                { src: "assets/services/cm/1.jpg", caption: "Project Supervision" },
+                { src: "assets/services/cm/2.jpg", caption: "Construction Planning" },
+                { src: "assets/services/cm/3.jpg", caption: "Cost Estimation & Safety" }
+            ]
+        };
+
+        // --- 2. Tab Logic ---
+        function showService(serviceId, element) {
+            const contents = document.querySelectorAll('.service-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const navItems = document.querySelectorAll('.service-nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            document.getElementById(serviceId).classList.add('active');
+            element.classList.add('active');
+
+            if(window.innerWidth < 992) {
+                document.querySelector('.service-details').scrollIntoView({behavior: 'smooth'});
+            }
+        }
+
+        // --- 3. Dynamic Carousel Builder ---
+        function buildCarousels() {
+            for (const [key, items] of Object.entries(serviceData)) {
+                const container = document.getElementById(`carousel-${key}`);
+                if (!container) continue;
+
+                let html = '';
+                items.forEach((item, index) => {
+                    // Fallback to placeholder if local image fails loading
+                    const fallback = `https://via.placeholder.com/1000x500?text=${key.toUpperCase()}+Image+${index+1}`;
+                    
+                    html += `
+                        <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                            <img src="${item.src}" onerror="this.src='${fallback}'" alt="${item.caption}">
+                            <div class="carousel-caption">${item.caption}</div>
+                        </div>
+                    `;
+                });
+
+                // Add Controls
+                html += `
+                    <button class="carousel-btn prev-btn" onclick="moveSlide('carousel-${key}', -1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next-btn" onclick="moveSlide('carousel-${key}', 1)"><i class="fas fa-chevron-right"></i></button>
+                `;
+
+                container.innerHTML = html;
+                startAutoRotation(`carousel-${key}`);
+            }
+        }
+
+        // --- 4. Carousel Logic ---
+        const autoRotateIntervals = {};
+
+        function startAutoRotation(carouselId) {
+            if (autoRotateIntervals[carouselId]) clearInterval(autoRotateIntervals[carouselId]);
+            
+            autoRotateIntervals[carouselId] = setInterval(() => {
+                moveSlide(carouselId, 1);
+            }, 4000);
+        }
+
+        function moveSlide(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            if(!carousel) return;
+
+            const items = carousel.querySelectorAll('.carousel-item');
+            let activeIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
+            
+            items[activeIndex].classList.remove('active');
+            
+            let newIndex = activeIndex + direction;
+            if (newIndex >= items.length) newIndex = 0;
+            if (newIndex < 0) newIndex = items.length - 1;
+            
+            items[newIndex].classList.add('active');
+            
+            // Reset timer on manual click
+            startAutoRotation(carouselId);
+        }
+
+        // Initialize
+        window.onload = function() {
+            buildCarousels(); // Build HTML from Data
+
+            // Handle URL Hash
+            const hash = window.location.hash.substring(1);
+            if(hash) {
+                const targetNav = document.querySelector(`.service-nav-item[onclick*="'${hash}'"]`);
+                if(targetNav) targetNav.click();
+            }
+        }
+    </script>
+
+</body>
+</html>

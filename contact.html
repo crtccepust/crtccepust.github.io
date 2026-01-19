@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - CRTC PUST</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS (For Map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary-color: #003366;
+            --primary-dark: #002244;
+            --secondary-color: #e84c3d;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-color: #333;
+            --border-color: #e1e4e8;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { background-color: var(--light-bg); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- HEADER & NAV --- */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .nav-links { display: flex; gap: 5px; list-style: none; }
+        .nav-links a { color: var(--primary-color); padding: 10px 15px; font-weight: 500; border-radius: 4px; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.05); color: var(--secondary-color); }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            background: var(--primary-color); color: var(--white); padding: 60px 0; text-align: center;
+        }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+
+        /* --- SECTION 1: INFO & FORM (2 Columns) --- */
+        .contact-section { padding: 60px 0; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; margin-bottom: 60px; }
+        
+        /* Info Card */
+        .info-card { background: var(--white); padding: 40px; border-radius: 8px; box-shadow: var(--shadow); height: 100%; }
+        .info-item { display: flex; gap: 20px; margin-bottom: 30px; }
+        .info-icon { 
+            width: 50px; height: 50px; background: rgba(0,51,102,0.1); color: var(--primary-color); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+        }
+        .info-item h4 { margin-bottom: 5px; color: var(--primary-color); font-size: 1.1rem; }
+        .info-item p { color: #555; font-size: 0.95rem; }
+
+        /* Contact Form */
+        .form-card { background: var(--white); padding: 40px; border-radius: 8px; box-shadow: var(--shadow); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; outline: none; transition: 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-color); }
+        .btn-submit { background: var(--secondary-color); color: white; border: none; padding: 12px 30px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-submit:hover { background: #c0392b; }
+
+        /* --- SECTION 2: LOCATION & FLOOR PLAN (Single Column Stacked) --- */
+        .location-section { padding-bottom: 80px; }
+        .location-stack { display: flex; flex-direction: column; gap: 40px; }
+        
+        .location-card { background: var(--white); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
+        .card-header { padding: 15px 20px; background: var(--primary-color); color: white; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Interactive Map Container */
+        #map { width: 100%; height: 450px; z-index: 1; }
+
+        /* Floor Plan Styles */
+        .floor-container { 
+            position: relative; height: 500px; background: #eee; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; overflow: hidden; 
+        }
+        .floor-container img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.5s; }
+        .floor-container:hover img { transform: scale(1.02); }
+        .overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.6); color: white; padding: 10px; text-align: center; opacity: 0; transition: 0.3s; }
+        .floor-container:hover .overlay { opacity: 1; }
+
+        /* --- MODAL --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+        .modal-content { max-width: 95%; max-height: 95%; border-radius: 4px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .close-modal { position: absolute; top: 20px; right: 30px; font-size: 35px; color: white; cursor: pointer; }
+
+        /* --- FOOTER --- */
+        footer { background: #111; color: #aaa; padding: 60px 0 30px; text-align: center; margin-top: auto; }
+
+        @media (max-width: 900px) { 
+            .contact-grid { grid-template-columns: 1fr; } 
+            .nav-links { display: none; }
+            #map { height: 350px; }
+            .floor-container { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo"><i class="fas fa-university"></i> CRTC, PUST</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="rates.html">Rates</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch for consultancy requests and queries.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 1: INFO & FORM -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                
+                <!-- Info Card -->
+                <div class="info-card">
+                    <h2 style="color:var(--primary-color); margin-bottom:30px;">Get In Touch</h2>
+                    
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Address</h4>
+                            <p>CRTC Office, Academic Building - 2<br>Pabna University of Science & Technology<br>Pabna-6600.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+88 01798 991440<br>+88 02588844915</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>tasnim@pust.ac.bd<br>crtc.ce@pust.ac.bd</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h4>Office Hours</h4>
+                            <p>Sunday - Thursday<br>9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="form-card">
+                    <h2 style="color:var(--primary-color); margin-bottom:20px;">Send a Message</h2>
+                    <form onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" required placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" required placeholder="Inquiry about...">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="5" required placeholder="How can we help you?"></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: MAP & FLOOR PLAN -->
+    <section class="location-section">
+        <div class="container">
+            <div class="location-stack">
+                
+                <!-- 1. Interactive Map -->
+                <div class="location-card">
+                    <div class="card-header">
+                        <span><i class="fas fa-map-marked-alt"></i> Campus Location</span>
+                        <a href="https://maps.app.goo.gl/example" target="_blank" style="color:white; font-size:0.9rem;">Open in Google Maps</a>
+                    </div>
+                    <!-- Leaflet Map Container -->
+                    <div id="map"></div>
+                </div>
+
+                <!-- 2. Floor Plan -->
+                <div class="location-card">
+                    <div class="card-header">
+                        <span><i class="fas fa-layer-group"></i> CRTC Office Floor Plan</span>
+                        <i class="fas fa-expand" style="cursor:pointer;" onclick="openModal()"></i>
+                    </div>
+                    <div class="floor-container" onclick="openModal()">
+                        <!-- Placeholder for Floor Plan Image -->
+                        <img src="https://via.placeholder.com/1200x600?text=CRTC+Office+Floor+Plan+(Academic+Building+2)" alt="CRTC Floor Plan">
+                        <div class="overlay"><i class="fas fa-search-plus"></i> Click to Enlarge Layout</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- IMAGE MODAL -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img class="modal-content" src="https://via.placeholder.com/1600x1200?text=Full+Size+Floor+Plan" alt="Full Floor Plan">
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        // --- MAP INITIALIZATION ---
+        // Coordinates for PUST Academic Building 2 (Approx)
+        // Using central PUST coords but labeling it specifically
+        const map = L.map('map').setView([24.012744222594687, 89.28075403741454], 16);
+
+        // Add OpenStreetMap Tile Layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add Marker for CRTC Office at Academic Building 2
+        L.marker([24.012744222594687, 89.28075403741454]).addTo(map)
+            .bindPopup('<b>CRTC Office</b><br>Academic Building - 2<br>PUST')
+            .openPopup();
+
+        // --- MODAL FUNCTIONS ---
+        function openModal() {
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('imageModal')) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>

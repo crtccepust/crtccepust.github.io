@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Forms - CRTC PUST</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- COPYING VARIABLES FROM INDEX.HTML FOR CONSISTENCY --- */
+        :root {
+            --primary-color: #003366; /* Academic Blue */
+            --secondary-color: #e84c3d; /* Accent Red */
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --border-color: #e1e4e8;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { line-height: 1.6; color: var(--text-color); background-color: var(--light-bg); display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER --- */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 15px; }
+        .logo-icon { font-size: 2.5rem; color: var(--primary-color); }
+        .logo-text h1 { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; line-height: 1.1; }
+        .logo-text p { font-size: 0.85rem; color: var(--text-light); font-weight: 500; }
+
+        .nav-links { display: flex; gap: 5px; align-items: center; }
+        .nav-links li a { font-weight: 500; color: var(--primary-color); padding: 10px 15px; border-radius: 4px; transition: var(--transition); font-size: 0.95rem; }
+        .nav-links li a:hover, .nav-links li a.active { background-color: rgba(0, 51, 102, 0.05); color: var(--secondary-color); }
+
+        /* --- FORMS PAGE SPECIFIC --- */
+        .page-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+        .page-header h2 { font-size: 2.5rem; margin-bottom: 10px; }
+        .page-header p { opacity: 0.9; max-width: 600px; margin: 0 auto; }
+
+        .forms-content { padding: 60px 0; flex: 1; }
+        
+        /* Table Styles */
+        .table-responsive {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            overflow-x: auto;
+        }
+        
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        
+        th { 
+            background: #002244; 
+            color: var(--white); 
+            padding: 18px 25px; 
+            text-align: left; 
+            font-weight: 500;
+            font-size: 1rem;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        td { 
+            padding: 18px 25px; 
+            border-bottom: 1px solid #eee; 
+            color: var(--text-light);
+            vertical-align: middle;
+        }
+        
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f9fcfb; }
+
+        .sl-no { width: 80px; text-align: center; font-weight: bold; color: var(--primary-color); }
+        .file-icon { font-size: 1.5rem; margin-right: 8px; vertical-align: middle; }
+        .pdf-link { color: #e74c3c; font-weight: 500; display: inline-flex; align-items: center; transition: var(--transition); }
+        .word-link { color: #2980b9; font-weight: 500; display: inline-flex; align-items: center; transition: var(--transition); }
+        
+        .pdf-link:hover, .word-link:hover { text-decoration: underline; transform: translateX(5px); }
+
+        /* --- FOOTER --- */
+        footer { background: #111; color: #aaa; padding: 40px 0; font-size: 0.9rem; text-align: center; margin-top: auto; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .footer-links a:hover { color: var(--secondary-color); }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Simplified mobile handling for sub-page */
+            .page-header h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-university logo-icon"></i>
+                    <div class="logo-text">
+                        <h1>CRTC, PUST</h1>
+                        <p>Dept. of Civil Engineering</p>
+                    </div>
+                </div>
+                <!-- Simple nav for sub-page -->
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="#" class="active">Forms</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <h2>Requisition Forms</h2>
+            <p>Download the necessary forms for your testing requirements. Please fill them out and submit them along with your samples.</p>
+        </div>
+    </section>
+
+    <!-- TABLE CONTENT -->
+    <section class="forms-content">
+        <div class="container">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="sl-no">Sl. No.</th>
+                            <th>Forms Description</th>
+                            <th>PDF File</th>
+                            <th>Word File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="sl-no">01</td>
+                            <td><strong>Concrete & Cylinder Test Requisition</strong><br><small>For compressive strength tests of concrete cylinders and blocks.</small></td>
+                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
+                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                        </tr>
+                        <tr>
+                            <td class="sl-no">02</td>
+                            <td><strong>Soil Investigation Request Form</strong><br><small>Field exploration and laboratory testing of soil samples.</small></td>
+                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
+                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                        </tr>
+                        <tr>
+                            <td class="sl-no">03</td>
+                            <td><strong>Rebar Tensile Strength Test</strong><br><small>Physical test requisition for steel reinforcement bars.</small></td>
+                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
+                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                        </tr>
+                        <tr>
+                            <td class="sl-no">04</td>
+                            <td><strong>Water Quality Analysis Form</strong><br><small>For chemical and physical analysis of water samples.</small></td>
+                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
+                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                        </tr>
+                        <tr>
+                            <td class="sl-no">05</td>
+                            <td><strong>Bitumen & Aggregate Test</strong><br><small>Requisition for transportation engineering material tests.</small></td>
+                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
+                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#rate">Test Rates</a></li>
+                <li><a href="index.html#contact">Contact Support</a></li>
+            </ul>
+            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty & Personnel - CRTC PUST</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES (Consistent with site) --- */
+        :root {
+            --primary-color: #003366;
+            --primary-dark: #002244;
+            --secondary-color: #e84c3d;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e1e4e8;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { line-height: 1.6; color: var(--text-color); background-color: var(--light-bg); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- HEADER & NAV --- */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .nav-links { display: flex; gap: 5px; list-style: none; }
+        .nav-links a { color: var(--primary-color); padding: 10px 15px; font-weight: 500; border-radius: 4px; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.05); color: var(--secondary-color); }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            background: linear-gradient(rgba(0,51,102,0.9), rgba(0,51,102,0.8)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover; background-position: center;
+            padding: 80px 0; text-align: center; color: var(--white); margin-bottom: 50px;
+        }
+        .page-header h1 { font-size: 2.8rem; margin-bottom: 10px; font-weight: 700; }
+        .page-header p { font-size: 1.1rem; opacity: 0.9; }
+
+        /* --- PERSONNEL GRID --- */
+        .team-section { padding-bottom: 80px; }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .team-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border-top: 4px solid transparent;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-top-color: var(--secondary-color);
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            background: #eee;
+            position: relative;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .team-card:hover .img-wrapper img { transform: scale(1.05); }
+
+        .team-info { padding: 25px; }
+        .team-info h3 { color: var(--primary-color); font-size: 1.3rem; margin-bottom: 5px; }
+        .team-info .designation { color: var(--secondary-color); font-weight: 500; font-size: 0.95rem; margin-bottom: 15px; display: block; }
+        .team-info .dept { color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px; font-style: italic; }
+        
+        .team-contact {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .team-contact a {
+            width: 35px; height: 35px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            color: var(--primary-color);
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s;
+            border: 1px solid #eee;
+        }
+        .team-contact a:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        /* --- FOOTER --- */
+        footer { background: #111; color: #aaa; padding: 60px 0 30px; text-align: center; margin-top: auto; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; list-style: none; }
+        .footer-links a:hover { color: var(--secondary-color); }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .nav-links { display: none; } /* Simplified for demo */
+            .team-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo"><i class="fas fa-university"></i> CRTC, PUST</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="personnel.html" class="active">Personnel</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="rates.html">Rates</a></li>
+                <li><a href="forms.html">Forms</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Our Team</h1>
+            <p>Meet the experts leading the Center for Research, Testing, and Consultation.</p>
+        </div>
+    </div>
+
+    <section class="team-section">
+        <div class="container">
+            <div class="team-grid">
+                
+                <!-- 1. Dr. Md. Rashedul Haque -->
+                <div class="team-card">
+                    <div class="img-wrapper">
+                        <!-- Placeholder Image -->
+                        <img src="assets/DMRH.jpg?text=Dr.+Rashedul+Haque" alt="Dr. Md. Rashedul Haque">
+                    </div>
+                    <div class="team-info">
+                        <h3>Dr. Md. Rashedul Haque</h3>
+                        <span class="designation">Professor</span>
+                        <p class="dept">Dept. of Civil Engineering, PUST</p>
+                        <div class="team-contact">
+                            <a href="mailto:rashedul.haque@pust.ac.bd" title="Email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://pust.ac.bd/academic/departments/dept_teachers/dept_teachers_profile/100118" target="_blank" title="View Profile"><i class="fas fa-user"></i></a>
+                            <a href="tel:+8801724450396" title="Phone"><i class="fas fa-phone"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Dr. Tahmina Tasnim Nahar -->
+                <div class="team-card">
+                    <div class="img-wrapper">
+                        <img src="assets/DTTN.jpg?text=Dr.+Tahmina+Tasnim" alt="Dr. Tahmina Tasnim Nahar">
+                    </div>
+                    <div class="team-info">
+                        <h3>Dr. Tahmina Tasnim Nahar</h3>
+                        <span class="designation">Associate Professor & Chairman</span>
+                        <p class="dept">Dept. of Civil Engineering, PUST</p>
+                        <div class="team-contact">
+                            <a href="mailto:tasnim@pust.ac.bd" title="Email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://pust.ac.bd/academic/departments/dept_teachers/dept_teachers_profile/100119" target="_blank" title="View Profile"><i class="fas fa-user"></i></a>
+                            <a href="tel:+8801798991440" title="Phone"><i class="fas fa-phone"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Dr. Md. Motiur Rahman -->
+                <div class="team-card">
+                    <div class="img-wrapper">
+                        <img src="assets/DMMR.jpg?text=Dr.+Motiur+Rahman" alt="Dr. Md. Motiur Rahman">
+                    </div>
+                    <div class="team-info">
+                        <h3>Dr. Md. Motiur Rahman</h3>
+                        <span class="designation">Associate Professor & Chairman, CRTC</span>
+                        <p class="dept">Dept. of Civil Engineering, PUST</p>
+                        <div class="team-contact">
+                            <a href="mailto:motiur@pust.ac.bd" title="Email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://pust.ac.bd/academic/departments/dept_teachers/dept_teachers_profile/100120" target="_blank" title="View Profile"><i class="fas fa-user"></i></a>
+                            <a href="tel:+88017221717447" title="Phone"><i class="fas fa-phone"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Md. Abir Hasan -->
+                <div class="team-card">
+                    <div class="img-wrapper">
+                        <img src="assets/MAH.jpg?text=Md.+Abir+Hasan" alt="Md. Abir Hasan">
+                    </div>
+                    <div class="team-info">
+                        <h3>Md. Abir Hasan</h3>
+                        <span class="designation">Assistant Professor</span>
+                        <p class="dept">Dept. of Civil Engineering, PUST</p>
+                        <div class="team-contact">
+                            <a href="mailto:hasanabir.ce@pust.ac.bd" title="Email"><i class="fas fa-envelope"></i></a>
+                            <a href="https://pust.ac.bd/academic/departments/dept_teachers/dept_teachers_profile/100195" target="_blank" title="View Profile"><i class="fas fa-user"></i></a>
+                            <a href="tel:+8801724532355" title="Phone"><i class="fas fa-phone"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="rates.html">Test Rates</a></li>
+                <li><a href="forms.html">Forms</a></li>
+            </ul>
+            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
