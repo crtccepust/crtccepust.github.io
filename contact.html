@@ -4,113 +4,240 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - CRTC PUST</title>
+    
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Leaflet CSS (For Map) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     
     <style>
-        /* --- CSS VARIABLES --- */
         :root {
             --primary-color: #003366;
             --primary-dark: #002244;
+            --primary-light: #004b93;
             --secondary-color: #e84c3d;
-            --light-bg: #f8f9fa;
+            --secondary-hover: #c0392b;
+            --accent-color: #27ae60;
+            --light-bg: #f4f6f9;
             --white: #ffffff;
-            --text-color: #333;
-            --border-color: #e1e4e8;
-            --shadow: 0 4px 15px rgba(0,0,0,0.05);
-            --transition: all 0.3s ease;
+            --text-color: #2c3e50;
+            --text-muted: #6c757d;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 6px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text-color); line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Roboto', sans-serif; }
+        body { background-color: var(--light-bg); color: var(--text-color); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
         a { text-decoration: none; color: inherit; }
 
-        /* --- HEADER & NAV --- */
-        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
-        .nav-links { display: flex; gap: 5px; list-style: none; }
-        .nav-links a { color: var(--primary-color); padding: 10px 15px; font-weight: 500; border-radius: 4px; transition: var(--transition); }
-        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.05); color: var(--secondary-color); }
+        header { background: var(--white); box-shadow: 0 2px 15px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 1.35rem; font-weight: 700; color: var(--primary-color); }
+        .logo i { font-size: 1.6rem; color: var(--secondary-color); }
+        .nav-links { display: flex; gap: 6px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--primary-color); padding: 8px 14px; font-weight: 500; font-size: 0.95rem; border-radius: var(--radius-sm); transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.08); color: var(--secondary-color); }
+        
+        .mobile-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--primary-color); cursor: pointer; }
 
-        /* --- PAGE HEADER --- */
         .page-header {
-            background: var(--primary-color); color: var(--white); padding: 60px 0; text-align: center;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 60%, var(--primary-light) 100%);
+            color: var(--white); padding: 50px 0; text-align: center; position: relative; overflow: hidden;
         }
-        .page-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%);
+        }
+        .page-header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .page-header p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+        .badge-pill { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.15); border-radius: 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 600; }
 
-        /* --- SECTION 1: INFO & FORM (2 Columns) --- */
-        .contact-section { padding: 60px 0; }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; margin-bottom: 60px; }
+        .contact-section { padding: 50px 0; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 32px; margin-bottom: 40px; }
         
-        /* Info Card */
-        .info-card { background: var(--white); padding: 40px; border-radius: 8px; box-shadow: var(--shadow); height: 100%; }
-        .info-item { display: flex; gap: 20px; margin-bottom: 30px; }
+        .info-card { background: var(--white); padding: 36px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); height: 100%; border: 1px solid var(--border-color); }
+        .info-card h2 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        
+        .info-item { display: flex; gap: 18px; margin-bottom: 24px; align-items: flex-start; }
         .info-icon { 
-            width: 50px; height: 50px; background: rgba(0,51,102,0.1); color: var(--primary-color); 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+            width: 48px; height: 48px; background: rgba(0,51,102,0.08); color: var(--primary-color); 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; transition: var(--transition);
         }
-        .info-item h4 { margin-bottom: 5px; color: var(--primary-color); font-size: 1.1rem; }
-        .info-item p { color: #555; font-size: 0.95rem; }
+        .info-item:hover .info-icon { background: var(--primary-color); color: var(--white); transform: translateY(-2px); }
+        .info-item h4 { margin-bottom: 4px; color: var(--primary-color); font-size: 1.05rem; font-weight: 600; }
+        .info-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+        
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-top: 6px; }
+        .status-badge .dot { width: 8px; height: 8px; background: #2e7d32; border-radius: 50%; animation: pulse 2s infinite; }
 
-        /* Contact Form */
-        .form-card { background: var(--white); padding: 40px; border-radius: 8px; box-shadow: var(--shadow); }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .form-card { background: var(--white); padding: 36px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
+        .form-card h2 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; outline: none; transition: 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-color); }
-        .btn-submit { background: var(--secondary-color); color: white; border: none; padding: 12px 30px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; }
-        .btn-submit:hover { background: #c0392b; }
-
-        /* --- SECTION 2: LOCATION & FLOOR PLAN (Single Column Stacked) --- */
-        .location-section { padding-bottom: 80px; }
-        .location-stack { display: flex; flex-direction: column; gap: 40px; }
-        
-        .location-card { background: var(--white); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
-        .card-header { padding: 15px 20px; background: var(--primary-color); color: white; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-        
-        /* Interactive Map Container */
-        #map { width: 100%; height: 450px; z-index: 1; }
-
-        /* Floor Plan Styles */
-        .floor-container { 
-            position: relative; height: 500px; background: #eee; 
-            display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; overflow: hidden; 
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-color); }
+        .form-group input, .form-group textarea, .form-group select { 
+            width: 100%; padding: 12px 16px; border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); 
+            outline: none; transition: var(--transition); font-size: 0.95rem; background: #fdfdfd;
         }
-        .floor-container img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.5s; }
-        .floor-container:hover img { transform: scale(1.02); }
-        .overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.6); color: white; padding: 10px; text-align: center; opacity: 0; transition: 0.3s; }
-        .floor-container:hover .overlay { opacity: 1; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 4px rgba(0,51,102,0.1); background: var(--white); }
+        .btn-submit { 
+            background: var(--secondary-color); color: white; border: none; padding: 14px 28px; 
+            border-radius: var(--radius-sm); font-weight: 600; font-size: 1rem; cursor: pointer; 
+            transition: var(--transition); width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-submit:hover { background: var(--secondary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(232,76,61,0.3); }
 
-        /* --- MODAL --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
-        .modal-content { max-width: 95%; max-height: 95%; border-radius: 4px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .close-modal { position: absolute; top: 20px; right: 30px; font-size: 35px; color: white; cursor: pointer; }
+        .location-section { padding-bottom: 60px; }
+        .location-stack { display: flex; flex-direction: column; gap: 32px; }
+        
+        .location-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid var(--border-color); }
+        .card-header { padding: 16px 24px; background: var(--primary-color); color: white; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .card-header span { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; }
+        .card-header-actions { display: flex; gap: 12px; align-items: center; }
+        .header-btn { color: white; opacity: 0.9; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.15); border-radius: 4px; transition: var(--transition); border: none; cursor: pointer; }
+        .header-btn:hover { opacity: 1; background: rgba(255,255,255,0.25); }
 
-        /* --- FOOTER --- */
-        footer { background: #111; color: #aaa; padding: 60px 0 30px; text-align: center; margin-top: auto; }
+        /* Interactive Map Container */
+        #map { width: 100%; height: 420px; z-index: 1; }
 
-        @media (max-width: 900px) { 
-            .contact-grid { grid-template-columns: 1fr; } 
-            .nav-links { display: none; }
-            #map { height: 350px; }
-            .floor-container { height: 300px; }
+        /* Floor Selector Bar */
+        .floor-tabs { display: flex; background: #eef2f7; padding: 6px; border-bottom: 1px solid var(--border-color); gap: 6px; }
+        .floor-tab { padding: 8px 18px; border: none; background: transparent; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); }
+        .floor-tab.active { background: var(--white); color: var(--primary-color); box-shadow: var(--shadow-sm); }
+
+        /* Floor Plan Canvas Layout Container */
+        .floor-plan-wrapper { position: relative; width: 100%; height: 420px; background: #f8fafc; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .floor-svg-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; transition: transform 0.3s ease; }
+        .floor-svg-container svg { width: 100%; height: 100%; max-height: 380px; }
+
+        /* SVG Room Styling */
+        .room { fill: #ffffff; stroke: #334155; stroke-width: 2.5; transition: all 0.25s ease; cursor: pointer; }
+        .room:hover { fill: #e0f2fe; stroke: #0284c7; stroke-width: 3.5; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .room.active-room { fill: #bae6fd; stroke: #0284c7; }
+        .room-corridor { fill: #f1f5f9; stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4 4; }
+        .room-text { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; fill: #1e293b; pointer-events: none; text-anchor: middle; }
+        .room-subtext { font-family: 'Inter', sans-serif; font-size: 10px; fill: #64748b; pointer-events: none; text-anchor: middle; }
+
+        .floor-overlay-hint { 
+            position: absolute; bottom: 16px; right: 16px; background: rgba(0, 0, 0, 0.75); 
+            color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+            display: flex; align-items: center; gap: 8px; pointer-events: none; backdrop-filter: blur(4px);
+        }
+
+        /* Room Info Floating Panel */
+        .room-tooltip {
+            position: absolute; top: 16px; left: 16px; background: rgba(255, 255, 255, 0.95);
+            padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md); backdrop-filter: blur(6px); max-width: 280px; z-index: 10; display: none;
+        }
+        .room-tooltip h5 { color: var(--primary-color); font-size: 0.95rem; margin-bottom: 4px; }
+        .room-tooltip p { color: var(--text-muted); font-size: 0.82rem; }
+
+        .modal { 
+            display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; 
+            background-color: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal.show { display: flex !important; opacity: 1; }
+
+        .modal-tab-btn {
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0; padding: 4px 10px; font-size: 0.8rem; border-radius: 4px;
+            cursor: pointer; transition: var(--transition);
+        }
+        .modal-tab-btn:hover, .modal-tab-btn.active {
+            background: var(--secondary-color); color: white; border-color: var(--secondary-color);
+        }
+
+        .modal-wrapper {
+            background: var(--white); width: 92%; max-width: 1100px; height: 85vh; border-radius: var(--radius-lg);
+            display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-lg); animation: modalSlide 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalSlide {
+            from { transform: scale(0.92) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 16px 24px; background: var(--primary-color); color: white; display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-title { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .modal-controls { display: flex; gap: 8px; align-items: center; }
+        .modal-btn { background: rgba(255,255,255,0.15); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
+        .modal-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
+        
+        .modal-body { flex: 1; background: #0f172a; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: grab; }
+        .modal-body:active { cursor: grabbing; }
+        
+        .modal-svg-container { width: 90%; height: 90%; transition: transform 0.2s ease-out; transform-origin: center center; }
+
+        .modal-footer {
+            padding: 12px 24px; background: #1e293b; color: #94a3b8; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 4000; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            background: var(--white); color: var(--text-color); padding: 16px 24px; border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 14px; border-left: 5px solid var(--accent-color);
+            transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .toast.show { transform: translateX(0); }
+        .toast-icon { width: 28px; height: 28px; background: #e8f5e9; color: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+        .toast-content h6 { font-size: 0.95rem; font-weight: 600; color: var(--text-color); margin-bottom: 2px; }
+        .toast-content p { font-size: 0.85rem; color: var(--text-muted); }
+
+        footer { background: #0b1320; color: #94a3b8; padding: 50px 0 30px; text-align: center; margin-top: auto; border-top: 1px solid #1e293b; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; text-align: left; margin-bottom: 40px; }
+        .footer-brand h3 { color: white; font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .footer-brand p { font-size: 0.9rem; color: #64748b; max-width: 380px; }
+        .footer-links h4 { color: white; font-size: 1rem; margin-bottom: 16px; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: #94a3b8; font-size: 0.9rem; transition: var(--transition); }
+        .footer-links a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #1e293b; padding-top: 24px; font-size: 0.85rem; color: #64748b; text-align: center; }
+
+        /* Responsive Layout Overrides */
+        @media (max-width: 900px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-brand p { margin: 0 auto; }
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; width: 100%; position: absolute; top: 100%; left: 0; background: var(--white); flex-direction: column; padding: 15px; box-shadow: var(--shadow-md); border-top: 1px solid var(--border-color); }
+            .nav-links.show { display: flex; }
+            .form-row { grid-template-columns: 1fr; }
+            #map, .floor-plan-wrapper { height: 320px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAV -->
     <header>
         <div class="container nav-container">
-            <div class="logo"><i class="fas fa-university"></i> CRTC, PUST</div>
-            <ul class="nav-links">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span>CRTC, PUST</span>
+            </div>
+            <button class="mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -124,41 +251,41 @@
 
     <div class="page-header">
         <div class="container">
+            <span class="badge-pill">Center for Research, Testing & Consultation</span>
             <h1>Contact Us</h1>
-            <p>Get in touch for consultancy requests and queries.</p>
+            <p>Get in touch with our experts for engineering consultancy, material testing, and technical inquiries.</p>
         </div>
     </div>
 
-    <!-- SECTION 1: INFO & FORM -->
     <section class="contact-section">
         <div class="container">
             <div class="contact-grid">
                 
                 <!-- Info Card -->
                 <div class="info-card">
-                    <h2 style="color:var(--primary-color); margin-bottom:30px;">Get In Touch</h2>
+                    <h2><i class="fas fa-building-columns" style="color:var(--secondary-color);"></i> Get In Touch</h2>
                     
                     <div class="info-item">
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
                             <h4>Address</h4>
-                            <p>CRTC Office, Academic Building - 2<br>Pabna University of Science & Technology<br>Pabna-6600.</p>
+                            <p>CRTC Office, Academic Building - 3<br>Pabna University of Science & Technology<br>Pabna-6600, Bangladesh</p>
                         </div>
                     </div>
 
                     <div class="info-item">
                         <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                         <div>
-                            <h4>Phone</h4>
-                            <p>+88 01798 991440<br>+88 02588844915</p>
+                            <h4>Phone Numbers</h4>
+                            <p>+88 01798 991440 (Mobile)<br>+88 02588844915 (Office)</p>
                         </div>
                     </div>
 
                     <div class="info-item">
                         <div class="info-icon"><i class="fas fa-envelope"></i></div>
                         <div>
-                            <h4>Email</h4>
-                            <p>tasnim@pust.ac.bd<br>crtc.ce@pust.ac.bd</p>
+                            <h4>Email Addresses</h4>
+                            <p>crtc.ce@pust.ac.bd<br>chairman.ce@pust.ac.bd</p>
                         </div>
                     </div>
 
@@ -166,32 +293,60 @@
                         <div class="info-icon"><i class="fas fa-clock"></i></div>
                         <div>
                             <h4>Office Hours</h4>
-                            <p>Sunday - Thursday<br>9:00 AM - 5:00 PM</p>
+                            <p>Saturday – Wednesday: 9:00 AM – 4:00 PM<br><span style="color:var(--text-muted); font-size:0.85rem;">Friday & Saturday: Closed</span></p>
+                            <div class="status-badge">
+                                <span class="dot"></span> Open Today
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Contact Form -->
                 <div class="form-card">
-                    <h2 style="color:var(--primary-color); margin-bottom:20px;">Send a Message</h2>
-                    <form onsubmit="event.preventDefault(); alert('Message sent successfully!');">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" required placeholder="Your Name">
+                    <h2>Send a Message</h2>
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" required placeholder="Engr. AB Rahman">
+                            </div>
+                            <div class="form-group">
+                                <label for="emailAddr">Email Address *</label>
+                                <input type="email" id="emailAddr" required placeholder="rahman@example.com">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" required placeholder="your@email.com">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phoneNum">Phone Number</label>
+                                <input type="tel" id="phoneNum" placeholder="+880 1700 000000">
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceCategory">Service Inquiry Type</label>
+                                <select id="serviceCategory">
+                                    <option value="general">General Inquiry</option>
+                                    <option value="concrete">Concrete & Structural Testing</option>
+                                    <option value="soil">Geotechnical & Soil Testing</option>
+                                    <option value="consultancy">Structural Consultancy</option>
+                                    <option value="water">Environmental & Water Quality</option>
+                                </select>
+                            </div>
                         </div>
+
                         <div class="form-group">
-                            <label>Subject</label>
-                            <input type="text" required placeholder="Inquiry about...">
+                            <label for="msgSubject">Subject *</label>
+                            <input type="text" id="msgSubject" required placeholder="Inquiry regarding soil testing rates...">
                         </div>
+
                         <div class="form-group">
-                            <label>Message</label>
-                            <textarea rows="5" required placeholder="How can we help you?"></textarea>
+                            <label for="msgContent">Message Details *</label>
+                            <textarea id="msgContent" rows="4" required placeholder="Please provide details about your testing requirements or consultancy inquiry..."></textarea>
                         </div>
-                        <button type="submit" class="btn-submit">Send Message <i class="fas fa-paper-plane"></i></button>
+
+                        <button type="submit" class="btn-submit">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
                     </form>
                 </div>
 
@@ -199,7 +354,6 @@
         </div>
     </section>
 
-    <!-- SECTION 2: MAP & FLOOR PLAN -->
     <section class="location-section">
         <div class="container">
             <div class="location-stack">
@@ -207,23 +361,35 @@
                 <!-- 1. Interactive Map -->
                 <div class="location-card">
                     <div class="card-header">
-                        <span><i class="fas fa-map-marked-alt"></i> Campus Location</span>
-                        <a href="https://maps.app.goo.gl/example" target="_blank" style="color:white; font-size:0.9rem;">Open in Google Maps</a>
+                        <span><i class="fas fa-map-marked-alt"></i> Campus Location (Academic Building - 3)</span>
+                        <div class="card-header-actions">
+                            <button class="header-btn" onclick="resetMapCenter()"><i class="fas fa-crosshairs"></i> Recenter</button>
+                            <a href="https://maps.google.com/?q=24.012744,89.280754" target="_blank" class="header-btn"><i class="fas fa-external-link-alt"></i> Open Google Maps</a>
+                        </div>
                     </div>
                     <!-- Leaflet Map Container -->
                     <div id="map"></div>
                 </div>
 
-                <!-- 2. Floor Plan -->
+                <!-- 2. Floor Plan Interactive Card -->
                 <div class="location-card">
                     <div class="card-header">
-                        <span><i class="fas fa-layer-group"></i> CRTC Office Floor Plan</span>
-                        <i class="fas fa-expand" style="cursor:pointer;" onclick="openModal()"></i>
+                        <span><i class="fas fa-layer-group"></i> CRTC Office Floor Plan (2nd Floor)</span>
+                        <div class="card-header-actions">
+                            <button class="header-btn" onclick="openFloorModal()"><i class="fas fa-expand"></i> Enlarge Floor Plan</button>
+                        </div>
                     </div>
-                    <div class="floor-container" onclick="openModal()">
-                        <!-- Placeholder for Floor Plan Image -->
-                        <img src="assets/FP2nd.png" alt="CRTC Floor Plan">
-                        <div class="overlay"><i class="fas fa-search-plus"></i> Click to Enlarge Layout</div>
+                    
+                    <div class="floor-plan-wrapper" onclick="openFloorModal()" style="cursor: pointer;" title="Click to open enlarged view">
+                        <!-- Single Floor Plan Image Container -->
+                        <div class="floor-img-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:15px; background:#f8fafc;">
+                            <img id="floorPlanMainImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1200x800/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC 2nd Floor Plan" style="max-width:100%; max-height:380px; object-fit:contain; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.3s ease;">
+                        </div>
+
+                        <div class="floor-overlay-hint">
+                            <i class="fas fa-search-plus"></i>
+                            <span>Click floor plan image to enlarge</span>
+                        </div>
                     </div>
                 </div>
 
@@ -233,14 +399,64 @@
 
     <!-- IMAGE MODAL -->
     <div id="imageModal" class="modal">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <img class="modal-content" src="https://via.placeholder.com/1600x1200?text=Full+Size+Floor+Plan" alt="Full Floor Plan">
+        <div class="modal-wrapper">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-image"></i>
+                    <span>CRTC 2nd Floor Plan — Layout Map</span>
+                </div>
+                <div class="modal-controls">
+                    <button class="modal-btn" onclick="zoomModalImg(1.2)" title="Zoom In"><i class="fas fa-search-plus"></i></button>
+                    <button class="modal-btn" onclick="zoomModalImg(0.8)" title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+                    <button class="modal-btn" onclick="resetModalZoom()" title="Reset Zoom"><i class="fas fa-sync-alt"></i></button>
+                    <button class="modal-btn" onclick="closeModal()" title="Close Modal"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            
+            <div class="modal-body" id="modalBody">
+                <div class="modal-img-container" id="modalImgContainer" style="transition: transform 0.2s ease-out; transform-origin: center center;">
+                    <img id="modalFloorImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1600x1000/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC Full Floor Plan" style="max-width: 90vw; max-height: 75vh; border-radius: 6px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <span><i class="fas fa-info-circle"></i> Drag mouse to pan when zoomed in.</span>
+                <span>Academic Building - 3, PUST</span>
+            </div>
+        </div>
     </div>
 
-    <!-- FOOTER -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <footer>
         <div class="container">
-            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3><i class="fas fa-university" style="color:var(--secondary-color)"></i> CRTC PUST</h3>
+                    <p>Center for Research, Testing and Consultation (CRTC), Department of Civil Engineering, Pabna University of Science & Technology.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About CRTC</a></li>
+                        <li><a href="services.html">Testing Services</a></li>
+                        <li><a href="rates.html">Rate Chart</a></li>
+                        <li><a href="forms.html">Requisition Forms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support & Help</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="notice.html">Official Notices</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Guidelines</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+            </div>
         </div>
     </footer>
 
@@ -248,34 +464,154 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
-        // --- MAP INITIALIZATION ---
-        // Coordinates for PUST Academic Building 2 (Approx)
-        // Using central PUST coords but labeling it specifically
-        const map = L.map('map').setView([24.012744222594687, 89.28075403741454], 16);
+        const PUST_COORDS = [24.012744222594687, 89.28075403741454];
+        let mapInstance = null;
+        let currentModalScale = 1;
+        let isPanDragging = false;
+        let startPanX = 0, startPanY = 0;
+        let currentPanX = 0, currentPanY = 0;
 
-        // Add OpenStreetMap Tile Layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        document.addEventListener("DOMContentLoaded", function() {
+            initLeafletMap();
+        });
 
-        // Add Marker for CRTC Office at Academic Building 2
-        L.marker([24.012744222594687, 89.28075403741454]).addTo(map)
-            .bindPopup('<b>CRTC Office</b><br>Academic Building - 2<br>PUST')
-            .openPopup();
+        function initLeafletMap() {
+            mapInstance = L.map('map').setView(PUST_COORDS, 16);
 
-        // --- MODAL FUNCTIONS ---
-        function openModal() {
-            document.getElementById('imageModal').style.display = 'flex';
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(mapInstance);
+
+            const customMarker = L.marker(PUST_COORDS).addTo(mapInstance);
+            customMarker.bindPopup(`
+                <div style="font-family:'Inter',sans-serif; padding:4px;">
+                    <b style="color:#003366; font-size:1.05rem;">CRTC Office</b><br>
+                    <span style="font-size:0.88rem; color:#555;">Academic Building - 3, 2nd Floor<br>Pabna University of Science & Technology</span>
+                </div>
+            `).openPopup();
         }
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('imageModal')) {
-                closeModal();
+
+        function resetMapCenter() {
+            if (mapInstance) {
+                mapInstance.setView(PUST_COORDS, 16);
+                showToast("Map Centered", "Recentered view on Academic Building 3.");
             }
         }
-    </script>
 
+        function openModal() {
+            openFloorModal();
+        }
+
+        function openFloorModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('show'), 10);
+            }
+            resetModalZoom();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+            document.body.style.overflow = 'auto';
+        }
+
+        function applyModalTransform() {
+            const container = document.getElementById('modalImgContainer');
+            if (container) {
+                container.style.transform = `translate(${currentPanX}px, ${currentPanY}px) scale(${currentModalScale})`;
+            }
+        }
+
+        function zoomModalImg(factor) {
+            currentModalScale *= factor;
+            currentModalScale = Math.min(Math.max(0.6, currentModalScale), 3.5);
+            applyModalTransform();
+        }
+
+        function resetModalZoom() {
+            currentModalScale = 1;
+            currentPanX = 0;
+            currentPanY = 0;
+            applyModalTransform();
+        }
+
+        // Mouse Drag / Pan logic inside Modal Body
+        const modalBody = document.getElementById('modalBody');
+        if (modalBody) {
+            modalBody.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.modal-btn')) return;
+                isPanDragging = true;
+                startPanX = e.clientX - currentPanX;
+                startPanY = e.clientY - currentPanY;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isPanDragging) return;
+                currentPanX = e.clientX - startPanX;
+                currentPanY = e.clientY - startPanY;
+                applyModalTransform();
+            });
+
+            window.addEventListener('mouseup', () => {
+                isPanDragging = false;
+            });
+        }
+
+        // Keyboard ESC key listener to close modal
+        document.addEventListener('keydown', function(evt) {
+            if (evt.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Close modal when clicking dark backdrop
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this || e.target.id === 'modalBody') {
+                closeModal();
+            }
+        });
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('fullName').value;
+            
+            showToast("Message Sent Successfully!", `Thank you, ${name}. Your inquiry has been received by the CRTC team.`);
+            document.getElementById('contactForm').reset();
+        }
+
+        function showToast(title, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <div class="toast-icon"><i class="fas fa-check"></i></div>
+                <div class="toast-content">
+                    <h6>${title}</h6>
+                    <p>${message}</p>
+                </div>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('show'), 50);
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        function toggleMobileNav() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('show');
+        }
+    </script>
 </body>
 </html>
