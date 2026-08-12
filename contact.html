@@ -302,8 +302,8 @@
                     <div class="info-item">
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
-                            <h4>Address</h4>
-                            <p>CRTC Office, Academic Building - 3<br>Pabna University of Science & Technology<br>Pabna-6600, Bangladesh</p>
+                            <h4>CRTC Office Address</h4>
+                            <p>Room# 3016, 2nd Floor, Academic Building - 3<br>Pabna University of Science and Technology<br>Pabna-6600, Bangladesh</p>
                         </div>
                     </div>
 
@@ -311,7 +311,16 @@
                         <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                         <div>
                             <h4>Phone Numbers</h4>
-                            <p>+88 02588844915 (Office)<br>+88 01721717447</p>
+                            <p>
+                              <a href="tel:+8802588844915">+88 02588844915</a>
+                              <em>(Office)</em><br>
+                            
+                              <a href="tel:+8801798991440">+88 01798991440</a>
+                              <em>(Chairman, Dept. of CE)</em><br>
+                            
+                              <a href="tel:+88017217174447">+88 01721717447</a>
+                              <em>(Chairman, CRTC)</em>
+                            </p>
                         </div>
                     </div>
 
@@ -319,7 +328,13 @@
                         <div class="info-icon"><i class="fas fa-envelope"></i></div>
                         <div>
                             <h4>Email Addresses</h4>
-                            <p>tasnim@pust.ac.bd<br>crtc.ce@pust.ac.bd</p>
+                            <p>
+                              <a href="mailto:crtc.ce@pust.ac.bd">crtc.ce@pust.ac.bd</a><br>
+                              <a href="mailto:tasnim@pust.ac.bd">tasnim@pust.ac.bd</a>
+                              <em>(Chairman, Dept. of CE)</em><br>
+                              <a href="mailto:crtc.ce@pust.ac.bd">crtc.ce@pust.ac.bd</a>
+                              <em>(Chairman, CRTC)</em>
+                            </p>                            
                         </div>
                     </div>
 
@@ -389,19 +404,6 @@
                             <textarea id="msgContent" name="Message Details" rows="4" required placeholder="Please provide details about your testing requirements or consultancy inquiry..."></textarea>
                         </div>
 
-                        <!-- Automatic Reply Option Checkbox -->
-                        <div class="form-group" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px;">
-                            <div style="display: flex; align-items: flex-start; gap: 10px;">
-                                <input type="checkbox" id="sendAutoReply" name="Confirmation Email Requested" checked style="width: 18px; height: 18px; margin-top: 2px; cursor: pointer; accent-color: var(--primary-color);">
-                                <label for="sendAutoReply" style="font-size: 0.88rem; color: var(--text-color); cursor: pointer; line-height: 1.4; font-weight: 500;">
-                                    Send an automatic confirmation email with Inquiry ID (<span id="inquiryIdBadge" style="font-family: monospace; color: var(--primary-color);">FI_CRTC_...</span>) to my email address.
-                                </label>
-                            </div>
-                            <small style="color: var(--text-muted); font-size: 0.78rem; margin-left: 28px;">
-                                <i class="fas fa-info-circle"></i> Powered by Web3Forms. Look for emails with subject starting with <strong>[CRTC Inquiry]</strong> and check your Spam/Junk folder if not received in Inbox.
-                            </small>
-                        </div>
-
                         <button type="submit" id="submitBtn" class="btn-submit">
                             <span id="btnText">Send Message</span>
                             <i id="btnIcon" class="fas fa-paper-plane"></i>
@@ -420,7 +422,7 @@
                 <!-- 1. Interactive Map -->
                 <div class="location-card">
                     <div class="card-header">
-                        <span><i class="fas fa-map-marked-alt"></i> Campus Location (Academic Building - 3)</span>
+                        <span><i class="fas fa-map-marked-alt"></i> CRTC Office Location [Academic Building - 3 (2nd Floor), PUST]</span>
                         <div class="card-header-actions">
                             <button class="header-btn" onclick="resetMapCenter()"><i class="fas fa-crosshairs"></i> Recenter</button>
                             <a href="https://maps.google.com/?q=24.012744,89.280754" target="_blank" class="header-btn"><i class="fas fa-external-link-alt"></i> Open Google Maps</a>
@@ -567,7 +569,7 @@
             customMarker.bindPopup(`
                 <div style="font-family:'Inter',sans-serif; padding:4px;">
                     <b style="color:#003366; font-size:1.05rem;">CRTC Office</b><br>
-                    <span style="font-size:0.88rem; color:#555;">Academic Building - 3, 2nd Floor<br>Pabna University of Science & Technology</span>
+                    <span style="font-size:0.88rem; color:#555;">Dept. of Civil Engineering<br> Academic Building - 3(2nd Floor)<br>PUST, Pabna</span>
                 </div>
             `).openPopup();
         }
