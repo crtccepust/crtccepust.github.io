@@ -76,6 +76,40 @@
         .info-item h4 { margin-bottom: 4px; color: var(--primary-color); font-size: 1.05rem; font-weight: 600; }
         .info-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
         
+        .inquiry-id-box {
+            background: #eef6ff;
+            border: 1px dashed #004b93;
+            color: var(--primary-color);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        .inquiry-id-box strong {
+            font-family: monospace;
+            font-size: 1.05rem;
+            color: var(--secondary-color);
+            letter-spacing: 0.5px;
+            background: rgba(232, 76, 61, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .btn-refresh-id {
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        .btn-refresh-id:hover {
+            background: rgba(0,51,102,0.1);
+        }
+
         .status-badge { display: inline-flex; align-items: center; gap: 6px; background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-top: 6px; }
         .status-badge .dot { width: 8px; height: 8px; background: #2e7d32; border-radius: 50%; animation: pulse 2s infinite; }
 
@@ -121,9 +155,9 @@
         .floor-tab.active { background: var(--white); color: var(--primary-color); box-shadow: var(--shadow-sm); }
 
         /* Floor Plan Canvas Layout Container */
-        .floor-plan-wrapper { position: relative; width: 100%; height: 620px; background: #f8fafc; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .floor-plan-wrapper { position: relative; width: 100%; height: 420px; background: #f8fafc; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .floor-svg-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; transition: transform 0.3s ease; }
-        .floor-svg-container svg { width: 100%; height: 100%; max-height: 580px; }
+        .floor-svg-container svg { width: 100%; height: 100%; max-height: 380px; }
 
         /* SVG Room Styling */
         .room { fill: #ffffff; stroke: #334155; stroke-width: 2.5; transition: all 0.25s ease; cursor: pointer; }
@@ -308,6 +342,14 @@
                         <!-- FormSubmit Configuration -->
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
+                        <input type="hidden" id="inquiryIdHidden" name="Inquiry ID" value="">
+                        <input type="hidden" id="autoresponseHidden" name="_autoresponse" value="">
+
+                        <!-- Auto-Generated Inquiry ID Display -->
+                        <div class="inquiry-id-box">
+                            <span><i class="fas fa-barcode"></i> Reference ID: <strong id="inquiryIdDisplay">FI_CRTC_...</strong></span>
+                            <button type="button" class="btn-refresh-id" onclick="generateInquiryId()" title="Generate New ID"><i class="fas fa-sync-alt"></i></button>
+                        </div>
                         
                         <div class="form-row">
                             <div class="form-group">
@@ -345,6 +387,14 @@
                         <div class="form-group">
                             <label for="msgContent">Message Details *</label>
                             <textarea id="msgContent" name="Message Details" rows="4" required placeholder="Please provide details about your testing requirements or consultancy inquiry..."></textarea>
+                        </div>
+
+                        <!-- Automatic Reply Option Checkbox -->
+                        <div class="form-group" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 22px;">
+                            <input type="checkbox" id="sendAutoReply" name="Automatic Confirmation Email Requested" checked style="width: 18px; height: 18px; margin-top: 2px; cursor: pointer; accent-color: var(--primary-color);">
+                            <label for="sendAutoReply" style="font-size: 0.88rem; color: var(--text-color); cursor: pointer; line-height: 1.4; font-weight: 500;">
+                                Send an automatic confirmation email with Inquiry ID (<span id="inquiryIdBadge" style="font-family: monospace; color: var(--primary-color);">FI_CRTC_...</span>) to my email address.
+                            </label>
                         </div>
 
                         <button type="submit" id="submitBtn" class="btn-submit">
@@ -387,7 +437,7 @@
                     <div class="floor-plan-wrapper" onclick="openFloorModal()" style="cursor: pointer;" title="Click to open enlarged view">
                         <!-- Single Floor Plan Image Container -->
                         <div class="floor-img-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:15px; background:#f8fafc;">
-                            <img id="floorPlanMainImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1200x800/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC 2nd Floor Plan" style="max-width:100%; max-height:580px; object-fit:contain; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.3s ease;">
+                            <img id="floorPlanMainImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1200x800/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC 2nd Floor Plan" style="max-width:100%; max-height:380px; object-fit:contain; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.3s ease;">
                         </div>
 
                         <div class="floor-overlay-hint">
@@ -474,10 +524,32 @@
         let isPanDragging = false;
         let startPanX = 0, startPanY = 0;
         let currentPanX = 0, currentPanY = 0;
+        let currentInquiryId = '';
 
         document.addEventListener("DOMContentLoaded", function() {
             initLeafletMap();
+            generateInquiryId();
         });
+
+        function generateInquiryId() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            
+            // Random 4-digit ID suffix
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            
+            currentInquiryId = `FI_CRTC_${yyyy}${mm}${dd}_${randomNum}`;
+            
+            const displayEl = document.getElementById('inquiryIdDisplay');
+            const hiddenEl = document.getElementById('inquiryIdHidden');
+            const badgeEl = document.getElementById('inquiryIdBadge');
+
+            if (displayEl) displayEl.textContent = currentInquiryId;
+            if (hiddenEl) hiddenEl.value = currentInquiryId;
+            if (badgeEl) badgeEl.textContent = currentInquiryId;
+        }
 
         function initLeafletMap() {
             mapInstance = L.map('map').setView(PUST_COORDS, 16);
@@ -590,6 +662,21 @@
             const btnText = document.getElementById('btnText');
             const btnIcon = document.getElementById('btnIcon');
             const name = document.getElementById('fullName').value;
+            const userEmail = document.getElementById('emailAddr').value;
+            const originalSubject = document.getElementById('msgSubject').value;
+            const sendAutoReplyCheckbox = document.getElementById('sendAutoReply');
+
+            if (!currentInquiryId) {
+                generateInquiryId();
+            }
+
+            // Configure custom auto-response email message for FormSubmit endpoint
+            const autoresponseHidden = document.getElementById('autoresponseHidden');
+            if (sendAutoReplyCheckbox && sendAutoReplyCheckbox.checked) {
+                autoresponseHidden.value = `Dear ${name},\n\nThank you for contacting the Center for Research, Testing and Consultation (CRTC), PUST.\n\nYour Inquiry Reference ID is: ${currentInquiryId}\nSubject: ${originalSubject}\n\nWe have successfully received your inquiry. Our technical team will review your request and get back to you shortly.\n\nBest regards,\nCRTC Office\nDepartment of Civil Engineering\nPabna University of Science & Technology`;
+            } else {
+                autoresponseHidden.value = "";
+            }
 
             // Update UI to loading state
             submitBtn.disabled = true;
@@ -598,6 +685,9 @@
 
             try {
                 const formData = new FormData(form);
+                // Prepend Inquiry ID to subject line so recipient & sender can track easily
+                formData.set('_subject', `[${currentInquiryId}] ${originalSubject}`);
+
                 const response = await fetch("https://formsubmit.co/ajax/crtc.ce@pust.ac.bd", {
                     method: "POST",
                     headers: { 
@@ -607,8 +697,9 @@
                 });
 
                 if (response.ok) {
-                    showToast("Message Delivered!", `Thank you, ${name}. Your message has been sent to crtc.ce@pust.ac.bd.`);
+                    showToast("Message Sent Successfully!", `Inquiry ID: ${currentInquiryId}. ${sendAutoReplyCheckbox.checked ? 'A receipt has been dispatched to ' + userEmail : ''}`);
                     form.reset();
+                    generateInquiryId(); // Generate fresh ID for subsequent inquiries
                 } else {
                     throw new Error("Form delivery issue");
                 }
