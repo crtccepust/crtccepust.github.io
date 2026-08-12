@@ -344,6 +344,7 @@
                         <input type="hidden" name="_template" value="table">
                         <input type="hidden" id="inquiryIdHidden" name="Inquiry ID" value="">
                         <input type="hidden" id="autoresponseHidden" name="_autoresponse" value="">
+                        <input type="hidden" id="subjectHidden" name="_subject" value="[CRTC Inquiry] New Submission">
 
                         <!-- Auto-Generated Inquiry ID Display -->
                         <div class="inquiry-id-box">
@@ -358,7 +359,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="emailAddr">Email Address *</label>
-                                <input type="email" id="emailAddr" name="Email" required placeholder="john@example.com">
+                                <input type="email" id="emailAddr" name="email" required placeholder="john@example.com">
                             </div>
                         </div>
 
@@ -381,7 +382,7 @@
 
                         <div class="form-group">
                             <label for="msgSubject">Subject *</label>
-                            <input type="text" id="msgSubject" name="_subject" required placeholder="Inquiry regarding soil testing rates...">
+                            <input type="text" id="msgSubject" required placeholder="Inquiry regarding soil testing rates...">
                         </div>
 
                         <div class="form-group">
@@ -390,11 +391,16 @@
                         </div>
 
                         <!-- Automatic Reply Option Checkbox -->
-                        <div class="form-group" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 22px;">
-                            <input type="checkbox" id="sendAutoReply" name="Automatic Confirmation Email Requested" checked style="width: 18px; height: 18px; margin-top: 2px; cursor: pointer; accent-color: var(--primary-color);">
-                            <label for="sendAutoReply" style="font-size: 0.88rem; color: var(--text-color); cursor: pointer; line-height: 1.4; font-weight: 500;">
-                                Send an automatic confirmation email with Inquiry ID (<span id="inquiryIdBadge" style="font-family: monospace; color: var(--primary-color);">FI_CRTC_...</span>) to my email address.
-                            </label>
+                        <div class="form-group" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px;">
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <input type="checkbox" id="sendAutoReply" name="Automatic Confirmation Email Requested" checked style="width: 18px; height: 18px; margin-top: 2px; cursor: pointer; accent-color: var(--primary-color);">
+                                <label for="sendAutoReply" style="font-size: 0.88rem; color: var(--text-color); cursor: pointer; line-height: 1.4; font-weight: 500;">
+                                    Send an automatic confirmation email with Inquiry ID (<span id="inquiryIdBadge" style="font-family: monospace; color: var(--primary-color);">FI_CRTC_...</span>) to my email address.
+                                </label>
+                            </div>
+                            <small style="color: var(--text-muted); font-size: 0.78rem; margin-left: 28px;">
+                                <i class="fas fa-info-circle"></i> Emails are dispatched via FormSubmit service. Look for emails with subject starting with <strong>[CRTC Inquiry]</strong> and check your Spam/Junk folder if not received in Inbox.
+                            </small>
                         </div>
 
                         <button type="submit" id="submitBtn" class="btn-submit">
@@ -663,51 +669,38 @@
             const btnIcon = document.getElementById('btnIcon');
             const name = document.getElementById('fullName').value;
             const userEmail = document.getElementById('emailAddr').value;
-            const originalSubject = document.getElementById('msgSubject').value;
+            const userSubject = document.getElementById('msgSubject').value;
             const sendAutoReplyCheckbox = document.getElementById('sendAutoReply');
 
             if (!currentInquiryId) {
                 generateInquiryId();
             }
 
+            // Set standard email subject with [CRTC Inquiry] prefix for branding
+            const fullSubject = `[CRTC Inquiry] ${userSubject} (Ref: ${currentInquiryId})`;
+            document.getElementById('subjectHidden').value = fullSubject;
+
             // Configure custom auto-response email message for FormSubmit endpoint
             const autoresponseHidden = document.getElementById('autoresponseHidden');
             if (sendAutoReplyCheckbox && sendAutoReplyCheckbox.checked) {
-                autoresponseHidden.value = `Dear ${name},\n\nThank you for contacting the Center for Research, Testing and Consultation (CRTC), PUST.\n\nYour Inquiry Reference ID is: ${currentInquiryId}\nSubject: ${originalSubject}\n\nWe have successfully received your inquiry. Our technical team will review your request and get back to you shortly.\n\nBest regards,\nCRTC Office\nDepartment of Civil Engineering\nPabna University of Science & Technology`;
+                autoresponseHidden.value = `Dear ${name},\n\nThank you for contacting the Center for Research, Testing and Consultation (CRTC), PUST.\n\nYour Inquiry Reference ID is: ${currentInquiryId}\nSubject: ${userSubject}\n\nWe have received your inquiry. Our technical team will review your request and get back to you shortly.\n\nBest regards,\nCRTC Office\nDepartment of Civil Engineering\nPabna University of Science & Technology`;
             } else {
                 autoresponseHidden.value = "";
             }
 
             // Update UI to loading state
             submitBtn.disabled = true;
-            btnText.textContent = "Sending Email...";
+            btnText.textContent = "Submitting Inquiry...";
             btnIcon.className = "fas fa-spinner fa-spin";
 
             try {
-                const formData = new FormData(form);
-                // Prepend Inquiry ID to subject line so recipient & sender can track easily
-                formData.set('_subject', `[${currentInquiryId}] ${originalSubject}`);
-
-                const response = await fetch("https://formsubmit.co/ajax/crtc.ce@pust.ac.bd", {
-                    method: "POST",
-                    headers: { 
-                        'Accept': 'application/json'
-                    },
-                    body: formData
-                });
-
-                if (response.ok) {
-                    showToast("Message Sent Successfully!", `Inquiry ID: ${currentInquiryId}. ${sendAutoReplyCheckbox.checked ? 'A receipt has been dispatched to ' + userEmail : ''}`);
-                    form.reset();
-                    generateInquiryId(); // Generate fresh ID for subsequent inquiries
-                } else {
-                    throw new Error("Form delivery issue");
-                }
+                // Submit form directly via POST to enable FormSubmit native auto-reply processing
+                showToast("Submitting Inquiry...", "Redirecting to email confirmation service...");
+                setTimeout(() => {
+                    form.submit();
+                }, 600);
             } catch (error) {
-                // Fallback direct form submission
-                showToast("Redirecting...", "Sending message via mail portal...");
-                form.submit();
-            } finally {
+                showToast("Submission Error", "Please try submitting the form again.");
                 submitBtn.disabled = false;
                 btnText.textContent = "Send Message";
                 btnIcon.className = "fas fa-paper-plane";
