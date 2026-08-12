@@ -147,7 +147,7 @@
         .header-btn:hover { opacity: 1; background: rgba(255,255,255,0.25); }
 
         /* Interactive Map Container */
-        #map { width: 100%; height: 420px; z-index: 1; }
+        #map { width: 100%; height: 720px; z-index: 1; }
 
         /* Floor Selector Bar */
         .floor-tabs { display: flex; background: #eef2f7; padding: 6px; border-bottom: 1px solid var(--border-color); gap: 6px; }
@@ -157,7 +157,7 @@
         /* Floor Plan Canvas Layout Container */
         .floor-plan-wrapper { position: relative; width: 100%; height: 420px; background: #f8fafc; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .floor-svg-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; transition: transform 0.3s ease; }
-        .floor-svg-container svg { width: 100%; height: 100%; max-height: 380px; }
+        .floor-svg-container svg { width: 100%; height: 100%; max-height: 680px; }
 
         /* SVG Room Styling */
         .room { fill: #ffffff; stroke: #334155; stroke-width: 2.5; transition: all 0.25s ease; cursor: pointer; }
@@ -239,7 +239,7 @@
         footer { background: #0b1320; color: #94a3b8; padding: 50px 0 30px; text-align: center; margin-top: auto; border-top: 1px solid #1e293b; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; text-align: left; margin-bottom: 40px; }
         .footer-brand h3 { color: white; font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .footer-brand p { font-size: 0.9rem; color: #64748b; max-width: 380px; }
+        .footer-brand p { font-size: 0.9rem; color: #64748b; max-width: 680px; }
         .footer-links h4 { color: white; font-size: 1rem; margin-bottom: 16px; }
         .footer-links ul { list-style: none; }
         .footer-links li { margin-bottom: 8px; }
@@ -303,7 +303,7 @@
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
                             <h4>CRTC Office Address</h4>
-                            <p>Room# 3016, 2nd Floor, Academic Building - 3<br>Pabna University of Science and Technology<br>Pabna-6600, Bangladesh</p>
+                            <p>Room# 316, Academic Building-3 (2nd F.)<br>Pabna University of Science and Technology<br>Pabna-6600, Bangladesh</p>
                         </div>
                     </div>
 
@@ -369,11 +369,11 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="fullName">Full Name *</label>
-                                <input type="text" id="fullName" name="Name" required placeholder="Engr. John Doe">
+                                <input type="text" id="fullName" name="Name" required placeholder="Engr. AB Rahman">
                             </div>
                             <div class="form-group">
                                 <label for="emailAddr">Email Address *</label>
-                                <input type="email" id="emailAddr" name="email" required placeholder="john@example.com">
+                                <input type="email" id="emailAddr" name="email" required placeholder="abrahman@example.com">
                             </div>
                         </div>
 
@@ -435,7 +435,7 @@
                 <!-- 2. Floor Plan Interactive Card -->
                 <div class="location-card">
                     <div class="card-header">
-                        <span><i class="fas fa-layer-group"></i> CRTC Office Floor Plan (2nd Floor)</span>
+                        <span><i class="fas fa-layer-group"></i> Dept. of Civil Engineering Floor Plan (AB-3, 2F)</span>
                         <div class="card-header-actions">
                             <button class="header-btn" onclick="openFloorModal()"><i class="fas fa-expand"></i> Enlarge Floor Plan</button>
                         </div>
@@ -494,7 +494,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <h3><i class="fas fa-university" style="color:var(--secondary-color)"></i> CRTC PUST</h3>
-                    <p>Center for Research, Testing and Consultation (CRTC), Department of Civil Engineering, Pabna University of Science & Technology.</p>
+                    <p>Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, Pabna University of Science and Technology.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Quick Links</h4>
@@ -569,7 +569,7 @@
             customMarker.bindPopup(`
                 <div style="font-family:'Inter',sans-serif; padding:4px;">
                     <b style="color:#003366; font-size:1.05rem;">CRTC Office</b><br>
-                    <span style="font-size:0.88rem; color:#555;">Dept. of Civil Engineering<br> Academic Building - 3(2nd Floor)<br>PUST, Pabna</span>
+                    <span style="font-size:0.88rem; color:#555;">Dept. of Civil Engineering<br> Academic Building-3 (2nd Floor)<br>PUST, Pabna-6600, BD</span>
                 </div>
             `).openPopup();
         }
