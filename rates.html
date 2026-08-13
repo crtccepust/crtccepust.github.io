@@ -11,6 +11,20 @@
     <!-- HTML2PDF Library for Direct Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
+    <!-- MathJax for rendering equations in info popups -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
     <style>
         /* --- CSS VARIABLES --- */
         :root {
@@ -32,7 +46,7 @@
         a { text-decoration: none; color: inherit; }
 
         /* --- HEADER & NAV --- */
-        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000;  }
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
         .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
         .nav-links { display: flex; gap: 5px; list-style: none; }
@@ -41,7 +55,10 @@
 
         /* --- PAGE HEADER --- */
         .page-header {
-            background: linear-gradient(rgba(0,51,102,0.85), rgba(0,30,60,0.9)), url('assets/rates/1.png')var(--primary-color); color: var(--white); padding: 200px 0; text-align: center;
+            background: linear-gradient(rgba(0,51,102,0.85), rgba(0,30,60,0.9)), url('assets/rates/1.png') var(--primary-color); 
+            color: var(--white); 
+            padding: 80px 0; 
+            text-align: center;
         }
         .page-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
 
@@ -76,16 +93,25 @@
         table { width: 100%; border-collapse: collapse; }
         thead { background: var(--primary-color); color: var(--white); }
         th { padding: 15px; text-align: center; font-weight: 700; font-size: 0.95rem; color: white; } 
-        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; vertical-align: middle; }
+        td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; vertical-align: middle; }
         tr:hover td { background: #f9f9f9; }
         
-        .category-row { background-color: #e9ecef; font-weight: 700; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; text-align: center}
+        .category-row td { background-color: #e9ecef; font-weight: 700; color: var(--primary-color); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+
+        .mat-cell { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .mat-badge { font-weight: 700; color: var(--primary-dark); background: #eef4ff; padding: 2px 8px; border-radius: 4px; border: 1px solid #cce0ff; font-size: 0.9rem; }
+        .btn-more-info {
+            background: #f0f4f8; border: 1px solid #003366; color: #003366;
+            padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition); display: inline-flex; align-items: center; gap: 4px;
+        }
+        .btn-more-info:hover { background: #003366; color: white; }
 
         .price { font-weight: 700; color: var(--text-color); }
         .btn-add {
             background: var(--white); border: 1px solid var(--primary-color); color: var(--primary-color);
             padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: var(--transition);
-            display: flex; align-items: center; gap: 5px;
+            display: flex; align-items: center; gap: 5px; margin: 0 auto;
         }
         .btn-add:hover { background: var(--primary-color); color: var(--white); }
         .btn-add.added { background: var(--success-color); border-color: var(--success-color); color: white; cursor: default; }
@@ -107,7 +133,7 @@
         .btn-remove:hover { color: var(--secondary-color); }
         
         .cart-controls { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #666; }
-        .qty-input { width: 50px; padding: 4px; text-align: center; border: 1px solid #ddd; border-radius: 4px; }
+        .qty-input { width: 55px; padding: 4px; text-align: center; border: 1px solid #ddd; border-radius: 4px; }
 
         .cart-footer { padding: 20px; background: #f8f9fa; border-top: 1px solid #eee; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; }
@@ -121,15 +147,21 @@
         .btn-checkout:hover { background: #c0392b; }
         .btn-checkout:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* --- MODAL --- */
+        /* --- MODALS --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; overflow-y: auto;}
-        .modal-content { background: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 800px; position: relative; margin: 20px 0; }
+        .modal-content { background: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 850px; position: relative; margin: 20px 0; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #999; }
         
         .form-group { margin-bottom: 15px; position: relative; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.9rem; }
         .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        /* Info Breakdown Table Styling */
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .info-table th, .info-table td { border: 1px solid #ddd; padding: 10px; text-align: center; font-size: 0.9rem; }
+        .info-table th { background-color: var(--primary-color); color: white; }
+        .info-table th.highlight-col, .info-table td.highlight-col { background-color: #f0f7ff; font-weight: bold; color: var(--primary-color); }
 
         /* Phone Validation Styles */
         .validation-msg { font-size: 0.8rem; margin-top: 4px; display: none; }
@@ -139,10 +171,10 @@
         input.valid { border-color: #2ecc71; background-color: #f0fff4; }
 
         /* --- FOOTER --- */
-        footer { background: #111; color: #aaa; padding: 60px 0 30px; text-align: center; margin-top: auto; }
+        footer { background: #111; color: #aaa; padding: 40px 0 20px; text-align: center; margin-top: auto; }
 
         /* --- PRINTABLE APPLICATION STYLE (A4 Format) --- */
-        #printableArea { display: none; } /* Hidden normally */
+        #printableArea { display: none; }
 
         /* Force font for preview */
         #previewContent {
@@ -153,24 +185,25 @@
         .print-layout {
             font-family: 'Times New Roman', Times, serif;
             color: black;
-            line-height: 1.3;
+            line-height: 1.35;
             background: white;
-            padding: 40px; /* Padding for preview and PDF generation */
+            padding: 30px 40px;
+            box-sizing: border-box;
         }
 
         .print-header { text-align: center; margin-bottom: 10px; }
         .print-header h2 { 
-            font-size: 18pt; margin: 0; text-transform: uppercase; font-weight: bold; 
-            white-space: nowrap; /* Keep on single line */
+            font-size: 16pt; margin: 0; text-transform: uppercase; font-weight: bold; 
+            white-space: nowrap;
         }
-        .print-header p { margin: 2px 0; font-size: 13pt; }
-        .header-line { border: 0; border-top: 1px solid #000; margin-top: 5px; margin-bottom: 20px; }
+        .print-header p { margin: 2px 0; font-size: 12pt; }
+        .header-line { border: 0; border-top: 1.5px solid #000; margin-top: 5px; margin-bottom: 15px; }
 
         .print-body { margin-top: 0; }
-        .print-body p { margin-bottom: 8px; text-align: justify; font-size: 12pt; }
+        .print-body p { margin-bottom: 8px; text-align: justify; font-size: 11pt; }
         
-        .print-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11pt; }
-        .print-table th, .print-table td { border: 1px solid #000; padding: 5px 8px; }
+        .print-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10.5pt; }
+        .print-table th, .print-table td { border: 1px solid #000; padding: 6px 8px; }
         .print-table th { 
             background-color: #f0f0f0 !important; 
             font-weight: bold !important; 
@@ -178,17 +211,17 @@
             -webkit-print-color-adjust: exact; 
         }
         
-        .bank-box { border: 1px solid #000; padding: 8px; margin-top: 15px; font-size: 11pt; }
+        .bank-box { border: 1px solid #000; padding: 8px 12px; margin-top: 15px; font-size: 10pt; background: #fafafa; }
         
-        .print-footer { margin-top: 80px; display: flex; justify-content: flex-start; } /* Increased spacing */
-        .signature-block { text-align: center; margin-top: 40px; }
-        .signature-line { border-top: 1px solid #000; width: 220px; padding-top: 5px; }
-        .signature-seal { font-size: 11pt; margin-top: 2px; }
+        .print-footer { margin-top: 60px; display: flex; justify-content: flex-start; }
+        .signature-block { text-align: center; margin-top: 30px; }
+        .signature-line { border-top: 1px solid #000; width: 220px; padding-top: 5px; font-weight: bold; }
+        .signature-seal { font-size: 10pt; margin-top: 2px; }
 
         @media print {
             @page { 
                 size: A4; 
-                margin: 0.5cm 1.5cm; /* Reduced margins */
+                margin: 1cm 1.5cm;
             }
             
             body { 
@@ -197,10 +230,8 @@
                 padding: 0; 
             }
             
-            /* Hide Website Elements */
             header, footer, .page-header, .rates-section, .modal, .no-print { display: none !important; }
             
-            /* Show Printable Area */
             #printableArea {
                 display: block !important;
                 position: absolute;
@@ -209,7 +240,6 @@
                 box-sizing: border-box;
             }
             
-            /* Ensure container has padding in print mode since page margins are small */
             .print-layout { padding: 0 10px; }
         }
 
@@ -259,7 +289,7 @@
                         <!-- Search & Filter Controls -->
                         <div class="search-container">
                             <div class="search-bar">
-                                <input type="text" id="searchInput" placeholder="Search tests (e.g. Concrete, Soil)..." onkeyup="filterTests()">
+                                <input type="text" id="searchInput" placeholder="Search tests (e.g. Concrete, Soil, Sieve)..." onkeyup="filterTests()">
                             </div>
                             <div class="filter-select">
                                 <select id="categoryFilter" onchange="filterTests()">
@@ -283,9 +313,10 @@
                                 <tr>
                                     <th>Test Description</th>
                                     <th>Standard</th>
-                                    <th>Unit</th>
-                                    <th>*Rate (BDT)</th>
-                                    <th width="100">Select</th>
+                                    <th>Required Material</th>
+                                    <th style="text-align:center;">Unit</th>
+                                    <th style="text-align:right;">*Rate (BDT)</th>
+                                    <th width="100" style="text-align:center;">Select</th>
                                 </tr>
                             </thead>
                             <tbody id="ratesBody">
@@ -314,7 +345,18 @@
         </div>
     </section>
 
-    <!-- MODAL -->
+    <!-- MATERIAL MORE INFO MODAL -->
+    <div id="materialInfoModal" class="modal no-print">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-modal" onclick="closeMaterialInfoModal()">&times;</span>
+            <h2 id="infoModalTitle" style="color:var(--primary-color); margin-bottom:12px; border-bottom: 2px solid #eef4ff; padding-bottom: 8px;">Test Information</h2>
+            <div id="infoModalContainer" style="max-height: 70vh; overflow-y: auto; padding-right: 5px;">
+                <!-- Dynamically populated content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER MODAL -->
     <div id="orderModal" class="modal no-print">
         <div class="modal-content">
             <span class="close-modal" onclick="closeOrderModal()">&times;</span>
@@ -352,15 +394,15 @@
 
             <!-- STEP 2: PREVIEW -->
             <div id="previewStep" style="display:none;">
-                <h2 style="color:var(--primary-color); text-align:center;">Application Ready</h2>
+                <h2 style="color:var(--primary-color); text-align:center; margin-bottom: 5px;">Application Ready</h2>
                 <p style="text-align:center; color:#666; margin-bottom:15px;">Review details before printing or downloading.</p>
-                <div style="background:#f1f1f1; padding:20px; border:1px solid #ccc; max-height:400px; overflow-y:auto; margin-bottom:20px;">
-                    <div id="previewContent" style="background:white; padding:30px; font-family:'Times New Roman', Times, serif; color:black; font-size:12px;"></div>
+                <div style="background:#f1f1f1; padding:15px; border:1px solid #ccc; max-height:420px; overflow-y:auto; margin-bottom:20px; border-radius: 4px;">
+                    <div id="previewContent" style="background:white; padding:25px; font-family:'Times New Roman', Times, serif; color:black; font-size:12px; box-shadow: 0 0 5px rgba(0,0,0,0.1);"></div>
                 </div>
                 <div style="display:flex; gap:10px; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn-checkout" style="background:#555; width:auto;" onclick="backToForm()">Edit</button>
-                    <button class="btn-checkout" style="width:auto;" onclick="printApplication()"><i class="fas fa-print"></i> Print</button>
-                    <button class="btn-checkout" style="background:#2ecc71; width:auto;" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download Direct</button>
+                    <button class="btn-checkout" style="background:#555; width:auto; padding: 10px 20px;" onclick="backToForm()">Edit</button>
+                    <button class="btn-checkout" style="width:auto; padding: 10px 20px;" onclick="printApplication()"><i class="fas fa-print"></i> Print</button>
+                    <button class="btn-checkout" id="downloadPdfBtn" style="background:#2ecc71; width:auto; padding: 10px 20px;" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download Direct</button>
                 </div>
             </div>
         </div>
@@ -370,14 +412,14 @@
     <div id="printableArea">
         <div class="print-layout" id="pdfContent">
             <div class="print-header">
-                <h2>Center for Research, Testing and Consultation (CRTC)</h2>
+                <h2>CENTER OF RESEARCH, TESTING AND CONSULTATION (CRTC)</h2>
                 <p>Department of Civil Engineering</p>
                 <p>Pabna University of Science and Technology, Pabna-6600</p>
                 <hr class="header-line">
             </div>
             
             <div class="print-body">
-                <div style="display:flex; justify-content:space-between; margin-bottom: 10px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 12px;">
                     <span>Memo No.: <span id="printMemoNo"></span></span>
                     <span>Date: <span id="printDate"></span></span>
                 </div>
@@ -388,45 +430,47 @@
                     Department of Civil Engineering<br>
                     PUST, Pabna-6600, Bangladesh.
                 </p>
-                <p><strong>Subject: Prayer for conducting laboratory tests.</strong></p>
+                <p style="margin-top: 6px;"><strong>Subject: Prayer for conducting laboratory tests.</strong></p>
                 <p>Sir,</p>
                 <p>
                     With due respect, I would like to request you to conduct the following laboratory tests for the project mentioned below. 
                     I am ready to pay the testing fees as per university rules.
                 </p>
                 
-                <div style="margin: 15px 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+                <div style="margin: 12px 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
                         <span style="flex-grow: 1; margin-right: 20px;"><strong>Client Name:</strong> <span id="printClientName"></span></span>
                         <span style="white-space: nowrap;"><strong>Contact No:</strong> <span id="printContact"></span></span>
                     </div>
-                    <div style="margin-bottom: 8px;"><strong>Address:</strong> <span id="printClientAddress"></span></div>
+                    <div style="margin-bottom: 6px;"><strong>Address:</strong> <span id="printClientAddress"></span></div>
                     <div><strong>Project/Ref:</strong> <span id="printProjectRef"></span></div>
                 </div>
 
                 <table class="print-table">
                     <thead>
                         <tr>
-                            <th>Sl.</th>
+                            <th style="width: 30px; text-align:center;">Sl.</th>
                             <th>Description of Test</th>
-                            <th style="text-align:center;">Qty</th>
-                            <th style="text-align:right;">Rate</th>
-                            <th style="text-align:right;">Amount</th>
+                            <th style="width: 120px;">Req. Material</th>
+                            <th style="width: 65px; text-align:center;">Unit</th>
+                            <th style="width: 40px; text-align:center;">Qty</th>
+                            <th style="width: 70px; text-align:right;">Rate</th>
+                            <th style="width: 80px; text-align:right;">Amount</th>
                         </tr>
                     </thead>
                     <tbody id="printTableBody"></tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4" style="text-align:right;"><strong>Total Amount</strong></td>
+                            <td colspan="6" style="text-align:right;"><strong>Total Amount</strong></td>
                             <td id="printTotal" style="text-align:right; font-weight:bold;"></td>
                         </tr>
                     </tfoot>
                 </table>
 
                 <div class="bank-box">
-                    <strong><i class="fas fa-money-check"></i> Bank Payment Information:</strong><br>
+                    <strong><i class="fas fa-university"></i> Bank Payment Information:</strong><br>
                     Please deposit the total amount to the following account:<br>
-					A/C Name: <strong>CRTC (FEE)</strong> | A/C No: <strong>0100157149835</strong><br>
+                    A/C Name: <strong>CRTC (FEE)</strong> | A/C No: <strong>0100157149835</strong><br>
                     Bank Name: <strong>Janata Bank PLC</strong> | Branch: <strong>Pabna UST Branch</strong> | Routing Number: <strong>135760149</strong><br>
                 </div>
 
@@ -447,121 +491,358 @@
     <!-- FOOTER -->
     <footer class="no-print">
         <div class="container">
-            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST.</p>
+            <p>&copy; 2026 CENTER OF RESEARCH, TESTING AND CONSULTATION (CRTC), PUST. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- JAVASCRIPT -->
     <script>
-        // Updated Test Data with Categories
+        // Standardized Test Data with Concise Required Material & Detailed Info Available
         const testData = [
-            { id: 101, category: "AGGREGATES", name: "Sieve Analysis (Gradation/FM) of Coarse Aggregate (CA)", std: "ASTM C136", unit: "Per Sample", rate: 6000 },
-			{ id: 102, category: "AGGREGATES", name: "Sieve Analysis (Gradation/FM) of Fine Aggregate (FA)", std: "ASTM C136", unit: "Per Sample", rate: 4500 },
-			{ id: 103, category: "AGGREGATES", name: "Sieve Analysis (Gradation) of Base/Subbase", std: "ASTM D422", unit: "Per Sample", rate: 8500 },
-			{ id: 104, category: "AGGREGATES", name: "Sieve Analysis (Gradation) of Ballast", std: "ASTM D422", unit: "Per Sample", rate: 7000 },
-			{ id: 105, category: "AGGREGATES", name: "% Finer than #200 sieve by washing/Fine Content/Silt Content", std: "ASTM C117", unit: "Per Sample", rate: 3500 },
-			{ id: 106, category: "AGGREGATES", name: "Aggregate Crushing Value (ACV)", std: "BS 812-110", unit: "Per Sample", rate: 7000 },
-			{ id: 107, category: "AGGREGATES", name: "Aggregate Impact Value (AIV)", std: "BS 812-112", unit: "Per Sample", rate: 6000 },
-			{ id: 108, category: "AGGREGATES", name: "Ten Percent Fine Value (TFV)", std: "BS 812-111", unit: "Per Sample", rate: 10000 },
-			{ id: 109, category: "AGGREGATES", name: "L.A. Abrasion of CA", std: "ASTM C131", unit: "Per Sample", rate: 7000 },
-			{ id: 110, category: "AGGREGATES", name: "L.A. Abrasion of Ballast", std: "ASTM C535", unit: "Per Sample", rate: 7500 },
-			{ id: 111, category: "AGGREGATES", name: "Unit Weight of CA", std: "ASTM C29", unit: "Per Sample", rate: 5000 },
-			{ id: 112, category: "AGGREGATES", name: "Unit Weight of FA", std: "ASTM C29", unit: "Per Sample", rate: 4500 },
-			{ id: 113, category: "AGGREGATES", name: "Specific Gravity and Absorption of CA", std: "ASTM C127", unit: "Per Sample", rate: 6500 },
-			{ id: 113, category: "AGGREGATES", name: "Specific Gravity and Absorption of FA", std: "ASTM C128", unit: "Per Sample", rate: 5500 },
-			{ id: 114, category: "AGGREGATES", name: "Void Ratio/ Porosity", std: "ASTM C29", unit: "Per Sample", rate: 6000 },
-			{ id: 115, category: "AGGREGATES", name: "Standard Proctor Test of Aggregate", std: "ASTM D698", unit: "Per Sample", rate: 22500 },
-			{ id: 116, category: "AGGREGATES", name: "Modified Proctor Test of Aggregate", std: "ASTM D1557", unit: "Per Sample", rate: 30500 },
-			{ id: 117, category: "AGGREGATES", name: "CBR of Base or Sub-Base Materials", std: "ASTM D1883", unit: "Per Sample", rate: 50000 },
-			{ id: 118, category: "AGGREGATES", name: "Moisture content", std: "ASTM C566", unit: "Per Sample", rate: 2500 },
-			{ id: 119, category: "AGGREGATES", name: "Flakiness Index (FI)", std: "BS 812-105", unit: "Per Sample", rate: 7000 },
-			{ id: 120, category: "AGGREGATES", name: "Elongation Index (EI)", std: "BS 812-105", unit: "Per Sample", rate: 7500 },
-			{ id: 121, category: "AGGREGATES", name: "Percentage of Fractured Coarse Aggregate Particles", std: "ASTM D5821", unit: "Per Sample", rate: 8500 },
-			{ id: 122, category: "AGGREGATES", name: "Bulking of Sand", std: "BS 812-109", unit: "Per Sample", rate: 5000 },
+            // AGGREGATES
+            { id: 101, category: "AGGREGATES", name: "Sieve Analysis (Gradation/FM) of Coarse Aggregate (CA)", std: "ASTM C136", material: "20 kg", hasInfo: true, unit: "Per Sample", rate: 6000 },
+            { id: 102, category: "AGGREGATES", name: "Sieve Analysis (Gradation/FM) of Fine Aggregate (FA)", std: "ASTM C136", material: "10 kg", hasInfo: true, unit: "Per Sample", rate: 4500 },
+            { id: 103, category: "AGGREGATES", name: "Sieve Analysis (Gradation) of Base/Subbase", std: "ASTM D422", material: "25 kg", hasInfo: true, unit: "Per Sample", rate: 8500 },
+            { id: 104, category: "AGGREGATES", name: "Sieve Analysis (Gradation) of Ballast", std: "ASTM D422", material: "30 kg", hasInfo: true, unit: "Per Sample", rate: 7000 },
+            { id: 105, category: "AGGREGATES", name: "% Finer than #200 sieve by washing/Fine Content/Silt Content", std: "ASTM C117", material: "5 kg", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 106, category: "AGGREGATES", name: "Aggregate Crushing Value (ACV)", std: "BS 812-110", material: "10 kg", hasInfo: true, unit: "Per Sample", rate: 7000 },
+            { id: 107, category: "AGGREGATES", name: "Aggregate Impact Value (AIV)", std: "BS 812-112", material: "10 kg", hasInfo: true, unit: "Per Sample", rate: 6000 },
+            { id: 108, category: "AGGREGATES", name: "Ten Percent Fine Value (TFV)", std: "BS 812-111", material: "15 kg", hasInfo: true, unit: "Per Sample", rate: 10000 },
+            { id: 109, category: "AGGREGATES", name: "L.A. Abrasion of CA", std: "ASTM C131", material: "15 kg", hasInfo: true, unit: "Per Sample", rate: 7000 },
+            { id: 110, category: "AGGREGATES", name: "L.A. Abrasion of Ballast", std: "ASTM C535", material: "25 kg", hasInfo: true, unit: "Per Sample", rate: 7500 },
+            { id: 111, category: "AGGREGATES", name: "Unit Weight of CA", std: "ASTM C29", material: "20 kg", hasInfo: true, unit: "Per Sample", rate: 5000 },
+            { id: 112, category: "AGGREGATES", name: "Unit Weight of FA", std: "ASTM C29", material: "15 kg", hasInfo: true, unit: "Per Sample", rate: 4500 },
+            { id: 113, category: "AGGREGATES", name: "Specific Gravity and Absorption of CA", std: "ASTM C127", material: "10 kg", hasInfo: true, unit: "Per Sample", rate: 6500 },
+            { id: 114, category: "AGGREGATES", name: "Specific Gravity and Absorption of FA", std: "ASTM C128", material: "5 kg", hasInfo: true, unit: "Per Sample", rate: 5500 },
+            { id: 115, category: "AGGREGATES", name: "Void Ratio / Porosity", std: "ASTM C29", material: "15 kg", hasInfo: true, unit: "Per Sample", rate: 6000 },
+            { id: 116, category: "AGGREGATES", name: "Standard Proctor Test of Aggregate", std: "ASTM D698", material: "30 kg", hasInfo: true, unit: "Per Sample", rate: 22500 },
+            { id: 117, category: "AGGREGATES", name: "Modified Proctor Test of Aggregate", std: "ASTM D1557", material: "35 kg", hasInfo: true, unit: "Per Sample", rate: 30500 },
+            { id: 118, category: "AGGREGATES", name: "CBR of Base or Sub-Base Materials", std: "ASTM D1883", material: "50 kg", hasInfo: true, unit: "Per Sample", rate: 50000 },
+            { id: 119, category: "AGGREGATES", name: "Moisture Content", std: "ASTM C566", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 2500 },
+            { id: 120, category: "AGGREGATES", name: "Flakiness Index (FI)", std: "BS 812-105", material: "15 kg", hasInfo: true, unit: "Per Sample", rate: 7000 },
+            { id: 121, category: "AGGREGATES", name: "Elongation Index (EI)", std: "BS 812-105", material: "15 kg", hasInfo: true, unit: "Per Sample", rate: 7500 },
+            { id: 122, category: "AGGREGATES", name: "Percentage of Fractured Coarse Aggregate Particles", std: "ASTM D5821", material: "10 kg", hasInfo: true, unit: "Per Sample", rate: 8500 },
+            { id: 123, category: "AGGREGATES", name: "Bulking of Sand", std: "BS 812-109", material: "5 kg", hasInfo: true, unit: "Per Sample", rate: 5000 },
 
-			{ id: 201, category: "BRICKS", name: "Absorption (ASTM) ", std: "ASTM C67", unit: "Set (5)", rate: 2000 },
-			{ id: 202, category: "BRICKS", name: "Absorption (BS) ", std: "BS EN 772-21", unit: "Set (10)", rate: 3500 },
-			{ id: 203, category: "BRICKS", name: "Crushing Strength (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 4500 },
-			{ id: 204, category: "BRICKS", name: "Crushing Strength (BS)", std: "BS EN 772-1", unit: "Set (10)", rate: 7000 },
-			{ id: 205, category: "BRICKS", name: "Size and Shape (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 2000 },
-			{ id: 206, category: "BRICKS", name: "Size and Shape (BS)", std: "BS EN 772-16", unit: "Set (10)", rate: 2500 },
-			{ id: 207, category: "BRICKS", name: "Unit Weight (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 4000 },
-			{ id: 208, category: "BRICKS", name: "Unit Weight (BS)", std: "BS EN 772-13", unit: "Set (10)", rate: 5000 },
-			{ id: 209, category: "BRICKS", name: "Efflorescence (ASTM)", std: "ASTM C67", unit: "Set (5)", rate: 4500 },
-			{ id: 210, category: "BRICKS", name: "Efflorescence (BS)", std: "BS EN 772-11", unit: "Set (10)", rate: 5000 },
+            // BRICKS
+            { id: 201, category: "BRICKS", name: "Absorption (ASTM)", std: "ASTM C67", material: "5 Nos.", hasInfo: true, unit: "Set (5 Nos.)", rate: 2000 },
+            { id: 202, category: "BRICKS", name: "Absorption (BS)", std: "BS EN 772-21", material: "10 Nos.", hasInfo: true, unit: "Set (10 Nos.)", rate: 3500 },
+            { id: 203, category: "BRICKS", name: "Crushing Strength (ASTM)", std: "ASTM C67", material: "5 Nos.", hasInfo: true, unit: "Set (5 Nos.)", rate: 4500 },
+            { id: 204, category: "BRICKS", name: "Crushing Strength (BS)", std: "BS EN 772-1", material: "10 Nos.", hasInfo: true, unit: "Set (10 Nos.)", rate: 7000 },
+            { id: 205, category: "BRICKS", name: "Size and Shape (ASTM)", std: "ASTM C67", material: "5 Nos.", hasInfo: true, unit: "Set (5 Nos.)", rate: 2000 },
+            { id: 206, category: "BRICKS", name: "Size and Shape (BS)", std: "BS EN 772-16", material: "10 Nos.", hasInfo: true, unit: "Set (10 Nos.)", rate: 2500 },
+            { id: 207, category: "BRICKS", name: "Unit Weight (ASTM)", std: "ASTM C67", material: "5 Nos.", hasInfo: true, unit: "Set (5 Nos.)", rate: 4000 },
+            { id: 208, category: "BRICKS", name: "Unit Weight (BS)", std: "BS EN 772-13", material: "10 Nos.", hasInfo: true, unit: "Set (10 Nos.)", rate: 5000 },
+            { id: 209, category: "BRICKS", name: "Efflorescence (ASTM)", std: "ASTM C67", material: "5 Nos.", hasInfo: true, unit: "Set (5 Nos.)", rate: 4500 },
+            { id: 210, category: "BRICKS", name: "Efflorescence (BS)", std: "BS EN 772-11", material: "10 Nos.", hasInfo: true, unit: "Set (10 Nos.)", rate: 5000 },
 
-			{ id: 301, category: "CEMENT CONCRETE", name: "Concrete Cylinders (100x200mm)", std: "ASTM C39", unit: "Set (3)", rate: 2000 },
-			{ id: 302, category: "CEMENT CONCRETE", name: "Concrete cylinders (150x300mm)", std: "ASTM C39", unit: "Set (3)", rate: 3500 },
-			{ id: 303, category: "CEMENT CONCRETE", name: "Concrete Cubes (<200mm)", std: "BS EN 12390-3", unit: "Set (3)", rate: 3000 },
-			{ id: 304, category: "CEMENT CONCRETE", name: "Concrete Cubes (200mm-300mm)", std: "BS EN 12390-3", unit: "Set (3)", rate: 3500 },
-			{ id: 305, category: "CEMENT CONCRETE", name: "Concrete Cubes (>300mm)", std: "BS EN 12390-3", unit: "Set (3)", rate: 5500 },
-			{ id: 306, category: "CEMENT CONCRETE", name: "Concrete Beam in Flexure", std: "ASTM C78", unit: "Set (3)", rate: 7500 },
-			{ id: 307, category: "CEMENT CONCRETE", name: "Concrete Cylinders Casting & Testing", std: "ASTM C39", unit: "Set (3)", rate: 15000 },
-			{ id: 308, category: "CEMENT CONCRETE", name: "Concrete Slump Test", std: "ASTM C143", unit: "Set (3)", rate: 5000 },
-			{ id: 309, category: "CEMENT CONCRETE", name: "Concrete Density (Dry)", std: "ASTM C642", unit: "Per Sample", rate: 2000 },
-			{ id: 310, category: "CEMENT CONCRETE", name: "Concrete Density (Wet)", std: "ASTM C138", unit: "Per Sample", rate: 3500 },
-			{ id: 311, category: "CEMENT CONCRETE", name: "Moisture Content", std: "ASTM C566", unit: "Per Sample", rate: 3500 },
-			{ id: 312, category: "CEMENT CONCRETE", name: "Temperature", std: "ASTM C1064", unit: "Per Sample", rate: 2000 },
-			{ id: 313, category: "CEMENT CONCRETE", name: "Concrete Mix Design without Admixture [Cylinder; up to 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 50000 },
-			{ id: 314, category: "CEMENT CONCRETE", name: "Concrete Mix Design without Admixture [Cylinder; > 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 55000 },
-			{ id: 315, category: "CEMENT CONCRETE", name: "Concrete Mix Design with Admixture [Cylinder; up to 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 55000 },
-			{ id: 316, category: "CEMENT CONCRETE", name: "Concrete Mix Design with Admixture [Cylinder; > 25 MPa]", std: "ACI 211.1", unit: "Set (3)", rate: 60000 },
+            // CEMENT CONCRETE
+            { id: 301, category: "CEMENT CONCRETE", name: "Concrete Cylinders (100x200mm)", std: "ASTM C39", material: "3 Cylinders", hasInfo: true, unit: "Set (3 Cylinders)", rate: 2000 },
+            { id: 302, category: "CEMENT CONCRETE", name: "Concrete Cylinders (150x300mm)", std: "ASTM C39", material: "3 Cylinders", hasInfo: true, unit: "Set (3 Cylinders)", rate: 3500 },
+            { id: 303, category: "CEMENT CONCRETE", name: "Concrete Cubes (<200mm)", std: "BS EN 12390-3", material: "3 Cubes", hasInfo: true, unit: "Set (3 Cubes)", rate: 3000 },
+            { id: 304, category: "CEMENT CONCRETE", name: "Concrete Cubes (200mm-300mm)", std: "BS EN 12390-3", material: "3 Cubes", hasInfo: true, unit: "Set (3 Cubes)", rate: 3500 },
+            { id: 305, category: "CEMENT CONCRETE", name: "Concrete Cubes (>300mm)", std: "BS EN 12390-3", material: "3 Cubes", hasInfo: true, unit: "Set (3 Cubes)", rate: 5500 },
+            { id: 306, category: "CEMENT CONCRETE", name: "Concrete Beam in Flexure", std: "ASTM C78", material: "3 Beams", hasInfo: true, unit: "Set (3 Beams)", rate: 7500 },
+            { id: 307, category: "CEMENT CONCRETE", name: "Concrete Cylinders Casting & Testing", std: "ASTM C39", material: "Raw Materials", hasInfo: true, unit: "Set (3 Cylinders)", rate: 15000 },
+            { id: 308, category: "CEMENT CONCRETE", name: "Concrete Slump Test", std: "ASTM C143", material: "0.05 m³", hasInfo: true, unit: "Per Test", rate: 5000 },
+            { id: 309, category: "CEMENT CONCRETE", name: "Concrete Density (Dry)", std: "ASTM C642", material: "3 Specimen", hasInfo: true, unit: "Per Sample", rate: 2000 },
+            { id: 310, category: "CEMENT CONCRETE", name: "Concrete Density (Wet)", std: "ASTM C138", material: "0.03 m³", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 311, category: "CEMENT CONCRETE", name: "Moisture Content", std: "ASTM C566", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 312, category: "CEMENT CONCRETE", name: "Temperature", std: "ASTM C1064", material: "Fresh Mix", hasInfo: true, unit: "Per Test", rate: 2000 },
+            { id: 313, category: "CEMENT CONCRETE", name: "Concrete Mix Design without Admixture [Cylinder; up to 25 MPa]", std: "ACI 211.1", material: "Raw Batch", hasInfo: true, unit: "Per Mix Design", rate: 50000 },
+            { id: 314, category: "CEMENT CONCRETE", name: "Concrete Mix Design without Admixture [Cylinder; > 25 MPa]", std: "ACI 211.1", material: "Raw Batch", hasInfo: true, unit: "Per Mix Design", rate: 55000 },
+            { id: 315, category: "CEMENT CONCRETE", name: "Concrete Mix Design with Admixture [Cylinder; up to 25 MPa]", std: "ACI 211.1", material: "Raw Batch", hasInfo: true, unit: "Per Mix Design", rate: 55000 },
+            { id: 316, category: "CEMENT CONCRETE", name: "Concrete Mix Design with Admixture [Cylinder; > 25 MPa]", std: "ACI 211.1", material: "Raw Batch", hasInfo: true, unit: "Per Mix Design", rate: 60000 },
 
-			{ id: 401, category: "CEMENT", name: "Compressive Strength, 3, 7 & 28 days", std: "ASTM C109", unit: "Per Sample", rate: 10000 },
-			{ id: 402, category: "CEMENT", name: "Initial & Final Setting Time", std: "ASTM C191", unit: "Per Sample", rate: 4500 },
-			{ id: 403, category: "CEMENT", name: "Fineness (Blaine Air Permeability Method)", std: "ASTM C204", unit: "Per Sample", rate: 3500 },
-			{ id: 404, category: "CEMENT", name: "Fineness (Sieve Analysis Method)", std: "ASTM C430", unit: "Per Sample", rate: 2500 },
-			{ id: 405, category: "CEMENT", name: "Normal Consistency (only)", std: "ASTM C187", unit: "Per Sample", rate: 2500 },
-			{ id: 406, category: "CEMENT", name: "Density / Sp. Gr. / Unit Weight", std: "ASTM C188", unit: "Per Sample", rate: 3500 },
-			{ id: 407, category: "CEMENT", name: "Soundness", std: "ASTM C151", unit: "Per Sample", rate: 8500 },
-			{ id: 408, category: "CEMENT", name: "Weight of Cement Bag", std: "ASTM C150", unit: "Per Sample", rate: 700 },
+            // CEMENT
+            { id: 401, category: "CEMENT", name: "Compressive Strength, 3, 7 & 28 days", std: "ASTM C109", material: "1 Bag (50kg)", hasInfo: true, unit: "Per Sample", rate: 10000 },
+            { id: 402, category: "CEMENT", name: "Initial & Final Setting Time", std: "ASTM C191", material: "5 kg", hasInfo: true, unit: "Per Sample", rate: 4500 },
+            { id: 403, category: "CEMENT", name: "Fineness (Blaine Air Permeability Method)", std: "ASTM C204", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 404, category: "CEMENT", name: "Fineness (Sieve Analysis Method)", std: "ASTM C430", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 2500 },
+            { id: 405, category: "CEMENT", name: "Normal Consistency (only)", std: "ASTM C187", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 2500 },
+            { id: 406, category: "CEMENT", name: "Density / Sp. Gr. / Unit Weight", std: "ASTM C188", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 407, category: "CEMENT", name: "Soundness", std: "ASTM C151", material: "5 kg", hasInfo: true, unit: "Per Sample", rate: 8500 },
+            { id: 408, category: "CEMENT", name: "Weight of Cement Bag", std: "ASTM C150", material: "1 Bag", hasInfo: true, unit: "Per Bag", rate: 700 },
 
-			{ id: 501, category: "ROD", name: "Tension incl. wt. & elongation (up to 25mm)", std: "ASTM A370", unit: "Per Sample", rate: 2200 },
-			{ id: 502, category: "ROD", name: "Tension incl. wt. & elongation (above 25mm & up to 32mm)", std: "ASTM A370", unit: "Per Sample", rate: 3000 },
-			{ id: 503, category: "ROD", name: "Bend (up to 25mm)", std: "ASTM E290", unit: "Per Sample", rate: 1000 },
-			{ id: 504, category: "ROD", name: "Bend (above 25mm)", std: "ASTM E290", unit: "Per Sample", rate: 1100 },
-			{ id: 505, category: "ROD", name: "Re-bend (up to 25mm)", std: "ASTM A615", unit: "Per Sample", rate: 1300 },
-			{ id: 506, category: "ROD", name: "Re-bend (above 25mm)", std: "ASTM A615", unit: "Per Sample", rate: 1500 },
-			{ id: 507, category: "ROD", name: "Stress-strain curves (Mod. of Elasticity)", std: "ASTM E8", unit: "Per Sample", rate: 10000 },
-			{ id: 508, category: "ROD", name: "Shear Test for Rod", std: "ASTM B769", unit: "Per Sample", rate: 2200 },
+            // ROD / REBAR
+            { id: 501, category: "ROD", name: "Tension incl. wt. & elongation (up to 25mm)", std: "ASTM A370", material: "3 Rebars (1m)", hasInfo: true, unit: "Per Sample", rate: 2200 },
+            { id: 502, category: "ROD", name: "Tension incl. wt. & elongation (above 25mm & up to 32mm)", std: "ASTM A370", material: "3 Rebars (1m)", hasInfo: true, unit: "Per Sample", rate: 3000 },
+            { id: 503, category: "ROD", name: "Bend (up to 25mm)", std: "ASTM E290", material: "2 Rebars (0.5m)", hasInfo: true, unit: "Per Sample", rate: 1000 },
+            { id: 504, category: "ROD", name: "Bend (above 25mm)", std: "ASTM E290", material: "2 Rebars (0.5m)", hasInfo: true, unit: "Per Sample", rate: 1100 },
+            { id: 505, category: "ROD", name: "Re-bend (up to 25mm)", std: "ASTM A615", material: "2 Rebars (0.5m)", hasInfo: true, unit: "Per Sample", rate: 1300 },
+            { id: 506, category: "ROD", name: "Re-bend (above 25mm)", std: "ASTM A615", material: "2 Rebars (0.5m)", hasInfo: true, unit: "Per Sample", rate: 1500 },
+            { id: 507, category: "ROD", name: "Stress-strain curves (Mod. of Elasticity)", std: "ASTM E8", material: "3 Rebars (1m)", hasInfo: true, unit: "Per Sample", rate: 10000 },
+            { id: 508, category: "ROD", name: "Shear Test for Rod", std: "ASTM B769", material: "3 Rebars (0.3m)", hasInfo: true, unit: "Per Sample", rate: 2200 },
 
-			{ id: 601, category: "SOIL", name: "Specific Gravity", std: "ASTM D854", unit: "Per Sample", rate: 2000 },
-			{ id: 602, category: "SOIL", name: "Unit Weight", std: "ASTM D7263", unit: "Per Sample", rate: 2000 },
-			{ id: 603, category: "SOIL", name: "Void Ratio", std: "ASTM D7263", unit: "Per Sample", rate: 3000 },
-			{ id: 604, category: "SOIL", name: "Moisture Content", std: "ASTM D2216", unit: "Per Sample", rate: 1000 },
-			{ id: 605, category: "SOIL", name: "Liquid Limit and Plastic Limit", std: "ASTM D4318", unit: "Per Sample", rate: 3500 },
-			{ id: 606, category: "SOIL", name: "Grain Size Analysis (Sieve)", std: "ASTM D422", unit: "Per Sample", rate: 3500 },
-			{ id: 607, category: "SOIL", name: "Hydrometer, Sieve Analysis", std: "ASTM D422", unit: "Per Sample", rate: 5000 },
-			{ id: 608, category: "SOIL", name: "Organic Matter Content", std: "ASTM D2974", unit: "Per Sample", rate: 3000 },
-			{ id: 609, category: "SOIL", name: "Max. and Min. Density of Cohesion less Soil ", std: "ASTM D4253", unit: "Per Sample", rate: 7000 },
-			{ id: 610, category: "SOIL", name: "Standard Proctor Compaction", std: "ASTM D698", unit: "Per Sample", rate: 12000 },
-			{ id: 611, category: "SOIL", name: "Modified Proctor Compaction", std: "ASTM D1557", unit: "Per Sample", rate: 15000 },
-			{ id: 612, category: "SOIL", name: "Unconfined Compression", std: "ASTM D2166", unit: "Per Sample", rate: 75000 },
-			{ id: 613, category: "SOIL", name: "Laboratory California Bearing Ratio (CBR)", std: "ASTM D1883", unit: "Per Sample", rate: 25000 },
-			{ id: 614, category: "SOIL", name: "Consolidated Drained Test for Sand", std: "ASTM D7181", unit: "Per Sample", rate: 10500 },
-			{ id: 615, category: "SOIL", name: "Consolidated Drained Test for Clay", std: "ASTM D7181", unit: "Per Sample", rate: 11500 },
-			{ id: 616, category: "SOIL", name: "Soil Boring (within Pabna City) - depth up to 60'", std: "BNBC", unit: "Per bore", rate: 40000 },
-			{ id: 617, category: "SOIL", name: "Field Dry Density (FDD)", std: "ASTM D1556", unit: "Per bore", rate: 5500 },
+            // SOIL
+            { id: 601, category: "SOIL", name: "Specific Gravity", std: "ASTM D854", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 2000 },
+            { id: 602, category: "SOIL", name: "Unit Weight", std: "ASTM D7263", material: "Core Sample", hasInfo: true, unit: "Per Sample", rate: 2000 },
+            { id: 603, category: "SOIL", name: "Void Ratio", std: "ASTM D7263", material: "Core Sample", hasInfo: true, unit: "Per Sample", rate: 3000 },
+            { id: 604, category: "SOIL", name: "Moisture Content", std: "ASTM D2216", material: "1 kg", hasInfo: true, unit: "Per Sample", rate: 1000 },
+            { id: 605, category: "SOIL", name: "Liquid Limit and Plastic Limit", std: "ASTM D4318", material: "3 kg", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 606, category: "SOIL", name: "Grain Size Analysis (Sieve)", std: "ASTM D422", material: "10 kg", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 607, category: "SOIL", name: "Hydrometer, Sieve Analysis", std: "ASTM D422", material: "10 kg", hasInfo: true, unit: "Per Sample", rate: 5000 },
+            { id: 608, category: "SOIL", name: "Organic Matter Content", std: "ASTM D2974", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 3000 },
+            { id: 609, category: "SOIL", name: "Max. and Min. Density of Cohesionless Soil", std: "ASTM D4253", material: "20 kg", hasInfo: true, unit: "Per Sample", rate: 7000 },
+            { id: 610, category: "SOIL", name: "Standard Proctor Compaction", std: "ASTM D698", material: "25 kg", hasInfo: true, unit: "Per Sample", rate: 12000 },
+            { id: 611, category: "SOIL", name: "Modified Proctor Compaction", std: "ASTM D1557", material: "30 kg", hasInfo: true, unit: "Per Sample", rate: 15000 },
+            { id: 612, category: "SOIL", name: "Unconfined Compression", std: "ASTM D2166", material: "Tube Sample", hasInfo: true, unit: "Per Sample", rate: 7500 },
+            { id: 613, category: "SOIL", name: "Laboratory California Bearing Ratio (CBR)", std: "ASTM D1883", material: "40 kg", hasInfo: true, unit: "Per Sample", rate: 25000 },
+            { id: 614, category: "SOIL", name: "Consolidated Drained Test for Sand", std: "ASTM D7181", material: "15 kg", hasInfo: true, unit: "Per Sample", rate: 10500 },
+            { id: 615, category: "SOIL", name: "Consolidated Drained Test for Clay", std: "ASTM D7181", material: "Core Sample", hasInfo: true, unit: "Per Sample", rate: 11500 },
+            { id: 616, category: "SOIL", name: "Soil Boring (within Pabna City) - depth up to 60'", std: "BNBC", material: "Field Access", hasInfo: true, unit: "Per Borehole", rate: 40000 },
+            { id: 617, category: "SOIL", name: "Field Dry Density (FDD)", std: "ASTM D1556", material: "Field Point", hasInfo: true, unit: "Per Point", rate: 5500 },
 
-			{ id: 701, category: "BITUMEN", name: "Specific Gravity/ Density", std: "AASHTO T228", unit: "Per bore", rate: 5000 },
-			{ id: 702, category: "BITUMEN", name: "Penetration", std: "AASHTO T49", unit: "Per bore", rate: 5000 },
+            // BITUMEN
+            { id: 701, category: "BITUMEN", name: "Specific Gravity / Density", std: "AASHTO T228", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 5000 },
+            { id: 702, category: "BITUMEN", name: "Penetration Test", std: "AASHTO T49", material: "2 kg", hasInfo: true, unit: "Per Sample", rate: 5000 },
 
-			{ id: 801, category: "NDT", name: "Rebound Hammer", std: "ASTM C805", unit: "Per spot", rate: 4800 },
-			{ id: 802, category: "NDT", name: "Concrete Cover (max & min.)", std: "BS 1881-204", unit: "Per spot", rate: 1000 },
-			{ id: 803, category: "NDT", name: "Rebar Location", std: "BS 1881-204", unit: "Per spot", rate: 5000 },
-			{ id: 804, category: "NDT", name: "Rebar Location, Diameter & Concrete Cover", std: "BS 1881-204", unit: "Per spot", rate: 10000 },
+            // NDT
+            { id: 801, category: "NDT", name: "Rebound Hammer Test", std: "ASTM C805", material: "On-site Structure", hasInfo: true, unit: "Per Point", rate: 4800 },
+            { id: 802, category: "NDT", name: "Concrete Cover (max & min.)", std: "BS 1881-204", material: "On-site Member", hasInfo: true, unit: "Per Point", rate: 1000 },
+            { id: 803, category: "NDT", name: "Rebar Location", std: "BS 1881-204", material: "On-site Member", hasInfo: true, unit: "Per Point", rate: 5000 },
+            { id: 804, category: "NDT", name: "Rebar Location, Diameter & Concrete Cover", std: "BS 1881-204", material: "On-site Member", hasInfo: true, unit: "Per Point", rate: 10000 },
 
-			{ id: 901, category: "ADMIXTURE", name: "pH", std: "ASTM E70", unit: "Per spot", rate: 2500 },
-			{ id: 902, category: "ADMIXTURE", name: "Temperature", std: "ASTM C1064", unit: "Per spot", rate: 1500 },
-			{ id: 903, category: "ADMIXTURE", name: "Specific Gravity/Density", std: "ASTM D1429", unit: "Per spot", rate: 3500 },
-			{ id: 904, category: "ADMIXTURE", name: "Dry Materials/ Solid Content", std: "ASTM C494", unit: "Per spot", rate: 4000 },
+            // ADMIXTURE PARAMETERS
+            { id: 901, category: "ADMIXTURE PARAMETERS", name: "pH Test", std: "ASTM E70", material: "1 Liter", hasInfo: true, unit: "Per Sample", rate: 2500 },
+            { id: 902, category: "ADMIXTURE PARAMETERS", name: "Temperature", std: "ASTM C1064", material: "1 Liter", hasInfo: true, unit: "Per Sample", rate: 1500 },
+            { id: 903, category: "ADMIXTURE PARAMETERS", name: "Specific Gravity / Density", std: "ASTM D1429", material: "1 Liter", hasInfo: true, unit: "Per Sample", rate: 3500 },
+            { id: 904, category: "ADMIXTURE PARAMETERS", name: "Dry Materials / Solid Content", std: "ASTM C494", material: "1 Liter", hasInfo: true, unit: "Per Sample", rate: 4000 },
 
-			{ id: 1001, category: "CALIBRATION", name: "Proving ring (<100 kN)", std: "ASTM E74", unit: "Per spot", rate: 6000 },
-			{ id: 1002, category: "CALIBRATION", name: "Proving ring (100 kN to 500 kN)", std: "ASTM E74", unit: "Per spot", rate: 6500 },
-			{ id: 1003, category: "CALIBRATION", name: "Proving ring (>500 kN)", std: "ASTM E74", unit: "Per spot", rate: 7000 },
-			{ id: 1004, category: "CALIBRATION", name: "Electronic Balance up to 10kg", std: "ASTM E898", unit: "Per spot", rate: 7000 },
-			{ id: 1005, category: "CALIBRATION", name: "Rebound Hammer", std: "ASTM C805", unit: "Per spot", rate: 8000 },
+            // CALIBRATION
+            { id: 1001, category: "CALIBRATION", name: "Proving Ring Calibration (<100 kN)", std: "ASTM E74", material: "1 Ring", hasInfo: true, unit: "Per Calibration", rate: 6000 },
+            { id: 1002, category: "CALIBRATION", name: "Proving Ring Calibration (100 kN to 500 kN)", std: "ASTM E74", material: "1 Ring", hasInfo: true, unit: "Per Calibration", rate: 6500 },
+            { id: 1003, category: "CALIBRATION", name: "Proving Ring Calibration (>500 kN)", std: "ASTM E74", material: "1 Ring", hasInfo: true, unit: "Per Calibration", rate: 7000 },
+            { id: 1004, category: "CALIBRATION", name: "Electronic Balance Calibration (up to 10kg)", std: "ASTM E898", material: "1 Balance", hasInfo: true, unit: "Per Calibration", rate: 7000 },
+            { id: 1005, category: "CALIBRATION", name: "Rebound Hammer Calibration", std: "ASTM C805", material: "1 Hammer", hasInfo: true, unit: "Per Calibration", rate: 8000 },
         ];
+
+        // Dynamic Info Database
+        const testInfoMap = {
+            101: {
+                title: "Sieve Analysis of Coarse Aggregate (ASTM C136)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Under <strong>ASTM C136</strong>, the required sample quantity varies with the <strong>Nominal Maximum Aggregate Size (NMS)</strong>. The table below lists the code minimum along with the <strong>Required Sample Mass</strong> ($1.5 \\times$ Minimum) recommended for laboratory testing, splitting, and reserve verification.
+                    </p>
+                    <table class="info-table">
+                        <thead>
+                            <tr>
+                                <th>Nominal Maximum Size (NMS)</th>
+                                <th>Minimum Test Sample Mass (ASTM C136)</th>
+                                <th class="highlight-col">Required Sample Mass (1.5× Minimum)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>12.5 mm (1/2 in)</td><td>2 kg</td><td class="highlight-col">3.0 kg</td></tr>
+                            <tr><td>19.0 mm (3/4 in)</td><td>5 kg</td><td class="highlight-col">7.5 kg</td></tr>
+                            <tr><td>25.0 mm (1 in)</td><td>10 kg</td><td class="highlight-col">15.0 kg</td></tr>
+                            <tr><td>37.5 mm (1.5 in)</td><td>15 kg</td><td class="highlight-col">22.5 kg</td></tr>
+                            <tr><td>50.0 mm (2 in)</td><td>20 kg</td><td class="highlight-col">30.0 kg</td></tr>
+                            <tr><td>63.0 mm (2.5 in)</td><td>35 kg</td><td class="highlight-col">52.5 kg</td></tr>
+                            <tr><td>75.0 mm (3 in)</td><td>60 kg</td><td class="highlight-col">90.0 kg</td></tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size:0.85rem; color:#666; margin-top:12px;">
+                        <strong>Key Parameters Reported:</strong> Gradation Curve, Particle Size Distribution, Fineness Modulus (FM), and Compliance with ASTM C33 / BNBC specs.
+                    </p>`
+            },
+            102: {
+                title: "Sieve Analysis & Fineness Modulus of Fine Aggregate (ASTM C136)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Evaluates particle size distribution and calculates Fineness Modulus (FM) of sand per <strong>ASTM C136 / ASTM C33</strong>.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Minimum Field Sample:</strong> 10 kg (Oven-dried at $110 \\pm 5^\\circ\\text{C}$).</li>
+                        <li><strong>Standard Sieve Series:</strong> 3/8", #4 (4.75mm), #8 (2.36mm), #16 (1.18mm), #30 (600µm), #50 (300µm), #100 (150µm), Pan.</li>
+                        <li><strong>Fineness Modulus Range:</strong> Concrete Sand (FM 2.3 – 3.1), Plastering Sand (FM 1.5 – 2.0).</li>
+                    </ul>`
+            },
+            106: {
+                title: "Aggregate Crushing Value - ACV (BS 812-110)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Measures the relative resistance of coarse aggregate to crushing under a gradually applied compressive load of 400 kN.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Test Specimen:</strong> Aggregate fraction passing 14.0 mm sieve and retained on 10.0 mm sieve (~10 kg).</li>
+                        <li><strong>Apparatus:</strong> Steel cylinder mold, plunger, and Compression Testing Machine (CTM).</li>
+                        <li><strong>Target Limits:</strong> ACV &lt; 30% for concrete wear surfaces; ACV &lt; 45% for general concrete.</li>
+                    </ul>`
+            },
+            109: {
+                title: "Los Angeles Abrasion Test (ASTM C131 / C535)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Determines resistance of coarse aggregate to degradation by abrasion, impact, and grinding in a rotating steel drum with steel charges.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Size:</strong> 15 kg (ASTM C131 for &lt;37.5mm) or 25 kg (ASTM C535 for large ballast).</li>
+                        <li><strong>Standard RPM:</strong> 500 revolutions at 30 to 33 rpm with 6 to 12 steel spheres (based on grading A, B, C, or D).</li>
+                        <li><strong>Acceptance Criteria:</strong> L.A. Abrasion loss &lt; 30% to 40% for quality wearing course and concrete.</li>
+                    </ul>`
+            },
+            201: {
+                title: "Brick Water Absorption Test (ASTM C67 / BS EN 772)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Measures moisture absorption of clay bricks after 24-hour cold water immersion or 5-hour boiling test.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Quantity:</strong> 5 whole bricks (ASTM) or 10 bricks (BS).</li>
+                        <li><strong>Procedure:</strong> Oven dried at $105 - 115^\\circ\\text{C}$ to constant mass ($W_d$), immersed in distilled water for 24 hours ($W_s$).</li>
+                        <li><strong>Formula:</strong> $$\\text{Absorption } \\% = \\frac{W_s - W_d}{W_d} \\times 100\\%$$</li>
+                        <li><strong>Grade Requirements:</strong> First Class Bricks $\\le 15\\%$; Second Class $\\le 20\\%$.</li>
+                    </ul>`
+            },
+            203: {
+                title: "Brick Compressive / Crushing Strength (ASTM C67 / BDS 208)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Evaluates the ultimate compressive strength of bricks under axial compression loading.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Requirement:</strong> Set of 5 full-size representative bricks.</li>
+                        <li><strong>Preparation:</strong> Frog filled with 1:3 cement-sand mortar, cured for 24–48 hours, capped for uniform bearing.</li>
+                        <li><strong>Minimum Limits:</strong> Auto-brick / Class-1 $\\ge 20\\text{ MPa}$ ($2900\\text{ psi}$); Field burnt $\\ge 10.5\\text{ MPa}$ ($1500\\text{ psi}$).</li>
+                    </ul>`
+            },
+            301: {
+                title: "Concrete Cylinder Compression Test (ASTM C39)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Determines compressive strength of molded cylindrical concrete specimens ($100\\times200\\text{ mm}$ or $150\\times300\\text{ mm}$).
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Set:</strong> 3 cylinders per testing age (typically 7, 14, or 28 days).</li>
+                        <li><strong>Curing:</strong> Wet cured in lime-saturated water at $23 \\pm 2^\\circ\\text{C}$ until testing.</li>
+                        <li><strong>Preparation:</strong> Cylinder ends capped using sulfur capping compound or neoprene elastomeric pads per ASTM C617 / C1231.</li>
+                    </ul>`
+            },
+            313: {
+                title: "Concrete Mix Design (ACI 211.1 Standard Practice)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Proportions normal weight concrete mixes based on target strength ($f'_c$), workability (slump), and aggregate characteristics.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Required Raw Materials:</strong> Cement (1 bag), Coarse Aggregate (100 kg), Sand (60 kg), Water, Admixture sample.</li>
+                        <li><strong>Deliverables:</strong> Target mix proportions (1 : Sand : Aggregate : w/c ratio), trial batch slump, unit weight, and 7 & 28-day cylinder compressive strengths.</li>
+                    </ul>`
+            },
+            401: {
+                title: "Cement Compressive Strength (ASTM C109 / BDS EN 196)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Determines compressive strength of hydraulic cement mortars using $50\\text{ mm}$ ($2\\text{ in}$) cube specimens.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Requirement:</strong> 1 sealed bag of cement (50 kg) + Ottawa standard sand.</li>
+                        <li><strong>Mortar Ratio:</strong> 1 part cement to 2.75 parts graded standard sand by mass ($w/c = 0.485$).</li>
+                        <li><strong>Ages Tested:</strong> 3 days, 7 days, and 28 days crushing strength.</li>
+                    </ul>`
+            },
+            402: {
+                title: "Cement Setting Time Test (ASTM C191 / Vicat Needle)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Determines initial and final setting times of hydraulic cement using the Vicat needle apparatus.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Initial Setting Time:</strong> Time elapsed until Vicat needle penetrates 25 mm into neat cement paste (Minimum $\\ge 45\\text{ mins}$).</li>
+                        <li><strong>Final Setting Time:</strong> Time when Vicat needle fails to leave a circular impression (Maximum $\\le 375\\text{ mins}$).</li>
+                    </ul>`
+            },
+            501: {
+                title: "Rebar Tension & Yield Strength Test (ASTM A370 / BS 4449)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Determines Yield Strength ($f_y$), Tensile Strength ($f_u$), Mass per unit length, and Percentage Elongation.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Requirements:</strong> 3 straight rebar specimens, length 1 meter each.</li>
+                        <li><strong>Key Parameters:</strong> Nominal diameter, unit weight check ($\\%\\text{ mass variation}$), $0.2\\%$ offset yield stress, tensile-to-yield ratio ($f_u / f_y$).</li>
+                    </ul>`
+            },
+            503: {
+                title: "Rebar Bend & Re-bend Test (ASTM E290 / BDS ISO 6935-2)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Evaluates ductility and absence of surface cracking when bent around a standard mandrel.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Bend Test:</strong> Bending rebar $180^\\circ$ around specified mandrel pin diameter.</li>
+                        <li><strong>Re-bend Test:</strong> Bending $90^\\circ$, aging in boiling water at $100^\\circ\\text{C}$ for 30 mins, cooling, and bending back $20^\\circ$.</li>
+                    </ul>`
+            },
+            605: {
+                title: "Soil Atterberg Limits - Liquid Limit & Plastic Limit (ASTM D4318)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Determines Liquid Limit (LL), Plastic Limit (PL), and Plasticity Index (PI = LL - PL) for fine-grained soil classification.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Requirement:</strong> 3 kg soil passing #40 sieve ($0.425\\text{ mm}$).</li>
+                        <li><strong>Apparatus:</strong> Casagrande liquid limit cup / Fall cone and glass thread rolling plate.</li>
+                        <li><strong>Application:</strong> USCS / AASHTO soil classification and clay swell potential.</li>
+                    </ul>`
+            },
+            610: {
+                title: "Standard / Modified Proctor Compaction Test (ASTM D698 / D1557)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Establishes relationship between moisture content and dry density to determine Optimum Moisture Content (OMC) and Maximum Dry Density (MDD).
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Quantity:</strong> 25–35 kg dry soil sample.</li>
+                        <li><strong>Standard Proctor (D698):</strong> 5.5 lb rammer, 12" drop, 25 blows/layer in 3 layers.</li>
+                        <li><strong>Modified Proctor (D1557):</strong> 10 lb rammer, 18" drop, 25 or 56 blows/layer in 5 layers.</li>
+                    </ul>`
+            },
+            613: {
+                title: "California Bearing Ratio - CBR Test (ASTM D1883)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Measures mechanical strength and bearing capacity of subgrade soil and road base materials.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Sample Quantity:</strong> 40–50 kg soil.</li>
+                        <li><strong>Procedure:</strong> Specimen compacted in 6" mold at OMC, soaked in water bath for 96 hours with surcharge weights, subjected to piston penetration at 1.27 mm/min.</li>
+                    </ul>`
+            },
+            801: {
+                title: "Non-Destructive Rebound Hammer Test (ASTM C805 / BS EN 12504-2)",
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Assesses surface hardness and estimates relative compressive strength of hardened concrete in-situ.
+                    </p>
+                    <ul style="padding-left:20px; font-size:0.9rem; color:#333; line-height:1.7;">
+                        <li><strong>Procedure:</strong> Schmidt hammer calibrated on steel anvil; minimum 10 to 12 impact readings taken per test location.</li>
+                        <li><strong>Reporting:</strong> Average Rebound Number (RN) and estimated compressive strength correlation curve.</li>
+                    </ul>`
+            }
+        };
+
+        // Fallback generator for tests without detailed custom entries
+        function getGenericInfo(item) {
+            return {
+                title: `${item.name} (${item.std})`,
+                content: `
+                    <p style="font-size:0.95rem; color:#444; margin-bottom:12px;">
+                        Standard laboratory test conducted according to <strong>${item.std}</strong> specifications under CRTC quality control protocols.
+                    </p>
+                    <div style="background:#f8f9fa; border-left:4px solid var(--primary-color); padding:12px 15px; border-radius:4px; margin-bottom:12px;">
+                        <p style="margin:2px 0;"><strong>Test Category:</strong> ${item.category}</p>
+                        <p style="margin:2px 0;"><strong>Required Sample Material:</strong> ${item.material}</p>
+                        <p style="margin:2px 0;"><strong>Standard Billing Unit:</strong> ${item.unit}</p>
+                        <p style="margin:2px 0;"><strong>Official Rate:</strong> BDT ${item.rate.toLocaleString()}</p>
+                    </div>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">
+                        <strong>Sample Guidelines:</strong> Please ensure that submitted samples are representative, properly sealed in moisture-proof containers, and labeled with project memo details prior to handover at CRTC civil testing labs.
+                    </p>`
+            };
+        }
 
         let cart = [];
 
@@ -572,12 +853,11 @@
             let currentCategory = "";
 
             data.forEach(item => {
-                // Group Header Logic
                 if (item.category !== currentCategory) {
                     currentCategory = item.category;
                     tbody.innerHTML += `
                         <tr class="category-row">
-                            <td colspan="5" style="background:#e9ecef; font-weight:700; color:#003366;">${currentCategory}</td>
+                            <td colspan="6">${currentCategory}</td>
                         </tr>
                     `;
                 }
@@ -586,70 +866,44 @@
                 const btnClass = inCart ? 'btn-add added' : 'btn-add';
                 const btnText = inCart ? '<i class="fas fa-check"></i> Selected' : '<i class="fas fa-plus"></i> Select';
                 
+                // Format material display with Info button
+                let materialHtml = `<span class="mat-badge">${item.material}</span>`;
+                if (item.hasInfo) {
+                    materialHtml += `<button class="btn-more-info" onclick="openMaterialInfoModal(${item.id})"><i class="fas fa-info-circle"></i> Info</button>`;
+                }
+
                 tbody.innerHTML += `
                     <tr>
                         <td><strong>${item.name}</strong></td>
                         <td style="color:#666;font-size:0.9em;">${item.std}</td>
-                        <td>${item.unit}</td>
-                        <td class="price">${item.rate}</td>
-                        <td><button class="${btnClass}" onclick="toggleCart(${item.id})">${btnText}</button></td>
+                        <td><div class="mat-cell">${materialHtml}</div></td>
+                        <td style="text-align:center;">${item.unit}</td>
+                        <td class="price" style="text-align:right;">${item.rate.toLocaleString()}</td>
+                        <td style="text-align:center;"><button class="${btnClass}" onclick="toggleCart(${item.id})">${btnText}</button></td>
                     </tr>
                 `;
             });
         }
 
-        function toggleCart(id) {
-            const item = testData.find(t => t.id === id);
-            const index = cart.findIndex(c => c.id === id);
-            if (index === -1) cart.push({ ...item, qty: 1 });
-            else cart.splice(index, 1);
-            updateUI();
-        }
+        function openMaterialInfoModal(testId) {
+            const item = testData.find(t => t.id === testId);
+            const info = testInfoMap[testId] || (item ? getGenericInfo(item) : null);
+            
+            if (info) {
+                document.getElementById('infoModalTitle').innerText = info.title;
+                const modalContainer = document.getElementById('infoModalContainer');
+                modalContainer.innerHTML = info.content;
+                document.getElementById('materialInfoModal').style.display = 'flex';
 
-        function updateQty(id, newQty) {
-            const item = cart.find(c => c.id === id);
-            if (item) { item.qty = parseInt(newQty) || 1; updateUI(); }
-        }
-
-        function removeCartItem(id) {
-            cart = cart.filter(c => c.id !== id);
-            updateUI();
-        }
-
-        function updateUI() {
-            renderTable(testData);
-            const cartContainer = document.getElementById('cartItems');
-            cartContainer.innerHTML = '';
-            let subTotal = 0;
-
-            if(cart.length === 0) {
-                cartContainer.innerHTML = '<li style="padding:30px; text-align:center; color:#999; font-style:italic;">No tests selected</li>';
-                document.getElementById('checkoutBtn').disabled = true;
-            } else {
-                document.getElementById('checkoutBtn').disabled = false;
-                cart.forEach(item => {
-                    subTotal += item.rate * item.qty;
-                    cartContainer.innerHTML += `<li class="cart-item"><div class="cart-item-header"><span>${item.name}</span><i class="fas fa-times btn-remove" onclick="removeCartItem(${item.id})"></i></div><div class="cart-controls"><span>Rate: ${item.rate}</span><div>Qty: <input type="number" class="qty-input" value="${item.qty}" min="1" onchange="updateQty(${item.id}, this.value)"></div><span style="font-weight:600; color:var(--primary-color);">${item.rate * item.qty}</span></div></li>`;
-                });
+                // Re-render LaTeX formulas dynamically via MathJax
+                if (window.MathJax && MathJax.typesetPromise) {
+                    MathJax.typesetPromise([modalContainer]).catch(err => console.error("MathJax error:", err));
+                }
             }
-
-            // No VAT calculation
-            const total = subTotal;
-            document.getElementById('grandTotal').innerText = total.toLocaleString() + ' BDT';
-            document.getElementById('cartCount').innerText = `(${cart.length})`;
         }
 
-        function filterTests() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            const category = document.getElementById('categoryFilter').value;
-            
-            const filtered = testData.filter(t => {
-                const matchesTerm = t.name.toLowerCase().includes(term) || t.category.toLowerCase().includes(term);
-                const matchesCategory = category === "ALL" || t.category === category;
-                return matchesTerm && matchesCategory;
-            });
-            
-            renderTable(filtered);
+        function closeMaterialInfoModal() {
+            document.getElementById('materialInfoModal').style.display = 'none';
         }
 
         function openOrderModal() {
@@ -667,18 +921,18 @@
         // Phone Validation Logic
         function validatePhone(input) {
             const msg = document.getElementById('phoneMsg');
-            const pattern = /^01[3-9]\d{8}$/; // Bangladesh Number Format
+            const pattern = /^01[3-9]\d{8}$/;
             
             if (pattern.test(input.value)) {
                 input.classList.remove('invalid');
                 input.classList.add('valid');
-                msg.textContent = "Valid Number";
+                msg.textContent = "Valid Mobile Number";
                 msg.className = "validation-msg success";
                 return true;
             } else {
                 input.classList.remove('valid');
                 input.classList.add('invalid');
-                msg.textContent = "Enter a valid 11-digit mobile number (e.g. 017...)";
+                msg.textContent = "Enter a valid 11-digit mobile number (e.g. 01712345678)";
                 msg.className = "validation-msg error";
                 return false;
             }
@@ -687,10 +941,8 @@
         function generateLetter(e) {
             e.preventDefault();
             
-            // Validate Phone before proceeding
             const phoneInput = document.getElementById('clientPhone');
             if(!validatePhone(phoneInput)) {
-                alert("Please enter a valid mobile number.");
                 phoneInput.focus();
                 return;
             }
@@ -698,9 +950,7 @@
             document.getElementById('printDate').innerText = new Date().toLocaleDateString('en-GB');
             document.getElementById('printMemoNo').innerText = document.getElementById('memoNo').value || "__________________";
             document.getElementById('printClientName').innerText = document.getElementById('clientName').value;
-            // Capture Address
             document.getElementById('printClientAddress').innerText = document.getElementById('clientAddress').value || 'N/A';
-            
             document.getElementById('printProjectRef').innerText = document.getElementById('projectRef').value || 'N/A';
             document.getElementById('printContact').innerText = phoneInput.value;
 
@@ -711,14 +961,21 @@
             cart.forEach((item, index) => {
                 const amount = item.rate * item.qty;
                 subTotal += amount;
-                tbody.innerHTML += `<tr><td>${index + 1}</td><td>${item.name}</td><td style="text-align:center;">${item.qty}</td><td style="text-align:right;">${item.rate}</td><td style="text-align:right;">${amount}</td></tr>`;
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="text-align:center;">${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td style="font-size:0.9em;">${item.material}</td>
+                        <td style="text-align:center;">${item.unit}</td>
+                        <td style="text-align:center;">${item.qty}</td>
+                        <td style="text-align:right;">${item.rate.toLocaleString()}</td>
+                        <td style="text-align:right;">${amount.toLocaleString()}</td>
+                    </tr>`;
             });
 
-            // No VAT in print
             const total = subTotal;
-            document.getElementById('printTotal').innerText = total + ' BDT';
+            document.getElementById('printTotal').innerText = total.toLocaleString() + ' BDT';
 
-            // Populate Preview from Hidden Printable Area structure
             document.getElementById('previewContent').innerHTML = document.getElementById('pdfContent').innerHTML;
             document.getElementById('applicationFormStep').style.display = 'none';
             document.getElementById('previewStep').style.display = 'block';
@@ -726,19 +983,160 @@
 
         function printApplication() { window.print(); }
         
-        function downloadPDF() {
-            const element = document.getElementById('pdfContent');
-            const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5], // inch
-                filename:     'CRTC_Application.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
+        async function downloadPDF() {
+            const btn = document.getElementById('downloadPdfBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+            btn.disabled = true;
+
+            try {
+                const printableArea = document.getElementById('printableArea');
+                const sourceElement = document.getElementById('pdfContent');
+
+                const origDisplay = printableArea.style.display;
+                const origPos = printableArea.style.position;
+                const origLeft = printableArea.style.left;
+                const origTop = printableArea.style.top;
+                const origZIndex = printableArea.style.zIndex;
+
+                printableArea.style.display = 'block';
+                printableArea.style.position = 'fixed';
+                printableArea.style.left = '0';
+                printableArea.style.top = '0';
+                printableArea.style.zIndex = '-9999';
+
+                const clientName = document.getElementById('clientName').value.replace(/[^a-z0-9]/gi, '_') || 'Application';
+                const filename = `CRTC_Application_${clientName}.pdf`;
+
+                const opt = {
+                    margin:       [0.4, 0.4, 0.4, 0.4],
+                    filename:     filename,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { 
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        scrollX: 0,
+                        scrollY: 0
+                    },
+                    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+                };
+
+                await html2pdf().set(opt).from(sourceElement).save();
+
+                printableArea.style.display = origDisplay;
+                printableArea.style.position = origPos;
+                printableArea.style.left = origLeft;
+                printableArea.style.top = origTop;
+                printableArea.style.zIndex = origZIndex;
+            } catch (err) {
+                console.error("PDF generation failed:", err);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
 
-        function toggleMobileCart() { if(window.innerWidth <= 900) document.getElementById('cartSidebar').classList.toggle('open'); }
+        function toggleCart(id) {
+            const item = testData.find(t => t.id === id);
+            if (!item) return;
+
+            const existingIndex = cart.findIndex(c => c.id === id);
+            if (existingIndex > -1) {
+                cart.splice(existingIndex, 1);
+            } else {
+                cart.push({
+                    id: item.id,
+                    name: item.name,
+                    material: item.material,
+                    unit: item.unit,
+                    rate: item.rate,
+                    qty: 1
+                });
+            }
+            updateCartUI();
+            filterTests();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(c => c.id !== id);
+            updateCartUI();
+            filterTests();
+        }
+
+        function updateQty(id, qty) {
+            const parsedQty = parseInt(qty, 10);
+            const item = cart.find(c => c.id === id);
+            if (item) {
+                item.qty = isNaN(parsedQty) || parsedQty < 1 ? 1 : parsedQty;
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartCountEl = document.getElementById('cartCount');
+            const grandTotalEl = document.getElementById('grandTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountEl.innerText = `(${cart.length})`;
+
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<li style="padding:30px; text-align:center; color:#999; font-style:italic;">No tests selected</li>';
+                grandTotalEl.innerText = '0 BDT';
+                checkoutBtn.disabled = true;
+                return;
+            }
+
+            let total = 0;
+            cartItemsEl.innerHTML = '';
+
+            cart.forEach(item => {
+                const itemTotal = item.rate * item.qty;
+                total += itemTotal;
+
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <div class="cart-item-header">
+                        <span style="padding-right:10px;">${item.name}</span>
+                        <i class="fas fa-times btn-remove" onclick="removeFromCart(${item.id})" title="Remove item"></i>
+                    </div>
+                    <div class="cart-controls">
+                        <div>Rate: <strong>${item.rate.toLocaleString()}</strong> BDT</div>
+                        <div>
+                            Qty: <input type="number" class="qty-input" min="1" value="${item.qty}" onchange="updateQty(${item.id}, this.value)" onkeyup="updateQty(${item.value}, this.value)">
+                        </div>
+                    </div>
+                `;
+                cartItemsEl.appendChild(li);
+            });
+
+            grandTotalEl.innerText = `${total.toLocaleString()} BDT`;
+            checkoutBtn.disabled = false;
+        }
+
+        function filterTests() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const catVal = document.getElementById('categoryFilter').value;
+
+            const filtered = testData.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchVal) ||
+                                      item.std.toLowerCase().includes(searchVal) ||
+                                      item.category.toLowerCase().includes(searchVal);
+                const matchesCat = (catVal === 'ALL') || (item.category === catVal);
+                return matchesSearch && matchesCat;
+            });
+
+            renderTable(filtered);
+        }
+
+        function toggleMobileCart() { 
+            if(window.innerWidth <= 900) {
+                document.getElementById('cartSidebar').classList.toggle('open'); 
+            }
+        }
 
         renderTable(testData);
     </script>
