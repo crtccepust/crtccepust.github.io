@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sealed and Unsealed Sample Submission Guideline | CRTC</title>
+<style>
+/* Everything is scoped to .cc-guide so you can paste the <section> into an existing page. */
+.cc-guide{--ink:#1d2730;--muted:#55616c;--line:#cfd5da;--paper:#ffffff;--tint:#eef1f3;--steel:#1f4e79;--warn:#8a5a00;--warnbg:#fbf3e0;
+  font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--paper);max-width:860px;margin:0 auto;padding:32px 20px 56px;box-sizing:border-box}
+.cc-guide *{box-sizing:border-box}
+.cc-guide h1,.cc-guide h2,.cc-guide h3{font-family:Charter,"Iowan Old Style",Georgia,serif;line-height:1.25;color:var(--ink);margin:0}
+.cc-guide h1{font-size:clamp(1.7rem,4.5vw,2.4rem);font-weight:700;margin-bottom:10px}
+.cc-guide h2{font-size:1.45rem;margin:44px 0 14px;padding-top:18px;border-top:2px solid var(--ink)}
+.cc-guide h3{font-size:1.1rem;margin:22px 0 8px}
+.cc-guide p{margin:0 0 12px;max-width:none; text-align: justify}
+.cc-guide .lede{font-size:1.08rem;color:var(--muted);max-width:68ch}
+.cc-guide .meta{font-size:.9rem;color:var(--muted);margin:14px 0 0}
+.cc-guide .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;margin:28px 0 0;border:1px solid var(--line)}
+.cc-guide .fact{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:-1px -1px 0 0}
+.cc-guide .fact b{display:block;font:700 1.55rem/1.2 Charter,Georgia,serif;color:var(--steel)}
+.cc-guide .fact span{font-size:.9rem;color:var(--muted)}
+.cc-guide ol.steps{list-style:none;counter-reset:s;margin:0;padding:0; text-align: justify}
+.cc-guide ol.steps>li{counter-increment:s;position:relative;padding:0 0 16px 46px;max-width:none}
+.cc-guide ol.steps>li::before{content:counter(s);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:50%;background:var(--steel);color:#fff;font-weight:700;font-size:.95rem;display:grid;place-items:center}
+.cc-guide ul{margin:0 0 12px;padding-left:1.2em;max-width:none; text-align: justify}
+.cc-guide li{margin-bottom:6px}
+.cc-guide .table-wrap{overflow-x:auto;margin:10px 0 18px }
+.cc-guide table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+.cc-guide th,.cc-guide td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line); text-align: justify}
+.cc-guide th{background:var(--tint);font-weight:650}
+.cc-guide .note{background:var(--warnbg);border-left:4px solid var(--warn);padding:12px 16px;margin:18px 0;max-width:none;text-align: justify}
+.cc-guide .note p{margin:0}
+.cc-guide .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.cc-guide .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+.cc-guide a{color:var(--steel)}
+.cc-guide a:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
+.cc-guide{--hl:#e3f0f9}
+.cc-guide ::selection{background:#bfe0f7;color:#0b2a44}
+.cc-guide .fact,.cc-guide li,.cc-guide .note,.cc-guide tbody tr,.cc-guide details,.cc-guide ol.steps>li::before{transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease}
+.cc-guide .fact:hover{background:linear-gradient(160deg,#fff 30%,var(--hl));transform:translateY(-3px);box-shadow:0 8px 20px rgba(31,78,121,.16);position:relative}
+.cc-guide li:hover{background:linear-gradient(90deg,var(--hl),transparent);border-radius:4px}
+.cc-guide ol.steps>li:hover::before{transform:scale(1.14);background:#0f3350}
+.cc-guide tbody tr:hover{background:var(--hl)}
+.cc-guide .note:hover{box-shadow:0 6px 16px rgba(138,90,0,.2);transform:translateY(-2px)}
+.cc-guide h2{transition:border-color .2s,color .2s}
+.cc-guide h2:hover{border-top-color:var(--steel);color:var(--steel)}
+.cc-guide .tip{border-bottom:1.5px dotted var(--steel);cursor:help;position:relative}
+.cc-guide .tip::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,6px);width:max-content;max-width:240px;background:#0f3350;color:#fff;font:400 .82rem/1.45 system-ui,sans-serif;padding:8px 10px;border-radius:6px;box-shadow:0 8px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:30}
+.cc-guide .tip:hover::after,.cc-guide .tip:focus::after{opacity:1;transform:translate(-50%,0)}
+.cc-guide .faqbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.cc-guide .faqbar input{max-width:300px;width:100%;padding:9px 10px;border:1px solid #aab4bc;border-radius:4px;font:inherit}
+.cc-guide .faqbar input:focus{border-color:var(--steel);box-shadow:0 0 0 3px rgba(31,78,121,.2);outline:0}
+.cc-guide .chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:600 .85rem system-ui,sans-serif;cursor:pointer;color:var(--muted);transition:all .15s}
+.cc-guide .chip:hover{border-color:var(--steel);color:var(--steel);background:var(--hl)}
+.cc-guide .chip.on{background:var(--steel);border-color:var(--steel);color:#fff}
+.cc-guide details{border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin-bottom:10px}
+.cc-guide details:hover{border-color:var(--steel);background:linear-gradient(90deg,#eef6fc,#fff);box-shadow:0 4px 12px rgba(31,78,121,.1)}
+.cc-guide details[open]{background:linear-gradient(160deg,#fff,var(--hl));border-left:4px solid var(--steel)}
+.cc-guide summary{list-style:none;display:flex;justify-content:space-between;gap:12px;cursor:pointer;font-weight:650}
+.cc-guide summary::-webkit-details-marker{display:none}
+.cc-guide summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--steel);transition:transform .2s}
+.cc-guide details[open] summary::after{transform:rotate(45deg)}
+.cc-guide details p{margin:8px 0 0}
+.cc-guide details[open] p{animation:fd .25s ease}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 65px 20px;
+    background: linear-gradient(135deg, #12304a, #1d4968);
+    isolation: isolate;
+}
+
+/* Background image / watermark */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("sus.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+/* Text above image */
+.hero h1 {
+    position: relative;
+    font-size: clamp(1.8rem, 5vw, 2.7rem);
+    max-width: 20ch;
+    margin: 0 auto;
+    text-align: center;
+    color: #ffffff;
+}
+
+.hero p {
+    position: relative;
+    max-width: 750px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin: 14px auto 0;
+    text-align: center;
+    line-height: 1.7;
+}
+
+@keyframes fd{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.cc-guide #nf{display:none;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.cc-guide *{transition:none!important;animation:none!important}}
+@media print{.cc-guide .faqbar{display:none}.cc-guide{max-width:none;padding:0}.cc-guide h2{break-after:avoid}.cc-guide .fact,.cc-guide tr{break-inside:avoid}}
+</style>
+</head>
+<body>
+<section class="cc-guide" aria-labelledby="cc-title">
+
+<header class="hero">
+    <h1>Guideline for Sealed and Unsealed Samples</h1>
+    <p>How CRTC receives, records and reports samples of any type, sealed or unsealed, so that your report states clearly what it covers.</p>
+</header>
+
+<div class="facts" role="list" aria-label="At a glance">
+  <div class="fact" role="listitem"><b>Sealed</b><span>closed with a numbered <span class="tip" tabindex="0" data-tip="A numbered tag, wire or label that visibly breaks if the container is opened.">tamper-evident seal</span> at your site</span></div>
+  <div class="fact" role="listitem"><b>Unsealed</b><span>delivered without a seal, identified as you declare</span></div>
+  <div class="fact" role="listitem"><b>Same test</b><span>the same method applies to both</span></div>
+  <div class="fact" role="listitem"><b>Report</b><span>states how the sample was received</span></div>
+</div>
+
+<h2>1. Why it matters</h2>
+<p>A test result applies to the sample exactly as CRTC received it. A seal records that the sample reaching the laboratory is the one taken at your site, and that nobody opened or swapped it on the way. For routine quality control that may not matter. For acceptance, a third-party review or a dispute, it often does.</p>
+
+<h2>2. Sealed and unsealed submissions</h2>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>Sealed</th><th>Unsealed</th></tr></thead>
+<tbody>
+<tr><td><strong>What it means</strong></td><td>The sample is closed in a container with a numbered seal applied at sampling or dispatch</td><td>The sample is delivered without a seal</td></tr>
+<tr><td><strong>Who applies the seal</strong></td><td>You, with a witness where the contract requires one, such as the consultant or supervising engineer</td><td>Not applicable</td></tr>
+<tr><td><strong>What CRTC checks</strong></td><td>Seal present, intact, and number matching your submission sheet</td><td>Labels and condition only</td></tr>
+<tr><td><strong>What the report states</strong></td><td>Received sealed, with seal numbers and condition on arrival</td><td>Received unsealed. Sampling, handling and identification were not verified by CRTC</td></tr>
+<tr><td><strong>Best suited to</strong></td><td>Acceptance, third-party witnessing, disputes, contractual or regulatory requirements</td><td>Internal quality control, trial mixes, research</td></tr>
+</tbody></table></div>
+<div class="note"><p>These categories describe how CRTC handles and reports submissions. If your contract or specification defines sealing differently, tell CRTC before you sample.</p></div>
+
+<h2>3. Rules for every sample</h2>
+<ul>
+  <li><strong>Sample representatively.</strong> Follow the sampling method for the material and the specification. Do not pick the best-looking portion.</li>
+  <li><strong>Send enough.</strong> Ask CRTC for the minimum quantity for your tests before you sample.</li>
+  <li><strong>Identify clearly.</strong> Give each sample a unique ID that matches the submission sheet. Use labels that survive moisture, dust and handling, and put a second label inside the container.</li>
+  <li><strong>Protect its condition.</strong> Keep the sample in the condition the test needs, whether moist, dry, cool or uncontaminated.</li>
+  <li><strong>Prevent contamination and loss.</strong> Use clean containers and close them fully. Do not mix materials.</li>
+  <li><strong>Record the sampling.</strong> Note the date, time, location, source or element, and who took it.</li>
+</ul>
+
+<h2>4. Packing by sample type</h2>
+<p>These are general practice. The test method and CRTC&rsquo;s instructions for your tests govern.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Sample type</th><th>Container and condition</th><th>Take care to</th></tr></thead>
+<tbody>
+<tr><td><strong>Concrete cylinders, cubes, cores</strong></td><td>Wrapped in wet cloth, sealed in plastic, packed upright and cushioned</td><td>Never let them dry out. Do not cap or trim the ends</td></tr>
+<tr><td><strong>Cement</strong></td><td>Airtight, moisture-proof container or sealed bag</td><td>Keep out of humidity and avoid lumps from damp</td></tr>
+<tr><td><strong>Aggregates and sand</strong></td><td>Clean strong bags or containers, closed fully</td><td>Avoid loss of fines and mixing of sources. Use airtight containers if moisture content is needed</td></tr>
+<tr><td><strong>Soil</strong></td><td>Airtight bags or jars for disturbed samples. Capped or sealed tubes for undisturbed samples</td><td>Preserve moisture. Keep undisturbed samples upright and protect from knocks</td></tr>
+<tr><td><strong>Bitumen and asphalt mixes</strong></td><td>Clean, closed metal cans or strong sealed containers</td><td>Avoid contamination and heat. Label the grade and source</td></tr>
+<tr><td><strong>Bricks, blocks and pavers</strong></td><td>Stacked and strapped or boxed to prevent chipping</td><td>Keep identification marks visible. Do not wet unless the test requires it</td></tr>
+<tr><td><strong>Steel bars and metals</strong></td><td>Bundled with tags at both ends</td><td>Do not paint or cut. Keep heat numbers and brand marks legible</td></tr>
+<tr><td><strong>Water</strong></td><td>Clean, rinsed bottles filled and closed fully</td><td>Keep cool and deliver promptly. Note date and time of sampling</td></tr>
+</tbody></table></div>
+
+<h2>5. Preparing a sealed submission</h2>
+<ol class="steps">
+  <li><strong>Prepare the sample</strong> as set out in sections 3 and 4, with a unique ID on each item.</li>
+  <li><strong>Choose a container</strong> that closes securely and can take a seal. Use one container and one seal per sample.</li>
+  <li><strong>Seal in front of a witness.</strong> Apply a numbered seal across the closure so it cannot be opened without breaking it. Where the contract requires, a witness from the consultant or supervisor watches and signs.</li>
+  <li><strong>Record the seal.</strong> Write the seal number, the time and the names of those present on the submission sheet. Photograph the sealed container.</li>
+  <li><strong>Ship it closed.</strong> Do not open the container or replace the seal in transit. If a seal breaks, do not repair it. Tell CRTC.</li>
+  <li><strong>Send the sheet outside the container</strong> so CRTC can check the details on arrival.</li>
+</ol>
+
+<h2>6. Preparing an unsealed submission</h2>
+<ul>
+  <li>Label every sample and match the IDs to the submission sheet.</li>
+  <li>Pack for the sample type as in section 4.</li>
+  <li>Tick &ldquo;unsealed&rdquo; on the submission sheet so the report wording is correct.</li>
+  <li>Record sampling details and handling, as the report will state them as declared.</li>
+</ul>
+
+<h2>7. What CRTC does on receipt</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Situation</th><th>CRTC action</th></tr></thead>
+<tbody>
+<tr><td>Sealed, seal intact and number matches</td><td>Photographs the seal, records number and time, opens the container and logs each sample&rsquo;s condition</td></tr>
+<tr><td>Sealed, seal broken or number does not match</td><td>Photographs and records the finding, informs you where possible, and handles the sample as unsealed</td></tr>
+<tr><td>Unsealed</td><td>Records labels and condition as received, and notes that sampling and handling were not verified</td></tr>
+<tr><td>Labels missing or unclear</td><td>Contacts you before testing. Testing proceeds only when identification is agreed</td></tr>
+<tr><td>Sample damaged, contaminated, or not in the required condition</td><td>Records the condition, contacts you, and reports it with the result</td></tr>
+</tbody></table></div>
+
+<h2>8. Information for the submission sheet</h2>
+<div class="two">
+  <ul>
+    <li>Client, project and source or element</li>
+    <li>Sample type and unique IDs</li>
+    <li>Submission type: sealed or unsealed</li>
+    <li>Seal numbers, time of sealing, witness names</li>
+  </ul>
+  <ul>
+    <li>Date, time and place of sampling, and who sampled</li>
+    <li>Tests requested and the standards to apply</li>
+    <li>Quantity and packing, and any special handling</li>
+    <li>Contact name, phone and email for the report</li>
+  </ul>
+</div>
+
+<h2>9. Common problems</h2>
+<ul>
+  <li>Sealing a container whose contents are drying out, heating up or contaminated</li>
+  <li>Applying the seal after the sample has left your control</li>
+  <li>Seal numbers missing from the sheet, or not matching</li>
+  <li>Unlabeled samples, or labels that wash off or rub away</li>
+  <li>Mixing different samples in one sealed container</li>
+  <li>Opening and resealing a container in transit</li>
+  <li>Sending too little material for the tests requested</li>
+</ul>
+
+<h2>10. Frequently asked questions</h2>
+<p>Search, or filter by topic.</p>
+<div class="faqbar"><input id="fq" type="search" placeholder="Search questions" aria-label="Search questions">
+<button type="button" class="chip on" data-c="all">All</button><button type="button" class="chip" data-c="sealed">Sealed</button><button type="button" class="chip" data-c="unsealed">Unsealed</button><button type="button" class="chip" data-c="samples">Samples</button><button type="button" class="chip" data-c="reports">Reports</button></div>
+<div id="faqlist">
+<details data-cat="sealed"><summary>Can CRTC seal samples that I deliver?</summary><p>No. A seal only proves anything if it is applied at your site, before the samples leave your control. Samples that arrive without a seal are logged as unsealed. Where CRTC collects a sample itself, CRTC seals and records it.</p></details>
+<details data-cat="sealed"><summary>What if the seal is broken or the number does not match?</summary><p>CRTC records and photographs it, informs you where possible, and handles the samples as unsealed. The report states what was found.</p></details>
+<details data-cat="sealed"><summary>Can a sealed container hold different sample types?</summary><p>No. Use a separate container and seal for each sample, so every seal number maps to one sample and one set of tests.</p></details>
+<details data-cat="unsealed"><summary>Can an unsealed sample be sealed later?</summary><p>No. CRTC cannot verify how the sample was handled before it arrived, so sealing it on receipt would add nothing.</p></details>
+<details data-cat="unsealed"><summary>Are unsealed results less reliable?</summary><p>Not necessarily. Samples are tested the same way. The difference is what the report can claim: sampling, handling and identification were not verified by CRTC.</p></details>
+<details data-cat="samples"><summary>How much sample should I send?</summary><p>The quantity depends on the test method and the number of tests. Ask CRTC for the minimum quantity before you sample. Sending too little can make the test impossible.</p></details>
+<details data-cat="samples"><summary>Does sealing change how I protect the sample?</summary><p>No. Sealing secures the container. You still need to protect the sample&rsquo;s condition, for example moisture in concrete and soil, or dryness in cement.</p></details>
+<details data-cat="samples"><summary>What about samples that change quickly, such as water or fresh soil?</summary><p>Deliver them promptly, keep them cool and closed, and write the sampling date and time on the label and the sheet. Ask CRTC about holding times for your test.</p></details>
+<details data-cat="reports"><summary>Is the test method different for sealed samples?</summary><p>No. Both are tested to the same standard, with the same equipment, tolerances and reporting items.</p></details>
+<details data-cat="reports"><summary>Which should I choose?</summary><p>Check your contract and specification. Where a third party or consultant must rely on the result, or a dispute is possible, sealed is normally the safer choice.</p></details>
+<details data-cat="reports"><summary>Can I change the type after submitting?</summary><p>Not once testing has started. State the type on the submission sheet when you deliver.</p></details>
+<details data-cat="reports"><summary>How long are tested samples kept?</summary><p>CRTC keeps tested samples for [X] days unless you ask otherwise. Confirm with CRTC.</p></details>
+</div>
+<p id="nf">No matching questions. Try another word.</p>
+
+<p class="foot">This guideline describes CRTC handling of sealed and unsealed submissions and general good practice for packing. It does not replace the applicable test method, your contract or your project specification, which govern if they differ. Questions: CRTC &middot; crtc.ce@pust.ac.bd &middot; +8802588844915 &middot; CRTC, CE, PUST</p>
+
+</section>
+<script>
+(function(){
+var q=document.getElementById('fq'),nf=document.getElementById('nf'),cat='all',dl=document.querySelectorAll('#faqlist details');
+function ff(){var n=0;dl.forEach(function(d){var ok=(cat==='all'||d.dataset.cat===cat)&&d.textContent.toLowerCase().indexOf(q.value.toLowerCase())>-1;d.hidden=!ok;if(ok)n++});nf.style.display=n?'none':'block'}
+q.oninput=ff;
+document.querySelectorAll('.cc-guide .chip').forEach(function(c){c.onclick=function(){cat=c.dataset.c;document.querySelectorAll('.cc-guide .chip').forEach(function(x){x.classList.toggle('on',x===c)});ff()}});
+dl.forEach(function(d){d.ontoggle=function(){if(d.open)dl.forEach(function(o){if(o!==d)o.open=false})}});
+})();
+</script>
+</body>
+</html>

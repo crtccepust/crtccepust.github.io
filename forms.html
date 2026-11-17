@@ -31,9 +31,13 @@
         header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
         .logo { display: flex; align-items: center; gap: 15px; }
-        .logo-icon { font-size: 2.5rem; color: var(--primary-color); }
+		.logo-img { 
+            height: 50px; /* Adjust logo height here */
+            width: auto;
+            object-fit: contain;
+        }
         .logo-text h1 { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; line-height: 1.1; }
-        .logo-text p { font-size: 0.85rem; color: var(--text-light); font-weight: 500; }
+        .logo-text p { font-size: 1.1rem; color: #666; font-weight: 500; }
 
         .nav-links { display: flex; gap: 5px; align-items: center; }
         .nav-links li a { font-weight: 500; color: var(--primary-color); padding: 10px 15px; border-radius: 4px; transition: var(--transition); font-size: 0.95rem; }
@@ -82,7 +86,7 @@
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #f9fcfb; }
 
-        .sl-no { width: 80px; text-align: center; font-weight: bold; color: var(--primary-color); }
+        .sl-no { width: 80px; text-align: center; font-weight: bold; color: var(--white); }
         .file-icon { font-size: 1.5rem; margin-right: 8px; vertical-align: middle; }
         .pdf-link { color: #e74c3c; font-weight: 500; display: inline-flex; align-items: center; transition: var(--transition); }
         .word-link { color: #2980b9; font-weight: 500; display: inline-flex; align-items: center; transition: var(--transition); }
@@ -159,6 +163,212 @@
         .schedule-box h5 { color: var(--secondary-color); }
         .contact-info-box p, .schedule-box p { font-size: 0.95rem; margin-bottom: 6px; color: var(--text-color); line-height: 1.5; }
         .contact-info-box strong, .schedule-box strong { color: var(--text-color); font-weight: 700; }
+		
+		/* ===== IMPORTANT GUIDELINES SECTION ===== */
+
+		.guidelines-section {
+			padding: 2px 20px;
+			background: #f7f9fc;
+			font-family: 'Segoe UI', Arial, sans-serif;
+		}
+
+		.guidelines-container {
+			max-width: 1200px;
+			margin: auto;
+		}
+
+		/* Heading */
+
+		.guidelines-heading {
+			margin-bottom: 35px;
+		}
+
+
+		.guidelines-heading h2 {
+			font-size: clamp(26px, 4vw, 36px);
+			color: #17365d;
+			margin: 0 0 12px;
+			font-weight: 700;
+		}
+
+		.guidelines-heading h2 span {
+			color: #1684c5;
+		}
+
+		.guidelines-heading p {
+			max-width: 750px;
+			color: #64748b;
+			font-size: 15px;
+			line-height: 1.8;
+			text-align: justify;
+		}
+
+		/* Grid */
+
+		.guidelines-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 22px;
+		}
+
+		/* Cards */
+
+		.guideline-card {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			min-height: 310px;
+			padding: 25px;
+			background: #ffffff;
+			border: 1px solid #e5eaf1;
+			border-radius: 12px;
+			text-decoration: none;
+			color: inherit;
+			overflow: hidden;
+			transition:
+				transform 0.35s ease,
+				box-shadow 0.35s ease,
+				border-color 0.35s ease;
+			isolation: isolate;
+		}
+
+		/* Mouse spotlight */
+
+		.guideline-card::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: radial-gradient(
+				350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+				rgba(29, 130, 195, 0.12),
+				transparent 70%
+			);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			z-index: -1;
+			pointer-events: none;
+		}
+
+		.guideline-card:hover::before {
+			opacity: 1;
+		}
+
+		.guideline-card:hover {
+			transform: translateY(-9px);
+			border-color: #91c7e8;
+			box-shadow: 0 18px 40px rgba(20, 65, 100, 0.12);
+		}
+
+		/* Card top */
+
+		.card-top {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 25px;
+		}
+
+		.card-number {
+			font-size: 35px;
+			font-weight: 800;
+			color: #e5edf5;
+			transition: color 0.3s ease;
+		}
+
+		.guideline-card:hover .card-number {
+			color: #b6d9ef;
+		}
+
+		.card-icon {
+			width: 48px;
+			height: 48px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 10px;
+			background: #eaf4fb;
+			color: #1679b8;
+			font-size: 20px;
+			transition: all 0.35s ease;
+		}
+
+		.guideline-card:hover .card-icon {
+			background: #1679b8;
+			color: white;
+			transform: rotate(-8deg) scale(1.08);
+		}
+
+		/* Card content */
+
+		.card-category {
+			font-size: 10px;
+			font-weight: 700;
+			letter-spacing: 1.3px;
+			color: #1684c5;
+		}
+
+		.card-content h3 {
+			font-size: 18px;
+			line-height: 1.5;
+			color: #17365d;
+			margin: 10px 0;
+			transition: color 0.3s ease;
+		}
+
+		.guideline-card:hover .card-content h3 {
+			color: #087bbd;
+		}
+
+		.card-content p {
+			font-size: 13px;
+			line-height: 1.8;
+			color: #64748b;
+			margin: 0;
+		}
+
+		/* Footer */
+
+		.card-footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-top: auto;
+			padding-top: 22px;
+			color: #1679b8;
+			font-size: 13px;
+			font-weight: 700;
+		}
+
+		.card-footer i {
+			transition: transform 0.3s ease;
+		}
+
+		.guideline-card:hover .card-footer i {
+			transform: translateX(7px);
+		}
+
+		/* Responsive */
+
+		@media (max-width: 900px) {
+			.guidelines-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		@media (max-width: 600px) {
+			.guidelines-section {
+				padding: 40px 15px;
+			}
+
+			.guidelines-grid {
+				grid-template-columns: 1fr;
+				gap: 16px;
+			}
+
+			.guideline-card {
+				min-height: 280px;
+			}
+		}
 
         /* --- FOOTER --- */
         footer { background: #111; color: #aaa; padding: 40px 0; font-size: 0.9rem; text-align: center; margin-top: auto; }
@@ -179,17 +389,17 @@
     <header>
         <div class="container">
             <div class="nav-container">
-                <div class="logo">
-                    <i class="fas fa-university logo-icon"></i>
-                    <div class="logo-text">
-                        <h1>CRTC, PUST</h1>
-                        <p>Dept. of Civil Engineering</p>
-                    </div>
-                </div>
+                <a href="index.html" class="logo">
+				<img src="assets/crtc_logo.svg" alt="CRTC Logo" class="logo-img" onerror="this.onerror=null;">
+						   <div class="logo-text">
+							<h1>CRTC, CE</h1>
+							<p>PUST, Pabna</p>
+						</div>
+						</a>
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="index.html#contact">Contact</a></li>
-                    <li><a href="#" class="active">Forms</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#" class="active">Forms & Guidlines</a></li>
                 </ul>
             </div>
         </div>
@@ -219,39 +429,176 @@
                     <tbody>
                         <tr>
                             <td class="sl-no">01</td>
-                            <td><strong>Concrete & Cylinder Test Requisition</strong><br><small>For compressive strength tests of concrete cylinders and blocks.</small></td>
-                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
-                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                            <td><strong>Concrete Cylinder Test Application Format</strong><br><small>For compressive strength tests of concrete cylinders</small></td>
+                            <td>
+								<a href="assets/forms/Cylinder_Test_Application_ENG.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (English)
+								</a>
+								
+								<a href="assets/forms/Cylinder_Test_Application_Bangla.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (Bangla)
+								</a>
+							</td>
+                            <td>
+								<a href="assets/forms/Cylinder_Test_Application_ENG.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (English)
+								</a>
+								
+								<a href="assets/forms/Cylinder_Test_Application_Bangla.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (Bangla)
+								</a>
+							</td>
                         </tr>
                         <tr>
                             <td class="sl-no">02</td>
-                            <td><strong>Soil Investigation Request Form</strong><br><small>Field exploration and laboratory testing of soil samples.</small></td>
-                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
-                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                            <td><strong>Rod Test Application Format</strong><br><small>For tesile strength tests (inl. unit weight & elongation), Bend & Re-bend test of reinforcing steel bars</small></td>
+                            <td>
+								<a href="assets/forms/Rod_Test_Application_ENG.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (English)
+								</a>
+								
+								<a href="assets/forms/Rod_Test_Application_Bangla.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (Bangla)
+								</a>
+							</td>
+                            <td>
+								<a href="assets/forms/Rod_Test_Application_ENG.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (English)
+								</a>
+								
+								<a href="assets/forms/Rod_Test_Application_Bangla.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (Bangla)
+								</a>
+							</td>
                         </tr>
                         <tr>
+						
+						<tr>
                             <td class="sl-no">03</td>
-                            <td><strong>Rebar Tensile Strength Test</strong><br><small>Physical test requisition for steel reinforcement bars.</small></td>
-                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
-                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
+                            <td><strong>Generalized Application Format</strong><br><small>For all laboratory tests for which a specific application format is not available</small></td>
+                            <td>
+								<a href="assets/forms/Generalized_Test_Application_ENG.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (English)
+								</a>
+								
+								<a href="assets/forms/Generalized_Test_Application_Bangla.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (Bangla)
+								</a>
+							</td>
+                            <td>
+								<a href="assets/forms/Generalized_Test_Application_ENG.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (English)
+								</a>
+								
+								<a href="assets/forms/Generalized_Test_Application_Bangla.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (Bangla)
+								</a>
+							</td>
                         </tr>
-                        <tr>
+						<tr>
                             <td class="sl-no">04</td>
-                            <td><strong>Water Quality Analysis Form</strong><br><small>For chemical and physical analysis of water samples.</small></td>
-                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
-                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
-                        </tr>
-                        <tr>
-                            <td class="sl-no">05</td>
-                            <td><strong>Bitumen & Aggregate Test</strong><br><small>Requisition for transportation engineering material tests.</small></td>
-                            <td><a href="#" class="pdf-link"><i class="fas fa-file-pdf file-icon"></i> Download PDF</a></td>
-                            <td><a href="#" class="word-link"><i class="fas fa-file-word file-icon"></i> Download Word</a></td>
-                        </tr>
+                            <td><strong>Concrete Mix Design Information Form</strong><br><small>For concrete mix design in accordance with ACI 211.1 using client-supplied materials. To be completed and submitted along with the test application.</small></td>
+                            <td>
+								<a href="assets/forms/Concrete_Mix_Design_Request_Form_EMG.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (English)
+								</a>
+								
+								<a href="assets/forms/Concrete_Mix_Design_Request_Form_Bangla.pdf" class="pdf-link" target="_blank">
+									<i class="fas fa-file-pdf file-icon"></i> PDF (Bangla)
+								</a>
+							</td>
+                            <td>
+								<a href="assets/forms/Concrete_Mix_Design_Request_Form_EMG.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (English)
+								</a>
+								
+								<a href="assets/forms/Concrete_Mix_Design_Request_Form_Bangla.docx" class="word-link" download>
+									<i class="fas fa-file-word file-icon"></i> Word (Bangla)
+								</a>
+							</td>
+                        </tr>					
+                    
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
+
+<section class="guidelines-section">
+    <div class="guidelines-container">
+
+        <div class="guidelines-heading">
+            <h2>Some Important <span>Guidelines</span></h2>
+            <p>
+                Essential guidelines and technical instructions for proper
+                sample preparation, handling, testing, and reliable laboratory results.
+            </p>
+        </div>
+
+        <div class="guidelines-grid">
+
+            <!-- Guideline 01 -->
+            <a href="assets\forms\casting-guideline.html" class="guideline-card" target="_blank">
+                <div class="card-top">
+                    <span class="card-number">01</span>
+                    <span class="card-icon"> <i class="fas fa-database"></i> </span>
+                </div>
+                <div class="card-content">
+                    <span class="card-category">CONCRETE TESTING</span>
+                    <h3>Guideline for Casting and Curing of Concrete Test Cylinders</h3>
+                    <p>
+                        Procedures for casting, curing, handling, and transporting
+                        concrete test cylinders for compressive strength testing.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <span>Read Guideline</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Guideline 02 -->
+            <a href="assets\forms\sealed_unsealed_sample.html" class="guideline-card" target="_blank">
+                <div class="card-top">
+                    <span class="card-number">02</span>
+                    <span class="card-icon"><i class="fas fa-lock"></i></span>
+                </div>
+                <div class="card-content">
+                    <span class="card-category">SEALED/UNSEALED SAMPLE</span>
+                    <h3>Guideline for Sealed and Unsealed Samples</h3>
+                    <p>
+                        How CRTC receives, records and reports samples of any type, sealed or unsealed, so that your report states clearly what it covers.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <span>Read Guideline</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Guideline 03 -->
+            <a href="rod-testing-guideline.html" class="guideline-card">
+                <div class="card-top">
+                    <span class="card-number">03</span>
+                    <span class="card-icon"><i class="fas fa-ruler-combined"></i></span>
+                </div>
+                <div class="card-content">
+                    <span class="card-category">MATERIALS TESTING</span>
+                    <h3>Guideline for Reinforcing Steel Testing</h3>
+                    <p>
+                        Requirements for reinforcing steel sample preparation,
+                        identification, and submission for laboratory testing.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <span>Read Guideline</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</section>
 
     <!-- INSTRUCTIONS SECTION -->
     <section class="instructions-section">
@@ -272,7 +619,7 @@
                         <li><span class="num">6.</span> <span>Deposit the fee at Janata Bank Limited (PUST Branch) using the deposit slip, retain the customer copy of the receipt, properly fill in the deposit slip number and other details on the application form, and drop the application into the box provided at the CRTC office.</span></li>
                         <li><span class="num">7.</span> <span>On the scheduled date, present the payment receipt to collect the test report from the CRTC office. (To check whether the test report is ready, you may contact the mobile number given below by referencing your CRTC number).</span></li>
                         <li><span class="num">8.</span> <span>If there are any errors or discrepancies in the test report, the Chairman must be notified immediately.</span></li>
-                        <li><span class="num">9.</span> <span>Testing/consultation fees [Account Name: CRTC (Fee), Account No: 0100157149835, Janata Bank PLC, PUST Branch, Routing No: 135760149] must only be deposited into the designated bank account; cash payments will not be accepted.</span></li>
+                        <li><span class="num">9.</span> <span>Testing/consultation fees [Account Name: CRTC (Fee), Account No: 0100163274838, Janata Bank PLC, PUST Branch, Routing No: 135760149] must only be deposited into the designated bank account; cash payments will not be accepted.</span></li>
                     </ul>
 
                     <div class="contact-info-box">
@@ -303,7 +650,7 @@
                         <li><span class="num">৬.</span> <span>ব্যাংক ডিপোজিট স্লিপটি নিয়ে জনতা ব্যাংক লিমিটেড, পাবিপ্রবি শাখায় টাকা জমা দিয়ে রশিদের অংশ সংগ্রহে রাখতে হবে এবং আবেদনপত্রে টাকা জমা দেওয়ার স্লিপ নম্বরসহ অন্যান্য তথ্যদি যথাযথভাবে পূরণ করে সিআরটিসি অফিসে রক্ষিত বাক্সে আবেদনপত্রটি রাখতে হবে।</span></li>
                         <li><span class="num">৭.</span> <span>টাকা জমা দেওয়ার রশিদ দেখিয়ে নির্ধারিত দিনে টেস্ট রিপোর্ট সিআরটিসি অফিস থেকে সংগ্রহ করতে হবে (টেস্ট রিপোর্ট প্রস্তুত আছে কিনা সে বিষয়ে সিআরটিসি নম্বর উল্লেখ করে নিম্নের মোবাইল নম্বরে যোগাযোগ করা যাবে)।</span></li>
                         <li><span class="num">৮.</span> <span>টেস্ট রিপোর্ট এ কোন ভুল ভ্রান্তি থাকলে বিষয়টি তাৎক্ষণিকভাবে সভাপতিকে অবহিত করতে হবে।</span></li>
-                        <li><span class="num">৯.</span> <span>টেস্টিং/কনসালটেশন [একাউন্ট নামঃ সিআরটিসিি(ফি), একাউন্ট নংঃ ০১০০১৫৭১৪৯৮৩৫, জনতা ব্যাংক পিএলসি, পাবিপ্রবি শাখা, রাউটিং নংঃ ১৩৫৭৬০১৪৯] ফি সংক্রান্ত টাকা শুধুমাত্র প্রদত্ত ব্যাংক একাউন্ট এ জমা প্রদান করতে হবে, নগদ কোন টাকা প্রদান করা যাবে না।</span></li>
+                        <li><span class="num">৯.</span> <span>টেস্টিং/কনসালটেশন [একাউন্ট নামঃ সিআরটিসিি(ফি), একাউন্ট নংঃ ০১০০১৬৩২৭৪৮৩৮, জনতা ব্যাংক পিএলসি, পাবিপ্রবি শাখা, রাউটিং নংঃ ১৩৫৭৬০১৪৯] ফি সংক্রান্ত টাকা শুধুমাত্র প্রদত্ত ব্যাংক একাউন্ট এ জমা প্রদান করতে হবে, নগদ কোন টাকা প্রদান করা যাবে না।</span></li>
                     </ul>
 
                     <div class="contact-info-box">
@@ -331,12 +678,27 @@
         <div class="container">
             <ul class="footer-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#rate">Test Rates</a></li>
-                <li><a href="index.html#contact">Contact Support</a></li>
+                <li><a href="rates.html">Test Rates</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
-            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+            <p>&copy; 2026 Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, PUST. All Rights Reserved.</p>
         </div>
     </footer>
+	<script>
 
+		document.querySelectorAll('.guideline-card').forEach(card => {
+
+			card.addEventListener('mousemove', (e) => {
+				const rect = card.getBoundingClientRect();
+
+				const x = e.clientX - rect.left;
+				const y = e.clientY - rect.top;
+
+				card.style.setProperty('--mouse-x', `${x}px`);
+				card.style.setProperty('--mouse-y', `${y}px`);
+			});
+
+		});
+	</script>
 </body>
 </html>

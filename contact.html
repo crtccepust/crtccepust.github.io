@@ -276,7 +276,7 @@
                 <li><a href="about.html">About</a></li>
                 <li><a href="services.html">Services</a></li>
                 <li><a href="rates.html">Rates</a></li>
-                <li><a href="forms.html">Forms</a></li>
+                <li><a href="forms.html">Forms & Guidlines</a></li>
                 <li><a href="notice.html">Notices</a></li>
                 <li><a href="contact.html" class="active">Contact</a></li>
             </ul>
@@ -318,7 +318,7 @@
                               <a href="tel:+8801798991440">+88 01798991440</a>
                               <em>(Chairman, Dept. of CE)</em><br>
                             
-                              <a href="tel:+88017217174447">+88 01721717447</a>
+                              <a href="tel:+88017217174447">+88 017217174447</a>
                               <em>(Chairman, CRTC)</em>
                             </p>
                         </div>
@@ -424,8 +424,8 @@
                     <div class="card-header">
                         <span><i class="fas fa-map-marked-alt"></i> CRTC Office Location [Academic Building - 3 (2nd Floor), PUST]</span>
                         <div class="card-header-actions">
-                            <button class="header-btn" onclick="resetMapCenter()"><i class="fas fa-crosshairs"></i> Recenter</button>
-                            <a href="https://maps.google.com/?q=24.012744,89.280754" target="_blank" class="header-btn"><i class="fas fa-external-link-alt"></i> Open Google Maps</a>
+                            <button type="button" class="header-btn" onclick="resetMapCenter()"><i class="fas fa-crosshairs"></i> Recenter</button>
+                            <a href="https://maps.google.com/?q=24.012744,89.280754" target="_blank" rel="noopener noreferrer" class="header-btn"><i class="fas fa-external-link-alt"></i> Open Google Maps</a>
                         </div>
                     </div>
                     <!-- Leaflet Map Container -->
@@ -437,7 +437,7 @@
                     <div class="card-header">
                         <span><i class="fas fa-layer-group"></i> Dept. of Civil Engineering Floor Plan (AB-3, 2F)</span>
                         <div class="card-header-actions">
-                            <button class="header-btn" onclick="openFloorModal()"><i class="fas fa-expand"></i> Enlarge Floor Plan</button>
+                            <button type="button" class="header-btn" onclick="openFloorModal()"><i class="fas fa-expand"></i> Enlarge Floor Plan</button>
                         </div>
                     </div>
                     
@@ -467,10 +467,10 @@
                     <span>2nd Floor Plan (Academic Building-3, PUST) — Layout Map</span>
                 </div>
                 <div class="modal-controls">
-                    <button class="modal-btn" onclick="zoomModalImg(1.2)" title="Zoom In"><i class="fas fa-search-plus"></i></button>
-                    <button class="modal-btn" onclick="zoomModalImg(0.8)" title="Zoom Out"><i class="fas fa-search-minus"></i></button>
-                    <button class="modal-btn" onclick="resetModalZoom()" title="Reset Zoom"><i class="fas fa-sync-alt"></i></button>
-                    <button class="modal-btn" onclick="closeModal()" title="Close Modal"><i class="fas fa-times"></i></button>
+                    <button type="button" class="modal-btn" onclick="zoomModalImg(1.2)" title="Zoom In"><i class="fas fa-search-plus"></i></button>
+                    <button type="button" class="modal-btn" onclick="zoomModalImg(0.8)" title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+                    <button type="button" class="modal-btn" onclick="resetModalZoom()" title="Reset Zoom"><i class="fas fa-sync-alt"></i></button>
+                    <button type="button" class="modal-btn" onclick="closeModal()" title="Close Modal"><i class="fas fa-times"></i></button>
                 </div>
             </div>
             
@@ -502,7 +502,7 @@
                         <li><a href="about.html">About CRTC</a></li>
                         <li><a href="services.html">Testing Services</a></li>
                         <li><a href="rates.html">Rate Chart</a></li>
-                        <li><a href="forms.html">Requisition Forms</a></li>
+                        <li><a href="forms.html">Forms & Guidlines</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
@@ -526,7 +526,9 @@
 
     <script>
         const PUST_COORDS = [24.012744222594687, 89.28075403741454];
+        const DEFAULT_ZOOM = 17;
         let mapInstance = null;
+        let customMarker = null;
         let currentModalScale = 1;
         let isPanDragging = false;
         let startPanX = 0, startPanY = 0;
@@ -559,25 +561,66 @@
         }
 
         function initLeafletMap() {
-            mapInstance = L.map('map').setView(PUST_COORDS, 16);
+            const mapContainer = document.getElementById('map');
+            if (!mapContainer) return;
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            // 1. Initialize map once
+            mapInstance = L.map('map').setView(PUST_COORDS, DEFAULT_ZOOM);
+
+            // 2. High-resolution Satellite Imagery + Place Labels (shows PUST campus buildings clearly)
+            const satelliteImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+                maxNativeZoom: 18,
+                maxZoom: 20
+            });
+
+            const placeLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+                maxNativeZoom: 18,
+                maxZoom: 20
+            });
+
+            const satelliteHybrid = L.layerGroup([satelliteImagery, placeLabels]);
+
+            // 3. Detailed Campus Street Map (OpenStreetMap Humanitarian layer - no referer block or API key)
+            const detailedStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by Humanitarian OpenStreetMap Team',
+                maxNativeZoom: 19,
+                maxZoom: 20
+            });
+
+            // Add Satellite Hybrid by default for sharp campus visibility
+            satelliteHybrid.addTo(mapInstance);
+
+            // Add Layer Switcher control in top-right corner
+            L.control.layers({
+                "Satellite View (Clear Campus)": satelliteHybrid,
+                "Detailed Street Map": detailedStreetMap
             }).addTo(mapInstance);
 
-            const customMarker = L.marker(PUST_COORDS).addTo(mapInstance);
+            // 4. Add single marker & popup
+            customMarker = L.marker(PUST_COORDS).addTo(mapInstance);
             customMarker.bindPopup(`
                 <div style="font-family:'Inter',sans-serif; padding:4px;">
                     <b style="color:#003366; font-size:1.05rem;">CRTC Office</b><br>
-                    <span style="font-size:0.88rem; color:#555;">R#316, Dept. of Civil Engineering<br> Academic Building-3 (2nd Floor)<br>PUST, Pabna-6600, BD</span>
+                    <span style="font-size:0.88rem; color:#555;">
+                        R#316, Dept. of Civil Engineering<br>
+                        Academic Building-3 (2nd Floor)<br>
+                        PUST, Pabna-6600, BD
+                    </span>
                 </div>
             `).openPopup();
+
+            // Ensure crisp tile rendering after container layout settles
+            setTimeout(() => {
+                mapInstance.invalidateSize();
+            }, 200);
         }
 
         function resetMapCenter() {
-            if (mapInstance) {
-                mapInstance.setView(PUST_COORDS, 16);
-                showToast("Map Centered", "Recentered view on Academic Building 2.");
+            if (mapInstance && customMarker) {
+                mapInstance.setView(PUST_COORDS, DEFAULT_ZOOM);
+                customMarker.openPopup();
+                showToast("Map Centered", "Recentered view on Academic Building-3 (2nd Floor).");
             }
         }
 

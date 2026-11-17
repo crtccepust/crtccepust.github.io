@@ -31,10 +31,20 @@
         /* --- HEADER & NAV --- */
         header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
-        .nav-links { display: flex; gap: 5px; list-style: none; }
+		
+		.logo { display: flex; align-items: center; gap: 15px; }
+		.logo-img { 
+            height: 50px; /* Adjust logo height here */
+            width: auto;
+            object-fit: contain;
+        }
+        .logo-text h1 { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; line-height: 1.1; }
+        .logo-text p { font-size: 1.1rem; color: #666; font-weight: 500; }
+		
+        .nav-links { display: flex; gap: 5px; list-style: none; align-items: center; }
         .nav-links a { color: var(--primary-color); padding: 10px 15px; font-weight: 500; border-radius: 4px; transition: var(--transition); }
         .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.05); color: var(--secondary-color); }
+ 
 
         /* --- PAGE HEADER --- */
         .page-header {
@@ -218,18 +228,26 @@
 
     <!-- NAVIGATION -->
     <header>
-        <div class="container nav-container">
-            <div class="logo"><i class="fas fa-university"></i> CRTC, PUST</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html" class="active">Services</a></li>
-                <li><a href="rates.html">Rates</a></li>
-                <li><a href="forms.html">Forms</a></li>
-                <li><a href="notice.html">Notices</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
+		<div class="container">
+			<div class="nav-container">
+			<a href="index.html" class="logo">
+				<img src="assets/crtc_logo.svg" alt="CRTC Logo" class="logo-img" onerror="this.onerror=null;">
+						   <div class="logo-text">
+							<h1>CRTC, CE</h1>
+							<p>PUST, Pabna</p>
+						</div>
+						</a>
+				<ul class="nav-links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="services.html" class="active">Services</a></li>
+					<li><a href="rates.html">Rates</a></li>
+					<li><a href="forms.html">Forms & Guidlines</a></li>
+					<li><a href="notice.html">Notices</a></li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+		</div>
     </header>
 
     <!-- PAGE HEADER -->
@@ -389,7 +407,7 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+            <p>&copy; 2026 Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, PUST. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -399,28 +417,32 @@
         // Edit this object to update images and captions
         const serviceData = {
             "structural": [
-                { src: "assets/services/structural/UTM2000.jpg", caption: "WAW-2000B: Microcomputer Controlled Electro-Hydraulic Servo Universal Testing Machine (Added: March, 2017)" },
-				{ src: "assets/services/structural/PIT.jpg", caption: "P8000: Wireless Pile Integrity Tester (Added: December, 2025)" },
-                { src: "assets/services/structural/R660.jpg", caption: "NOVASCAN R660: 3D integrated Rebar Scanner (Added: December, 2025)" },
-                { src: "assets/services/structural/CTM2000.jpg", caption: "YES-2000 Digital Compression Testing Machine (Added: June, 2025)" }
+                { src: "assets/services/structural/UTM2000.jpg", caption: "WAW-2000B: Microcomputer Controlled Electro-Hydraulic Servo Universal Testing Machine" },
+				{ src: "assets/services/structural/PIT.jpg", caption: "P8000: Wireless Pile Integrity Tester" },
+                { src: "assets/services/structural/R660.jpg", caption: "NOVASCAN R660: 3D integrated Rebar Scanner" },
+                { src: "assets/services/structural/CTM2000.jpg", caption: "YES-2000 Digital Compression Testing Machine" }
             ],
             "transportation": [
-                { src: "assets/services/transport/cbr.jpeg", caption: "California Bearing Ratio (CBR) Test apparatus (Added: June, 2025)" },
-                { src: "assets/services/transport/laa.jpg", caption: "Los Angeles Abrasion Machine (Added: June, 2025)" },
-                { src: "assets/services/transport/3.jpg", caption: "Traffic Volume Study Analysis" }
+                { src: "assets/services/transport/cbr.jpeg", caption: "California Bearing Ratio (CBR) Test apparatus" },
+                { src: "assets/services/transport/laa.jpg", caption: "Los Angeles Abrasion Machine" },
+				{ src: "assets/services/transport/aiv.jpg", caption: "Aggregate impact Value (Aiv) Apparatus" },
+				{ src: "assets/services/transport/mst.jpg", caption: "Asphalt Marshall Stability Tester Test Apparatus" },
+				{ src: "assets/services/transport/dt.jpg", caption: "Bitumen Ductility Testing Machine" },
+                { src: "assets/services/transport/abp.jpg", caption: "Automatic Digital Standard Bitumen Penetrometer" }
             ],
             "geotechnical": [
-                { src: "assets/services/geotech/1.jpg", caption: "Soil Investigation Drilling" },
-                { src: "assets/services/geotech/2.jpg", caption: "Direct Shear Test Machine" },
-                { src: "assets/services/geotech/3.jpg", caption: "Foundation Design Analysis" }
+                { src: "assets/services/geotech/dst.jpg", caption: "Direct Shear Testing Apparatus" },
+                { src: "assets/services/geotech/uct.jpg", caption: "Unconfined Compression Apparatus" },
+                { src: "assets/services/geotech/ct.jpg", caption: "Consolidation Test Apparatus" },
+				{ src: "assets/services/geotech/spt.jpg", caption: "Soil Test (SPT)" }
             ],
             "environmental": [
-                { src: "assets/services/env/1.jpg", caption: "Water Quality Analysis" },
+                { src: "assets/services/env/sp.jpg", caption: "UV VIS Spectrophotometer" },
                 { src: "assets/services/env/2.jpg", caption: "Environmental Impact Assessment" },
                 { src: "assets/services/env/3.jpg", caption: "Waste Management Planning" }
             ],
             "water": [
-                { src: "assets/services/water/1.jpg", caption: "Hydrological Modeling" },
+                { src: "assets/services/water/oca.jpg", caption: "Open Channel Flow Apparatus" },
                 { src: "assets/services/water/2.jpg", caption: "River Bank Protection" },
                 { src: "assets/services/water/3.jpg", caption: "Flood Management System" }
             ],
@@ -518,6 +540,7 @@
                 if(targetNav) targetNav.click();
             }
         }
+		
     </script>
 
 </body>

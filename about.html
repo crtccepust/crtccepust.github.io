@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About CRTC - PUST</title>
+    <title>About CRTC - PUST,</title>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -31,9 +31,14 @@
         header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
         .logo { display: flex; align-items: center; gap: 15px; }
-        .logo-icon { font-size: 2.5rem; color: var(--primary-color); }
+		.logo-img { 
+            height: 50px; /* Adjust logo height here */
+            width: auto;
+            object-fit: contain;
+        }
+
         .logo-text h1 { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; line-height: 1.1; }
-        .logo-text p { font-size: 0.85rem; color: #666; font-weight: 500; }
+        .logo-text p { font-size: 1.1rem; color: #666; font-weight: 500; }
 
         .nav-links { display: flex; gap: 5px; align-items: center; }
         .nav-links li a { font-weight: 500; color: var(--primary-color); padding: 10px 15px; border-radius: 4px; transition: var(--transition); font-size: 0.95rem; }
@@ -115,20 +120,22 @@
     <header>
         <div class="container">
             <div class="nav-container">
-                <div class="logo">
-                    <i class="fas fa-university logo-icon"></i>
-                    <div class="logo-text">
-                        <h1>CRTC, PUST</h1>
-                        <p>Dept. of Civil Engineering</p>
+					<a href="index.html" class="logo">
+                    <!-- LOGO IMAGE FROM LOCAL FOLDER -->
+                    <!-- Make sure 'crtc_logo.jpg' is in 'assets' folder -->
+                    <img src="assets/crtc_logo.svg" alt="CRTC Logo" class="logo-img" onerror="this.onerror=null;">
+                       <div class="logo-text">
+                        <h1>CRTC, CE</h1>
+                        <p>PUST, Pabna</p>
                     </div>
-                </div>
+				</a>
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html" class="active">About</a></li>
-                    <li><a href="index.html#services">Services</a></li>
-                    <li><a href="index.html#rate">Rates</a></li>
-                    <li><a href="forms.html">Forms</a></li>
-                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="rates.html">Rates</a></li>
+                    <li><a href="forms.html">Forms & Guidlines</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -138,7 +145,7 @@
     <section class="page-header">
         <div class="container">
             <h2>About CRTC</h2>
-            <p>Center for Research, Testing, and Consultation</p>
+            <p>Center of Research, Testing, and Consultation</p>
         </div>
     </section>
 
@@ -150,7 +157,7 @@
                 <!-- Main Description -->
                 <div class="main-col">
                     <h3>Who We Are</h3>
-                    <p>The <strong>Center for Research, Testing, and Consultation (CRTC)</strong> is the dedicated research and commercial extension of the Department of Civil Engineering, Pabna University of Science and Technology (PUST). Established to foster strong collaboration between academia and industry, CRTC is committed to transforming academic knowledge into practical engineering solutions that support sustainable infrastructure development.</p>
+                    <p>The <strong>Center of Research, Testing, and Consultation (CRTC)</strong> is the dedicated research and commercial extension of the Department of Civil Engineering, Pabna University of Science and Technology (PUST). Established to foster strong collaboration between academia and industry, CRTC is committed to transforming academic knowledge into practical engineering solutions that support sustainable infrastructure development.</p>
                     <p>CRTC serves as a center of excellence for advanced material testing, structural evaluation, geotechnical investigation, and engineering consultancy. By integrating academic expertise with state-of-the-art laboratory facilities, the center ensures reliable, accurate, and industry-compliant services for both public and private sector projects.</p>
 					<p>Since its inception, CRTC has made significant contributions to the planning, design, quality control, and safety assessment of infrastructure projects across the Pabna region and beyond. The center regularly provides technical services and consultancy to prominent government organizations, including the BWDB, LGED, PWD, and RHD, alongside leading private construction and engineering firms.</p>
 					<p>Our laboratories are equipped with modern, high-precision testing instruments capable of conducting a wide range of tests in strict compliance with internationally and nationally recognized standards such as ASTM, AASHTO, BNBC, and BS. Supported by experienced faculty members, skilled engineers, and trained technical staff, CRTC ensures accuracy, integrity, and professionalism in every service it delivers.</p>
@@ -179,13 +186,15 @@
                     <div class="sidebar-item">
                         <h4><i class="fas fa-flask"></i> Key Facilities</h4>
                         <ul>
-                            <li>Structural Engineering Lab</li>
-                            <li>Concrete & Material Lab</li>    
-							<li>Transportation Engineering Lab</li>							
-                            <li>Environmental Engineering Lab</li>
-							<li>Geotechnical Engineering Lab</li>                            
+                            <li>Strength of Materials (SM) Lab.</li>
+							<li>Structural Engineering Lab.</li>
+							<li>Concrete Lab.</li>
+							<li>Transportation Engineering Lab.</li>						
+                            <li>Surveying Lab.</li>
+							<li>CAD Lab.</li>
+                            <li>Geotechnical Engineering Lab.</li>    
+							<li>Environmental Engineering Lab.</li>	                            
                             <li>Water Resource Engineering Lab</li>
-							<li>Surveying & CAD Lab</li>
                         </ul>
                     </div>
                     
@@ -206,11 +215,12 @@
                     <div class="sidebar-item">
                         <h4><i class="fas fa-users"></i> Our Clients</h4>
                         <ul style="font-size: 0.9rem;">
-                            <li>Local Govt. Engineering Dept. (LGED)</li>
+                            <li>Bangladesh Water Dev. Board (BWDB)</li>
+							<li>Local Govt. Engineering Dept. (LGED)</li>
                             <li>Public Works Department (PWD)</li>
                             <li>Roads and Highways Dept. (RHD)</li>
                             <li>Education Engineering Dept. (EED)</li>
-                            <li>Various Private Developers</li>
+                            <li>Various Private Companies</li>
                         </ul>
                     </div>
                 </div>
@@ -224,10 +234,10 @@
         <div class="container">
             <ul class="footer-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#rate">Test Rates</a></li>
-                <li><a href="index.html#contact">Contact Support</a></li>
+                <li><a href="rates.html">Test Rates</a></li>
+                <li><a href="contact.html">Contact Support</a></li>
             </ul>
-            <p>&copy; 2025 Center for Research, Testing and Consultation (CRTC), PUST. All Rights Reserved.</p>
+            <p>&copy; 2026 Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, PUST. All Rights Reserved.</p>
         </div>
     </footer>
 

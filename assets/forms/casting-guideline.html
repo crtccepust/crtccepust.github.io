@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guideline for Casting and Curing of Concrete Test Cylinders | CRTC</title>
+<style>
+/* Everything is scoped to .cc-guide so you can paste the <section> into an existing page. */
+
+.cc-guide{--ink:#1d2730;--muted:#55616c;--line:#cfd5da;--paper:#ffffff;--tint:#eef1f3;--steel:#1f4e79;--warn:#8a5a00;--warnbg:#fbf3e0;
+  font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--paper);max-width:860px;margin:0 auto;padding:32px 20px 56px;box-sizing:border-box}
+.cc-guide *{box-sizing:border-box}
+.cc-guide h1,.cc-guide h2,.cc-guide h3{font-family:Charter,"Iowan Old Style",Georgia,serif;line-height:1.25;color:var(--ink);margin:0}
+.cc-guide h1{font-size:clamp(1.7rem,4.5vw,2.4rem);font-weight:700;margin-bottom:10px}
+.cc-guide h2{font-size:1.45rem;margin:44px 0 14px;padding-top:18px;border-top:2px solid var(--ink)}
+.cc-guide h3{font-size:1.1rem;margin:22px 0 8px}
+.cc-guide p{margin:0 0 12px;max-width:none; text-align: justify}
+.cc-guide .lede{font-size:1.08rem;color:var(--muted);max-width:68ch}
+.cc-guide .meta{font-size:.9rem;color:var(--muted);margin:14px 0 0}
+.cc-guide .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;margin:28px 0 0;border:1px solid var(--line)}
+.cc-guide .fact{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:-1px -1px 0 0}
+.cc-guide .fact b{display:block;font:700 1.55rem/1.2 Charter,Georgia,serif;color:var(--steel)}
+.cc-guide .fact span{font-size:.9rem;color:var(--muted)}
+.cc-guide ol.steps{list-style:none;counter-reset:s;margin:0;padding:0}
+.cc-guide ol.steps>li{counter-increment:s;position:relative;padding:0 0 16px 46px;max-width:none}
+.cc-guide ol.steps>li::before{content:counter(s);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:50%;background:var(--steel);color:#fff;font-weight:700;font-size:.95rem;display:grid;place-items:center}
+.cc-guide ul{margin:0 0 12px;padding-left:1.2em;max-width:none}
+.cc-guide li{margin-bottom:6px; text-align: justify}
+.cc-guide .table-wrap{overflow-x:auto;margin:10px 0 18px}
+.cc-guide table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+.cc-guide th,.cc-guide td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cc-guide th{background:var(--tint);font-weight:650}
+.cc-guide .note{background:var(--warnbg);border-left:4px solid var(--warn);padding:12px 16px;margin:18px 0;max-width:none}
+.cc-guide .note p{margin:0}
+.cc-guide .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.cc-guide .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+.cc-guide a{color:var(--steel)}
+.cc-guide a:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
+.cc-guide{--hl:#e3f0f9}
+.cc-guide ::selection{background:#bfe0f7;color:#0b2a44}
+.cc-guide .fact,.cc-guide li,.cc-guide .note,.cc-guide tbody tr,.cc-guide details,.cc-guide ol.steps>li::before{transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease}
+.cc-guide .fact:hover{background:linear-gradient(160deg,#fff 30%,var(--hl));transform:translateY(-3px);box-shadow:0 8px 20px rgba(31,78,121,.16);position:relative}
+.cc-guide li:hover{background:linear-gradient(90deg,var(--hl),transparent);border-radius:4px}
+.cc-guide ol.steps>li:hover::before{transform:scale(1.14);background:#0f3350}
+.cc-guide tbody tr:hover{background:var(--hl)}
+.cc-guide .note:hover{box-shadow:0 6px 16px rgba(138,90,0,.2);transform:translateY(-2px)}
+.cc-guide h2{transition:border-color .2s,color .2s}
+.cc-guide h2:hover{border-top-color:var(--steel);color:var(--steel)}
+.cc-guide .tip{border-bottom:1.5px dotted var(--steel);cursor:help;position:relative}
+.cc-guide .tip::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,6px);width:max-content;max-width:240px;background:#0f3350;color:#fff;font:400 .82rem/1.45 system-ui,sans-serif;padding:8px 10px;border-radius:6px;box-shadow:0 8px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:30}
+.cc-guide .tip:hover::after,.cc-guide .tip:focus::after{opacity:1;transform:translate(-50%,0)}
+.cc-guide .faqbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.cc-guide .faqbar input{max-width:300px;width:100%;padding:9px 10px;border:1px solid #aab4bc;border-radius:4px;font:inherit}
+.cc-guide .faqbar input:focus{border-color:var(--steel);box-shadow:0 0 0 3px rgba(31,78,121,.2);outline:0}
+.cc-guide .chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:600 .85rem system-ui,sans-serif;cursor:pointer;color:var(--muted);transition:all .15s}
+.cc-guide .chip:hover{border-color:var(--steel);color:var(--steel);background:var(--hl)}
+.cc-guide .chip.on{background:var(--steel);border-color:var(--steel);color:#fff}
+.cc-guide details{border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin-bottom:10px}
+.cc-guide details:hover{border-color:var(--steel);background:linear-gradient(90deg,#eef6fc,#fff);box-shadow:0 4px 12px rgba(31,78,121,.1)}
+.cc-guide details[open]{background:linear-gradient(160deg,#fff,var(--hl));border-left:4px solid var(--steel)}
+.cc-guide summary{list-style:none;display:flex;justify-content:space-between;gap:12px;cursor:pointer;font-weight:650}
+.cc-guide summary::-webkit-details-marker{display:none}
+.cc-guide summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--steel);transition:transform .2s}
+.cc-guide details[open] summary::after{transform:rotate(45deg)}
+.cc-guide details p{margin:8px 0 0}
+.cc-guide details[open] p{animation:fd .25s ease}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 65px 20px;
+    background: linear-gradient(135deg, #12304a, #1d4968);
+    isolation: isolate;
+}
+
+/* Background image / watermark */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("cc.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+/* Text above image */
+.hero h1 {
+    position: relative;
+    font-size: clamp(1.8rem, 5vw, 2.7rem);
+    max-width: 20ch;
+    margin: 0 auto;
+    text-align: center;
+    color: #ffffff;
+}
+
+.hero p {
+    position: relative;
+    max-width: 750px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin: 14px auto 0;
+    text-align: center;
+    line-height: 1.7;
+}
+
+
+@keyframes fd{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.cc-guide #nf{display:none;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.cc-guide *{transition:none!important;animation:none!important}}
+@media print{.cc-guide .faqbar{display:none}.cc-guide{max-width:none;padding:0}.cc-guide h2{break-after:avoid}.cc-guide .fact,.cc-guide tr{break-inside:avoid}}
+</style>
+</head>
+<body>
+<section class="cc-guide" aria-labelledby="cc-title">
+
+<header class="hero">
+    <h1>Guideline for Casting and Curing of Concrete Test Cylinders</h1>
+    <p>A guideline for making and curing concrete cylinders at your site, then delivering them to the CRTC laboratory for compressive strength testing under ASTM C39/C39M.</p>
+</header>
+
+<div class="facts" role="list" aria-label="Key requirements">
+  <div class="fact" role="listitem"><b>15 min</b><span>from finishing the composite sample to starting molding</span></div>
+  <div class="fact" role="listitem"><b>24 &plusmn; 8 h</b><span>initial curing before the molds are removed</span></div>
+  <div class="fact" role="listitem"><b>23 &plusmn; 2 &deg;C</b><span>final curing temperature, with free moisture on the surface</span></div>
+  <div class="fact" role="listitem"><b>Moist</b><span>cylinders arrive at CRTC wet, never dried out, at the age you ordered</span></div>
+</div>
+
+<h2>1. Why this matters</h2>
+<p> ASTM C39 measures the strength of the specimen we receive. It does not measure the strength of the concrete in your structure. Two cylinders cut from the same batch can give different results if one is cured warm and dry and the other cool and moist. Following this guideline keeps that difference small and keeps your results defensible.
+</p>
+<h2>2. Before you start</h2>
+<ul>
+  <li><strong>Molds:</strong> use clean, undamaged, non-absorbent molds of the size in your specification, normally 150 &times; 300 mm or 100 &times; 200 mm. The mold diameter should be at least three times the nominal maximum aggregate size.</li>
+  <li><strong>Equipment:</strong> tamping rod (16 mm for 150 mm molds, 10 mm for 100 mm molds), rubber mallet, scoop, trowel, wheelbarrow or pan, thermometer, slump cone, and a lidded curing box or insulated cooler.</li>
+  <li><strong>Mold preparation:</strong> apply a thin film of release oil to the inside of reusable molds. Wipe off any pooled oil.</li>
+  <li><strong>Site for initial curing:</strong> choose a level, shaded, vibration-free place that you can keep between 16 and 27 &deg;C (20 to 25 &deg;C if the specified strength is 40 MPa or more).</li>
+</ul>
+
+<h2>3. Casting procedure</h2>
+<ol class="steps">
+  <li><strong>Sample the concrete.</strong> Take portions from at least two points during discharge, not from the first or last of the load. Combine them into one <span class="tip" tabindex="0" data-tip="Several portions from different parts of the discharge, mixed into one representative sample.">composite sample</span> of at least 28 litres, with no more than 15 minutes between the first and last portion.</li>
+  <li><strong>Protect the sample.</strong> Cover it against sun, wind and evaporation while you test fresh properties.</li>
+  <li><strong>Test fresh concrete.</strong> Slump, temperature and air content should be started within 5 minutes of collecting the final portion. Remix the sample before filling molds.</li>
+  <li><strong>Start molding within 15 minutes</strong> of obtaining the sample. Place the mold on a firm, level surface.</li>
+  <li><strong>Fill and consolidate in layers.</strong> The table below gives the layers for rodding. Distribute the concrete with the scoop around the rim as it goes in.</li>
+  <li><strong>Strike off</strong> the surface with the tamping rod or trowel. Finish with a minimum of manipulation so the surface is flat and level with the rim, with no more than 3 mm of projection or depression.</li>
+  <li><strong>Cover immediately</strong> with a non-absorbent lid or plastic sheet to stop moisture loss. Do not use anything that will absorb water from the surface.</li>
+  <li><strong>Label each cylinder</strong> on its side, not only on the lid. Record the project, element or pour, date, time and cylinder number.</li>
+</ol>
+
+<div class="table-wrap">
+<table>
+  <caption class="meta" style="text-align:left;caption-side:top;padding-bottom:6px">Consolidation by rodding</caption>
+  <thead><tr><th>Cylinder size</th><th>Layers</th><th>Strokes per layer</th><th>Rod</th><th>After each layer</th></tr></thead>
+  <tbody>
+    <tr><td>150 &times; 300 mm</td><td>3, equal depth</td><td>25</td><td>16 mm</td><td>Tap the mold sides 10&ndash;15 times with a mallet to close voids</td></tr>
+    <tr><td>100 &times; 200 mm</td><td>2, equal depth</td><td>25</td><td>10 mm</td><td>Tap the mold sides 10&ndash;15 times with a mallet to close voids</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Spread the strokes evenly over the cross-section. In the first layer, rod through the full depth without hitting the bottom. In the other layers, penetrate about 25 mm into the layer below. If your concrete has a slump below 25 mm, use an internal vibrator instead and follow the standard for insertion counts.</p>
+
+<h2>4. Initial curing (first 24 hours)</h2>
+<p>Store the covered cylinders immediately after finishing, in a place where they will not be disturbed.</p>
+<ul>
+  <li>Keep them between <strong>16 and 27 &deg;C</strong>, or <strong>20 to 25 &deg;C</strong> for strengths of 40 MPa and above.</li>
+  <li>Protect them from direct sun, radiant heaters, wind and vibration.</li>
+  <li>Keep moisture in. Leave lids on, or keep the cylinders in a lidded box with damp cloth around them.</li>
+  <li>Record the minimum and maximum temperature each day using a min/max thermometer placed next to the cylinders.</li>
+  <li>Do not move the cylinders until at least 8 hours after <span class="tip" tabindex="0" data-tip="Final set: the point where the concrete has hardened enough to no longer deform under light pressure.">final set</span>.</li>
+</ul>
+
+<h2>5. Removing the molds and final curing</h2>
+<p>Remove the molds <strong>24 &plusmn; 8 hours</strong> after casting. Mark each cylinder with its ID again on the concrete itself, then move it into final curing within 30 minutes.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Curing type</th><th>When it applies</th><th>Conditions</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Standard curing</strong></td><td>Acceptance testing, quality control and checking mix proportions</td><td>23 &plusmn; 2 &deg;C in <span class="tip" tabindex="0" data-tip="Water holding dissolved calcium hydroxide (about 3 g/L), so lime is not leached from the cylinders.">lime-saturated water</span> or a moist room (relative humidity at least 95%) with free water on the cylinder surface at all times</td></tr>
+    <tr><td><strong>Field curing</strong></td><td>Checking whether the structure&rsquo;s own curing and protection are adequate, or deciding when forms can be removed</td><td>Cured next to the structure, with the same protection and the same temperature exposure as the concrete they represent</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note"><p><strong>Keep the two separate.</strong> Standard-cured and field-cured cylinders answer different questions. If a specification asks for acceptance results, standard curing is required. Please tell us before casting which type of curing you need for each set.</p></div>
+
+<p>Never let cylinders dry out between the end of curing and testing. Keep them moist up to the minute of testing.</p>
+
+<h2>6. Delivery to CRTC</h2>
+<p>You cure the cylinders at your site. Send them to CRTC ready to test, in the moist condition the standard requires.</p>
+<ul>
+  <li>Plan arrival at CRTC about one day before the test age, and confirm lead time and receiving hours with CRTC before you cast.</li>
+  <li>On the day of dispatch, take the cylinders out of curing and wrap each one in wet cloth inside sealed plastic. They must not dry out at any point.</li>
+  <li>Pack them upright in a rigid, cushioned crate so they cannot roll, drop or knock against each other.</li>
+  <li>Protect them from freezing, heat and direct sun during transport.</li>
+  <li>Do not cap, grind or paint the ends. CRTC prepares the ends under the standard.</li>
+  <li>Send the completed record sheet (section 7) with the cylinders.</li>
+</ul>
+
+<h2>7. Information we need with every set</h2>
+<div class="two">
+  <ul>
+    <li>Project name and structural element or pour</li>
+    <li>Mix identification and supplier</li>
+    <li>Specified strength and test ages requested</li>
+    <li>Date and time of sampling and of casting</li>
+  </ul>
+  <ul>
+    <li>Slump, concrete temperature and air content</li>
+    <li>Cylinder size and number cast</li>
+    <li>Curing type, and min/max temp. during initial curing</li>
+    <li>Name of the person who cast the cylinders</li>
+  </ul>
+</div>
+
+<h2>8. Common problems</h2>
+<ul>
+  <li>Sampling from the first or last of the load, which gives a non-representative result</li>
+  <li>Waiting more than 15 minutes between sampling and molding</li>
+  <li>Cylinders left in direct sun or in a hot vehicle during initial curing</li>
+  <li>Moving or jarring cylinders in the first 8 hours after final set</li>
+  <li>Poor consolidation, leaving voids or honeycombing</li>
+  <li>Uneven or poorly struck-off tops, which affect capping and testing</li>
+  <li>Cylinders that dry out after demolding</li>
+  <li>Missing labels or missing temperature records</li>
+</ul>
+
+<p>Specimens that were not cast or cured under these conditions can still be tested, but the deviations will be stated in the report, and the result may not be accepted by the specifier.</p>
+
+<h2>9. After delivery</h2>
+<p>On receipt CRTC checks the labels and condition, prepares the ends, and tests the cylinders at the requested age in accordance with ASTM C39/C39M. Our report states the curing history, the compressive strength to the nearest 0.1 MPa, the fracture type and any deviations noted.</p>
+
+<h2>10. Frequently asked questions</h2>
+<p>Search, or filter by topic.</p>
+<div class="faqbar"><input id="fq" type="search" placeholder="Search questions" aria-label="Search questions"><button type="button" class="chip on" data-c="all">All</button><button type="button" class="chip" data-c="casting">Casting</button><button type="button" class="chip" data-c="curing">Curing</button><button type="button" class="chip" data-c="delivery">Delivery</button><button type="button" class="chip" data-c="results">Results</button></div>
+<div id="faqlist">
+<details data-cat="casting"><summary>How many cylinders should I cast?</summary><p>Follow your project specification. Cast enough for every test age you need, plus spares. Generally, three cylinders are normally tested per age and averaged.</p></details>
+<details data-cat="casting"><summary>Can I sample from the first or last part of the truck?</summary><p>No. Take portions from at least two points during discharge, not from the very first or last of the load, and combine them into one composite sample.</p></details>
+<details data-cat="casting"><summary>Why must molding start within 15 minutes?</summary><p>Fresh concrete loses workability and moisture quickly. Waiting longer means the cylinders no longer represent the concrete that was delivered.</p></details>
+<details data-cat="curing"><summary>Do I need lime-saturated water?</summary><p>For standard curing, yes: use lime-saturated water at 23 &plusmn; 2 &deg;C, or a moist room at 95% relative humidity or above. Plain water can leach lime from the surface of the cylinder.</p></details>
+<details data-cat="curing"><summary>Can field-cured cylinders be used for acceptance?</summary><p>Where the specification asks for acceptance results, standard curing is required. Field curing checks whether the structure&rsquo;s own curing and protection are adequate.</p></details>
+<details data-cat="curing"><summary>What if the temperature went outside the range?</summary><p>Record it on the submission sheet and tell CRTC. Deviations are stated in the report, and the specifier decides whether the result is accepted.</p></details>
+<details data-cat="curing"><summary>Can I leave cylinders in the molds?</summary><p>Only for the initial 24 &plusmn; 8 hours. After that, demold and move them into curing within 30 minutes.</p></details>
+<details data-cat="delivery"><summary>What if my cylinders arrive late?</summary><p>Tests must be run within a tolerance of the test age: 3 days &plusmn;2 h, 7 days &plusmn;6 h, 28 days &plusmn;20 h, 90 days &plusmn;2 days. A test outside that window is reported with its actual age.</p></details>
+<details data-cat="delivery"><summary>How should I pack the cylinders?</summary><p>Wrap each in wet cloth, seal it in plastic, and place it upright in a rigid, cushioned crate. Keep it out of sun, heat and freezing. Do not cap or trim the ends.</p></details>
+<details data-cat="delivery"><summary>What if my cylinders dried out in transport?</summary><p>Tell CRTC. Dry cylinders can give a different strength, so the condition on arrival is recorded in the report.</p></details>
+<details data-cat="results"><summary>What will the CRTC report contain?</summary><p>Specimen ID, age at test, curing history, average diameter, maximum load, compressive strength to the nearest 0.1 MPa, fracture type, and any deviations or defects noted.</p></details>
+<details data-cat="results"><summary>Does the cylinder strength equal my structure&rsquo;s strength?</summary><p>No. ASTM C39 measures the specimen you cast and cured. In-place strength can differ and may need cores or other investigation.</p></details>
+<details data-cat="results"><summary>How soon will I receive results?</summary><p>Reports are normally issued within two working days of testing. Confirm turnaround with CRTC when you book.</p></details>
+</div>
+<p id="nf">No matching questions. Try another word.</p>
+
+<p class="foot">This guideline summarizes good practice from ASTM C31/C31M, C192/C192M and C39/C39M. It does not replace the standards or your project specification, which govern if they differ. Please confirm values against the current editions before relying on this page. Questions: CRTC &middot; crtc.ce@pust.ac.bd &middot; +8802588844915 &middot; CRTC, CE, PUST</p>
+
+</section>
+<script>
+(function(){
+var q=document.getElementById('fq'),nf=document.getElementById('nf'),cat='all',dl=document.querySelectorAll('#faqlist details');
+function ff(){var n=0;dl.forEach(function(d){var ok=(cat==='all'||d.dataset.cat===cat)&&d.textContent.toLowerCase().indexOf(q.value.toLowerCase())>-1;d.hidden=!ok;if(ok)n++});nf.style.display=n?'none':'block'}
+q.oninput=ff;
+document.querySelectorAll('.cc-guide .chip').forEach(function(c){c.onclick=function(){cat=c.dataset.c;document.querySelectorAll('.cc-guide .chip').forEach(function(x){x.classList.toggle('on',x===c)});ff()}});
+dl.forEach(function(d){d.ontoggle=function(){if(d.open)dl.forEach(function(o){if(o!==d)o.open=false})}});
+})();
+</script>
+</body>
+</html>
