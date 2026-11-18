@@ -4,122 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sealed and Unsealed Sample Submission Guideline | CRTC</title>
-<style>
-/* Everything is scoped to .cc-guide so you can paste the <section> into an existing page. */
-.cc-guide{--ink:#1d2730;--muted:#55616c;--line:#cfd5da;--paper:#ffffff;--tint:#eef1f3;--steel:#1f4e79;--warn:#8a5a00;--warnbg:#fbf3e0;
-  font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--paper);max-width:860px;margin:0 auto;padding:32px 20px 56px;box-sizing:border-box}
-.cc-guide *{box-sizing:border-box}
-.cc-guide h1,.cc-guide h2,.cc-guide h3{font-family:Charter,"Iowan Old Style",Georgia,serif;line-height:1.25;color:var(--ink);margin:0}
-.cc-guide h1{font-size:clamp(1.7rem,4.5vw,2.4rem);font-weight:700;margin-bottom:10px}
-.cc-guide h2{font-size:1.45rem;margin:44px 0 14px;padding-top:18px;border-top:2px solid var(--ink)}
-.cc-guide h3{font-size:1.1rem;margin:22px 0 8px}
-.cc-guide p{margin:0 0 12px;max-width:none; text-align: justify}
-.cc-guide .lede{font-size:1.08rem;color:var(--muted);max-width:68ch}
-.cc-guide .meta{font-size:.9rem;color:var(--muted);margin:14px 0 0}
-.cc-guide .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;margin:28px 0 0;border:1px solid var(--line)}
-.cc-guide .fact{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:-1px -1px 0 0}
-.cc-guide .fact b{display:block;font:700 1.55rem/1.2 Charter,Georgia,serif;color:var(--steel)}
-.cc-guide .fact span{font-size:.9rem;color:var(--muted)}
-.cc-guide ol.steps{list-style:none;counter-reset:s;margin:0;padding:0; text-align: justify}
-.cc-guide ol.steps>li{counter-increment:s;position:relative;padding:0 0 16px 46px;max-width:none}
-.cc-guide ol.steps>li::before{content:counter(s);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:50%;background:var(--steel);color:#fff;font-weight:700;font-size:.95rem;display:grid;place-items:center}
-.cc-guide ul{margin:0 0 12px;padding-left:1.2em;max-width:none; text-align: justify}
-.cc-guide li{margin-bottom:6px}
-.cc-guide .table-wrap{overflow-x:auto;margin:10px 0 18px }
-.cc-guide table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
-.cc-guide th,.cc-guide td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line); text-align: justify}
-.cc-guide th{background:var(--tint);font-weight:650}
-.cc-guide .note{background:var(--warnbg);border-left:4px solid var(--warn);padding:12px 16px;margin:18px 0;max-width:none;text-align: justify}
-.cc-guide .note p{margin:0}
-.cc-guide .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.cc-guide .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
-.cc-guide a{color:var(--steel)}
-.cc-guide a:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
-.cc-guide{--hl:#e3f0f9}
-.cc-guide ::selection{background:#bfe0f7;color:#0b2a44}
-.cc-guide .fact,.cc-guide li,.cc-guide .note,.cc-guide tbody tr,.cc-guide details,.cc-guide ol.steps>li::before{transition:transform .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease}
-.cc-guide .fact:hover{background:linear-gradient(160deg,#fff 30%,var(--hl));transform:translateY(-3px);box-shadow:0 8px 20px rgba(31,78,121,.16);position:relative}
-.cc-guide li:hover{background:linear-gradient(90deg,var(--hl),transparent);border-radius:4px}
-.cc-guide ol.steps>li:hover::before{transform:scale(1.14);background:#0f3350}
-.cc-guide tbody tr:hover{background:var(--hl)}
-.cc-guide .note:hover{box-shadow:0 6px 16px rgba(138,90,0,.2);transform:translateY(-2px)}
-.cc-guide h2{transition:border-color .2s,color .2s}
-.cc-guide h2:hover{border-top-color:var(--steel);color:var(--steel)}
-.cc-guide .tip{border-bottom:1.5px dotted var(--steel);cursor:help;position:relative}
-.cc-guide .tip::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,6px);width:max-content;max-width:240px;background:#0f3350;color:#fff;font:400 .82rem/1.45 system-ui,sans-serif;padding:8px 10px;border-radius:6px;box-shadow:0 8px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:30}
-.cc-guide .tip:hover::after,.cc-guide .tip:focus::after{opacity:1;transform:translate(-50%,0)}
-.cc-guide .faqbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
-.cc-guide .faqbar input{max-width:300px;width:100%;padding:9px 10px;border:1px solid #aab4bc;border-radius:4px;font:inherit}
-.cc-guide .faqbar input:focus{border-color:var(--steel);box-shadow:0 0 0 3px rgba(31,78,121,.2);outline:0}
-.cc-guide .chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:600 .85rem system-ui,sans-serif;cursor:pointer;color:var(--muted);transition:all .15s}
-.cc-guide .chip:hover{border-color:var(--steel);color:var(--steel);background:var(--hl)}
-.cc-guide .chip.on{background:var(--steel);border-color:var(--steel);color:#fff}
-.cc-guide details{border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin-bottom:10px}
-.cc-guide details:hover{border-color:var(--steel);background:linear-gradient(90deg,#eef6fc,#fff);box-shadow:0 4px 12px rgba(31,78,121,.1)}
-.cc-guide details[open]{background:linear-gradient(160deg,#fff,var(--hl));border-left:4px solid var(--steel)}
-.cc-guide summary{list-style:none;display:flex;justify-content:space-between;gap:12px;cursor:pointer;font-weight:650}
-.cc-guide summary::-webkit-details-marker{display:none}
-.cc-guide summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--steel);transition:transform .2s}
-.cc-guide details[open] summary::after{transform:rotate(45deg)}
-.cc-guide details p{margin:8px 0 0}
-.cc-guide details[open] p{animation:fd .25s ease}
-
-.hero {
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    padding: 65px 20px;
-    background: linear-gradient(135deg, #12304a, #1d4968);
-    isolation: isolate;
-}
-
-/* Background image / watermark */
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("sus.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    opacity: 0.3;
-    z-index: -1;
-}
-
-/* Text above image */
-.hero h1 {
-    position: relative;
-    font-size: clamp(1.8rem, 5vw, 2.7rem);
-    max-width: 20ch;
-    margin: 0 auto;
-    text-align: center;
-    color: #ffffff;
-}
-
-.hero p {
-    position: relative;
-    max-width: 750px;
-    color: #ffffff;
-    font-size: 1.1rem;
-    margin: 14px auto 0;
-    text-align: center;
-    line-height: 1.7;
-}
-
-@keyframes fd{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.cc-guide #nf{display:none;color:var(--muted)}
-@media (prefers-reduced-motion:reduce){.cc-guide *{transition:none!important;animation:none!important}}
-@media print{.cc-guide .faqbar{display:none}.cc-guide{max-width:none;padding:0}.cc-guide h2{break-after:avoid}.cc-guide .fact,.cc-guide tr{break-inside:avoid}}
-</style>
+<link rel="stylesheet" href="../../css/forms-guidline-style.css">
 </head>
 <body>
+<div class="cc-bg" id="bg" aria-hidden="true"></div>
 <section class="cc-guide" aria-labelledby="cc-title">
-
 <header class="hero">
+	<img class="hero-bg" src="sus.jpg" alt="" aria-hidden="true">
     <h1>Guideline for Sealed and Unsealed Samples</h1>
     <p>How CRTC receives, records and reports samples of any type, sealed or unsealed, so that your report states clearly what it covers.</p>
 </header>
-
+<header>
+  <p class="meta">CRTC client guideline &middot; Sealed and unsealed samples &middot; Document ref: [SU-G-27-001] &middot; Revision [R1] &middot; Issued [Jan. 1, 2027]</p>
+</header>
 <div class="facts" role="list" aria-label="At a glance">
   <div class="fact" role="listitem"><b>Sealed</b><span>closed with a numbered <span class="tip" tabindex="0" data-tip="A numbered tag, wire or label that visibly breaks if the container is opened.">tamper-evident seal</span> at your site</span></div>
   <div class="fact" role="listitem"><b>Unsealed</b><span>delivered without a seal, identified as you declare</span></div>
@@ -246,14 +143,6 @@
 <p class="foot">This guideline describes CRTC handling of sealed and unsealed submissions and general good practice for packing. It does not replace the applicable test method, your contract or your project specification, which govern if they differ. Questions: CRTC &middot; crtc.ce@pust.ac.bd &middot; +8802588844915 &middot; CRTC, CE, PUST</p>
 
 </section>
-<script>
-(function(){
-var q=document.getElementById('fq'),nf=document.getElementById('nf'),cat='all',dl=document.querySelectorAll('#faqlist details');
-function ff(){var n=0;dl.forEach(function(d){var ok=(cat==='all'||d.dataset.cat===cat)&&d.textContent.toLowerCase().indexOf(q.value.toLowerCase())>-1;d.hidden=!ok;if(ok)n++});nf.style.display=n?'none':'block'}
-q.oninput=ff;
-document.querySelectorAll('.cc-guide .chip').forEach(function(c){c.onclick=function(){cat=c.dataset.c;document.querySelectorAll('.cc-guide .chip').forEach(function(x){x.classList.toggle('on',x===c)});ff()}});
-dl.forEach(function(d){d.ontoggle=function(){if(d.open)dl.forEach(function(o){if(o!==d)o.open=false})}});
-})();
-</script>
+<script src="../../css/forms-guidline-style.js"></script>
 </body>
 </html>
