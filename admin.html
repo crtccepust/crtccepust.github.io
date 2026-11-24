@@ -1,184 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - CRTC</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { --primary: #003366; --white: #ffffff; }
-        body { font-family: 'Roboto', sans-serif; background: #f4f7f6; margin: 0; }
-        
-        /* Nav */
-        nav { background: var(--primary); padding: 15px; color: white; display: flex; justify-content: space-between; align-items: center; }
-        .nav-brand { font-size: 1.2rem; font-weight: bold; }
-        .btn-logout { background: #e74c3c; border: none; color: white; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
-
-        /* Container */
-        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
-        
-        /* Card */
-        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        h2 { margin-top: 0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        
-        /* Form */
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 500; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; }
-        button:hover { background: #002244; }
-        button:disabled { background: #ccc; }
-
-        /* Login */
-        #login-screen { display: flex; height: 100vh; align-items: center; justify-content: center; }
-        #dashboard { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Management Portal | CRTC, PUST</title>
+<link rel="icon" href="assets/crtc_logo.svg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+<script src="js/config.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/site.js" defer></script>
 </head>
 <body>
+<div data-site="header"></div>
 
-    <!-- LOGIN -->
-    <div id="login-screen">
-        <div class="card" style="width: 100%; max-width: 400px;">
-            <h2 style="text-align: center;">Faculty Login</h2>
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="user" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="pass" required>
-                </div>
-                <button type="submit" id="loginBtn">Login</button>
-                <p id="loginMsg" style="color: red; text-align: center; margin-top: 10px;"></p>
-            </form>
-        </div>
+<main id="main" class="portal">
+  <!-- Sign in / register -->
+  <section id="auth" class="auth-card" hidden>
+    <div class="auth-tabs" role="tablist">
+      <button class="on" data-auth="login" role="tab">Sign in</button>
+      <button data-auth="register" role="tab">Register</button>
     </div>
+    <form id="loginForm" class="stack" autocomplete="on">
+      <h1>Management Portal</h1>
+      <p class="muted">Sign in to manage test rates, notices and users.</p>
+      <label>Username<input name="username" autocomplete="username" required></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="btn-main wide" type="submit">Sign in</button>
+    </form>
+    <form id="registerForm" class="stack" hidden autocomplete="off">
+      <h1>Request access</h1>
+      <p class="muted">An administrator reviews every new account before it can sign in.</p>
+      <label>Full name<input name="name" required></label>
+      <label>Official email<input name="email" type="email" required></label>
+      <div class="two">
+        <label>Username<input name="username" pattern="[a-zA-Z0-9._]{3,24}" title="3-24 letters, numbers, dot or underscore" required></label>
+        <label>Role requested<select name="role"><option value="faculty">Faculty</option><option value="staff">Staff</option><option value="ra">Research Assistant (RA)</option></select></label>
+      </div>
+      <label>Password<input name="password" type="password" minlength="10" autocomplete="new-password" required><small class="muted">At least 10 characters, with letters and numbers.</small></label>
+      <button class="btn-main wide" type="submit">Submit request</button>
+    </form>
+    <p id="authMsg" class="msg" role="alert"></p>
+  </section>
 
-    <!-- DASHBOARD -->
-    <div id="dashboard">
-        <nav>
-            <div class="nav-brand">CRTC Admin</div>
-            <div>
-                <a href="notice.html" style="color: white; margin-right: 15px; text-decoration: none;">View Site</a>
-                <button class="btn-logout" onclick="logout()">Logout</button>
-            </div>
-        </nav>
-
-        <div class="container">
-            <div class="card">
-                <h2><i class="fas fa-plus-circle"></i> Publish New Notice</h2>
-                <form onsubmit="postNotice(event)">
-                    <div class="form-group">
-                        <label>Notice Title</label>
-                        <input type="text" id="nTitle" required placeholder="e.g. Lab Closure">
-                    </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select id="nCat">
-                            <option>General</option>
-                            <option>Urgent</option>
-                            <option>Results</option>
-                            <option>Maintenance</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea id="nDesc" rows="4" required placeholder="Details..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>External Link (Optional)</label>
-                        <input type="text" id="nLink" placeholder="https://...">
-                    </div>
-                    <button type="submit" id="postBtn">Publish to Website</button>
-                </form>
-            </div>
-        </div>
+  <!-- Dashboard -->
+  <section id="app" hidden>
+    <div class="topbar">
+      <div><h1>Management Portal</h1><p class="muted">Signed in as <b id="uName"></b> <span id="uRole" class="badge"></span></p></div>
+      <button id="logoutBtn" class="btn-outline"><i class="fas fa-sign-out-alt"></i> Sign out</button>
     </div>
+    <nav id="tabs" class="tabs" role="tablist"></nav>
+    <div id="view"></div>
+  </section>
+</main>
 
-    <script>
-        // --- CONFIGURATION ---
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2_VGnaTJLT3fVyqx67dXd1bwy8hb7Dq2BalzhZDh3dAs3KTeuCve5H53PluXzgUHP/exec"; 
-        // ---------------------
+<dialog id="dlg"><form method="dialog" id="dlgForm" class="stack"></form></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const btn = document.getElementById('loginBtn');
-            const msg = document.getElementById('loginMsg');
-
-            if(!GOOGLE_SCRIPT_URL) {
-                msg.innerText = "Script URL missing in code.";
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerText = "Checking...";
-
-            fetch(`${GOOGLE_SCRIPT_URL}?action=login&u=${u}&p=${p}`)
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    localStorage.setItem('crtc_auth', 'true');
-                    showDashboard();
-                } else {
-                    msg.innerText = "Invalid Credentials";
-                    btn.disabled = false;
-                    btn.innerText = "Login";
-                }
-            })
-            .catch(err => {
-                msg.innerText = "Connection Error";
-                btn.disabled = false;
-            });
-        }
-
-        function postNotice(e) {
-            e.preventDefault();
-            const btn = document.getElementById('postBtn');
-            
-            const title = document.getElementById('nTitle').value;
-            const cat = document.getElementById('nCat').value;
-            const desc = document.getElementById('nDesc').value;
-            const link = document.getElementById('nLink').value;
-
-            btn.disabled = true;
-            btn.innerText = "Publishing...";
-
-            // Use 'no-cors' mode if simply firing and forgetting, or handle cors in script
-            // Using GET for simplicity in Apps Script without complex CORS headers
-            const url = `${GOOGLE_SCRIPT_URL}?action=addNotice&title=${encodeURIComponent(title)}&category=${encodeURIComponent(cat)}&desc=${encodeURIComponent(desc)}&link=${encodeURIComponent(link)}`;
-
-            fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    alert("Notice Published!");
-                    e.target.reset();
-                } else {
-                    alert("Error publishing.");
-                }
-                btn.disabled = false;
-                btn.innerText = "Publish to Website";
-            });
-        }
-
-        function showDashboard() {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-        }
-
-        function logout() {
-            localStorage.removeItem('crtc_auth');
-            location.reload();
-        }
-
-        if(localStorage.getItem('crtc_auth') === 'true') {
-            showDashboard();
-        }
-    </script>
+<div data-site="footer"></div>
+<script src="js/rates-data.js"></script>
+<script src="js/admin.js"></script>
 </body>
 </html>

@@ -12,284 +12,33 @@
     <!-- Leaflet CSS (For Map) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     
-    <style>
-        :root {
-            --primary-color: #003366;
-            --primary-dark: #002244;
-            --primary-light: #004b93;
-            --secondary-color: #e84c3d;
-            --secondary-hover: #c0392b;
-            --accent-color: #27ae60;
-            --light-bg: #f4f6f9;
-            --white: #ffffff;
-            --text-color: #2c3e50;
-            --text-muted: #6c757d;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-            --shadow-md: 0 6px 20px rgba(0,0,0,0.08);
-            --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --radius-sm: 6px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Roboto', sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text-color); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
-        a { text-decoration: none; color: inherit; }
-
-        header { background: var(--white); box-shadow: 0 2px 15px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; }
-        .logo { display: flex; align-items: center; gap: 12px; font-size: 1.35rem; font-weight: 700; color: var(--primary-color); }
-        .logo i { font-size: 1.6rem; color: var(--secondary-color); }
-        .nav-links { display: flex; gap: 6px; list-style: none; align-items: center; }
-        .nav-links a { color: var(--primary-color); padding: 8px 14px; font-weight: 500; font-size: 0.95rem; border-radius: var(--radius-sm); transition: var(--transition); }
-        .nav-links a:hover, .nav-links a.active { background: rgba(0,51,102,0.08); color: var(--secondary-color); }
-        
-        .mobile-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--primary-color); cursor: pointer; }
-
-        .page-header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 60%, var(--primary-light) 100%);
-            color: var(--white); padding: 50px 0; text-align: center; position: relative; overflow: hidden;
-        }
-        .page-header::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%);
-        }
-        .page-header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
-        .page-header p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
-        .badge-pill { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.15); border-radius: 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 600; }
-
-        .contact-section { padding: 50px 0; }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 32px; margin-bottom: 40px; }
-        
-        .info-card { background: var(--white); padding: 36px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); height: 100%; border: 1px solid var(--border-color); }
-        .info-card h2 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        
-        .info-item { display: flex; gap: 18px; margin-bottom: 24px; align-items: flex-start; }
-        .info-icon { 
-            width: 48px; height: 48px; background: rgba(0,51,102,0.08); color: var(--primary-color); 
-            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; transition: var(--transition);
-        }
-        .info-item:hover .info-icon { background: var(--primary-color); color: var(--white); transform: translateY(-2px); }
-        .info-item h4 { margin-bottom: 4px; color: var(--primary-color); font-size: 1.05rem; font-weight: 600; }
-        .info-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
-        
-        .inquiry-id-box {
-            background: #eef6ff;
-            border: 1px dashed #004b93;
-            color: var(--primary-color);
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.9rem;
-        }
-        .inquiry-id-box strong {
-            font-family: monospace;
-            font-size: 1.05rem;
-            color: var(--secondary-color);
-            letter-spacing: 0.5px;
-            background: rgba(232, 76, 61, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-        .btn-refresh-id {
-            background: transparent;
-            border: none;
-            color: var(--primary-color);
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
-            transition: var(--transition);
-        }
-        .btn-refresh-id:hover {
-            background: rgba(0,51,102,0.1);
-        }
-
-        .status-badge { display: inline-flex; align-items: center; gap: 6px; background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-top: 6px; }
-        .status-badge .dot { width: 8px; height: 8px; background: #2e7d32; border-radius: 50%; animation: pulse 2s infinite; }
-
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .form-card { background: var(--white); padding: 36px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
-        .form-card h2 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-color); }
-        .form-group input, .form-group textarea, .form-group select { 
-            width: 100%; padding: 12px 16px; border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); 
-            outline: none; transition: var(--transition); font-size: 0.95rem; background: #fdfdfd;
-        }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 4px rgba(0,51,102,0.1); background: var(--white); }
-        .btn-submit { 
-            background: var(--secondary-color); color: white; border: none; padding: 14px 28px; 
-            border-radius: var(--radius-sm); font-weight: 600; font-size: 1rem; cursor: pointer; 
-            transition: var(--transition); width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .btn-submit:hover { background: var(--secondary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(232,76,61,0.3); }
-
-        .location-section { padding-bottom: 60px; }
-        .location-stack { display: flex; flex-direction: column; gap: 32px; }
-        
-        .location-card { background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; border: 1px solid var(--border-color); }
-        .card-header { padding: 16px 24px; background: var(--primary-color); color: white; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-        .card-header span { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; }
-        .card-header-actions { display: flex; gap: 12px; align-items: center; }
-        .header-btn { color: white; opacity: 0.9; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.15); border-radius: 4px; transition: var(--transition); border: none; cursor: pointer; }
-        .header-btn:hover { opacity: 1; background: rgba(255,255,255,0.25); }
-
-        /* Interactive Map Container */
-        #map { width: 100%; height: 420px; z-index: 1; }
-
-        /* Floor Selector Bar */
-        .floor-tabs { display: flex; background: #eef2f7; padding: 6px; border-bottom: 1px solid var(--border-color); gap: 6px; }
-        .floor-tab { padding: 8px 18px; border: none; background: transparent; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); }
-        .floor-tab.active { background: var(--white); color: var(--primary-color); box-shadow: var(--shadow-sm); }
-
-        /* Floor Plan Canvas Layout Container */
-        .floor-plan-wrapper { position: relative; width: 100%; height: 720px; background: #f8fafc; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .floor-svg-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; transition: transform 0.3s ease; }
-        .floor-svg-container svg { width: 100%; height: 100%; max-height: 680px; }
-
-        /* SVG Room Styling */
-        .room { fill: #ffffff; stroke: #334155; stroke-width: 2.5; transition: all 0.25s ease; cursor: pointer; }
-        .room:hover { fill: #e0f2fe; stroke: #0284c7; stroke-width: 3.5; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
-        .room.active-room { fill: #bae6fd; stroke: #0284c7; }
-        .room-corridor { fill: #f1f5f9; stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4 4; }
-        .room-text { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; fill: #1e293b; pointer-events: none; text-anchor: middle; }
-        .room-subtext { font-family: 'Inter', sans-serif; font-size: 10px; fill: #64748b; pointer-events: none; text-anchor: middle; }
-
-        .floor-overlay-hint { 
-            position: absolute; bottom: 16px; right: 16px; background: rgba(0, 0, 0, 0.75); 
-            color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
-            display: flex; align-items: center; gap: 8px; pointer-events: none; backdrop-filter: blur(4px);
-        }
-
-        /* Room Info Floating Panel */
-        .room-tooltip {
-            position: absolute; top: 16px; left: 16px; background: rgba(255, 255, 255, 0.95);
-            padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-md); backdrop-filter: blur(6px); max-width: 280px; z-index: 10; display: none;
-        }
-        .room-tooltip h5 { color: var(--primary-color); font-size: 0.95rem; margin-bottom: 4px; }
-        .room-tooltip p { color: var(--text-muted); font-size: 0.82rem; }
-
-        .modal { 
-            display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; 
-            background-color: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px);
-            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;
-        }
-        .modal.show { display: flex !important; opacity: 1; }
-
-        .modal-tab-btn {
-            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
-            color: #e2e8f0; padding: 4px 10px; font-size: 0.8rem; border-radius: 4px;
-            cursor: pointer; transition: var(--transition);
-        }
-        .modal-tab-btn:hover, .modal-tab-btn.active {
-            background: var(--secondary-color); color: white; border-color: var(--secondary-color);
-        }
-
-        .modal-wrapper {
-            background: var(--white); width: 92%; max-width: 1100px; height: 85vh; border-radius: var(--radius-lg);
-            display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-lg); animation: modalSlide 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes modalSlide {
-            from { transform: scale(0.92) translateY(20px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
-        .modal-header {
-            padding: 16px 24px; background: var(--primary-color); color: white; display: flex; justify-content: space-between; align-items: center;
-        }
-        .modal-title { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        .modal-controls { display: flex; gap: 8px; align-items: center; }
-        .modal-btn { background: rgba(255,255,255,0.15); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
-        .modal-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
-        
-        .modal-body { flex: 1; background: #0f172a; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: grab; }
-        .modal-body:active { cursor: grabbing; }
-        
-        .modal-svg-container { width: 90%; height: 90%; transition: transform 0.2s ease-out; transform-origin: center center; }
-
-        .modal-footer {
-            padding: 12px 24px; background: #1e293b; color: #94a3b8; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 4000; display: flex; flex-direction: column; gap: 10px; }
-        .toast {
-            background: var(--white); color: var(--text-color); padding: 16px 24px; border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 14px; border-left: 5px solid var(--accent-color);
-            transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        .toast.show { transform: translateX(0); }
-        .toast-icon { width: 28px; height: 28px; background: #e8f5e9; color: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
-        .toast-content h6 { font-size: 0.95rem; font-weight: 600; color: var(--text-color); margin-bottom: 2px; }
-        .toast-content p { font-size: 0.85rem; color: var(--text-muted); }
-
-        footer { background: #0b1320; color: #94a3b8; padding: 50px 0 30px; text-align: center; margin-top: auto; border-top: 1px solid #1e293b; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; text-align: left; margin-bottom: 40px; }
-        .footer-brand h3 { color: white; font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .footer-brand p { font-size: 0.9rem; color: #64748b; max-width: 380px; }
-        .footer-links h4 { color: white; font-size: 1rem; margin-bottom: 16px; }
-        .footer-links ul { list-style: none; }
-        .footer-links li { margin-bottom: 8px; }
-        .footer-links a { color: #94a3b8; font-size: 0.9rem; transition: var(--transition); }
-        .footer-links a:hover { color: white; }
-        .footer-bottom { border-top: 1px solid #1e293b; padding-top: 24px; font-size: 0.85rem; color: #64748b; text-align: center; }
-
-        /* Responsive Layout Overrides */
-        @media (max-width: 900px) {
-            .contact-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; }
-            .footer-brand p { margin: 0 auto; }
-            .mobile-toggle { display: block; }
-            .nav-links { display: none; width: 100%; position: absolute; top: 100%; left: 0; background: var(--white); flex-direction: column; padding: 15px; box-shadow: var(--shadow-md); border-top: 1px solid var(--border-color); }
-            .nav-links.show { display: flex; }
-            .form-row { grid-template-columns: 1fr; }
-            #map, .floor-plan-wrapper { height: 320px; }
-        }
-    </style>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/contact.css">
+<meta name="description" content="Contact CRTC, Dept. of Civil Engineering, PUST, Pabna: address, phone, email and map.">
+<meta name="theme-color" content="#003366">
+<script src="js/site.js" defer></script>
+<link rel="canonical" href="https://crtccepust.github.io/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_BD">
+<meta property="og:title" content="Contact Us | CRTC, PUST">
+<meta property="og:description" content="Contact CRTC, Dept. of Civil Engineering, PUST, Pabna: address, phone, email and map.">
+<meta property="og:url" content="https://crtccepust.github.io/contact.html">
+<meta property="og:image" content="https://crtccepust.github.io/assets/crtc_logo.svg">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="assets/crtc_logo.svg">
 </head>
 <body>
 
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <i class="fas fa-university"></i>
-                <span>CRTC, PUST</span>
-            </div>
-            <button class="mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="rates.html">Rates</a></li>
-                <li><a href="forms.html">Forms & Guidlines</a></li>
-                <li><a href="notice.html">Notices</a></li>
-                <li><a href="contact.html" class="active">Contact</a></li>
-            </ul>
-        </div>
-    </header>
+    <div data-site="header"></div>
 
-    <div class="page-header">
+    <section class="page-hero page-hero--contact">
         <div class="container">
-            <span class="badge-pill">Center for Research, Testing & Consultation</span>
             <h1>Contact Us</h1>
             <p>Get in touch with our experts for engineering consultancy, material testing, and technical inquiries.</p>
         </div>
-    </div>
+    </section>
 
     <section class="contact-section">
         <div class="container">
@@ -444,7 +193,7 @@
                     <div class="floor-plan-wrapper" onclick="openFloorModal()" style="cursor: pointer;" title="Click to open enlarged view">
                         <!-- Single Floor Plan Image Container -->
                         <div class="floor-img-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:15px; background:#f8fafc;">
-                            <img id="floorPlanMainImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1200x800/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC 2nd Floor Plan" style="max-width:100%; max-height:680px; object-fit:contain; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.3s ease;">
+                            <img loading="lazy" decoding="async" id="floorPlanMainImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1200x800/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC 2nd Floor Plan" style="max-width:100%; max-height:680px; object-fit:contain; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:transform 0.3s ease;">
                         </div>
 
                         <div class="floor-overlay-hint">
@@ -476,7 +225,7 @@
             
             <div class="modal-body" id="modalBody">
                 <div class="modal-img-container" id="modalImgContainer" style="transition: transform 0.2s ease-out; transform-origin: center center;">
-                    <img id="modalFloorImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1600x1000/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC Full Floor Plan" style="max-width: 90vw; max-height: 75vh; border-radius: 6px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
+                    <img loading="lazy" decoding="async" id="modalFloorImg" src="assets/FP2nd.png" onerror="this.src='https://placehold.co/1600x1000/003366/ffffff?text=CRTC+2nd+Floor+Plan+Layout'" alt="CRTC Full Floor Plan" style="max-width: 90vw; max-height: 75vh; border-radius: 6px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);">
                 </div>
             </div>
 
@@ -489,294 +238,11 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <h3><i class="fas fa-university" style="color:var(--secondary-color)"></i> CRTC PUST</h3>
-                    <p>Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, Pabna University of Science and Technology.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="about.html">About CRTC</a></li>
-                        <li><a href="services.html">Testing Services</a></li>
-                        <li><a href="rates.html">Rate Chart</a></li>
-                        <li><a href="forms.html">Forms & Guidlines</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Support & Help</h4>
-                    <ul>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="notice.html">Official Notices</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Guidelines</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-            <p>&copy; 2026 Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, PUST. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <div data-site="footer"></div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <script>
-        const PUST_COORDS = [24.012744222594687, 89.28075403741454];
-        const DEFAULT_ZOOM = 17;
-        let mapInstance = null;
-        let customMarker = null;
-        let currentModalScale = 1;
-        let isPanDragging = false;
-        let startPanX = 0, startPanY = 0;
-        let currentPanX = 0, currentPanY = 0;
-        let currentInquiryId = '';
-
-        document.addEventListener("DOMContentLoaded", function() {
-            initLeafletMap();
-            generateInquiryId();
-        });
-
-        function generateInquiryId() {
-            const now = new Date();
-            const yyyy = now.getFullYear();
-            const mm = String(now.getMonth() + 1).padStart(2, '0');
-            const dd = String(now.getDate()).padStart(2, '0');
-            
-            // Random 4-digit ID suffix
-            const randomNum = Math.floor(1000 + Math.random() * 9000);
-            
-            currentInquiryId = `FI_CRTC_${yyyy}${mm}${dd}_${randomNum}`;
-            
-            const displayEl = document.getElementById('inquiryIdDisplay');
-            const hiddenEl = document.getElementById('inquiryIdHidden');
-            const badgeEl = document.getElementById('inquiryIdBadge');
-
-            if (displayEl) displayEl.textContent = currentInquiryId;
-            if (hiddenEl) hiddenEl.value = currentInquiryId;
-            if (badgeEl) badgeEl.textContent = currentInquiryId;
-        }
-
-        function initLeafletMap() {
-            const mapContainer = document.getElementById('map');
-            if (!mapContainer) return;
-
-            // 1. Initialize map once
-            mapInstance = L.map('map').setView(PUST_COORDS, DEFAULT_ZOOM);
-
-            // 2. High-resolution Satellite Imagery + Place Labels (shows PUST campus buildings clearly)
-            const satelliteImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-                maxNativeZoom: 18,
-                maxZoom: 20
-            });
-
-            const placeLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-                maxNativeZoom: 18,
-                maxZoom: 20
-            });
-
-            const satelliteHybrid = L.layerGroup([satelliteImagery, placeLabels]);
-
-            // 3. Detailed Campus Street Map (OpenStreetMap Humanitarian layer - no referer block or API key)
-            const detailedStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by Humanitarian OpenStreetMap Team',
-                maxNativeZoom: 19,
-                maxZoom: 20
-            });
-
-            // Add Satellite Hybrid by default for sharp campus visibility
-            satelliteHybrid.addTo(mapInstance);
-
-            // Add Layer Switcher control in top-right corner
-            L.control.layers({
-                "Satellite View (Clear Campus)": satelliteHybrid,
-                "Detailed Street Map": detailedStreetMap
-            }).addTo(mapInstance);
-
-            // 4. Add single marker & popup
-            customMarker = L.marker(PUST_COORDS).addTo(mapInstance);
-            customMarker.bindPopup(`
-                <div style="font-family:'Inter',sans-serif; padding:4px;">
-                    <b style="color:#003366; font-size:1.05rem;">CRTC Office</b><br>
-                    <span style="font-size:0.88rem; color:#555;">
-                        R#316, Dept. of Civil Engineering<br>
-                        Academic Building-3 (2nd Floor)<br>
-                        PUST, Pabna-6600, BD
-                    </span>
-                </div>
-            `).openPopup();
-
-            // Ensure crisp tile rendering after container layout settles
-            setTimeout(() => {
-                mapInstance.invalidateSize();
-            }, 200);
-        }
-
-        function resetMapCenter() {
-            if (mapInstance && customMarker) {
-                mapInstance.setView(PUST_COORDS, DEFAULT_ZOOM);
-                customMarker.openPopup();
-                showToast("Map Centered", "Recentered view on Academic Building-3 (2nd Floor).");
-            }
-        }
-
-        function openModal() {
-            openFloorModal();
-        }
-
-        function openFloorModal() {
-            const modal = document.getElementById('imageModal');
-            if (modal) {
-                modal.style.display = 'flex';
-                setTimeout(() => modal.classList.add('show'), 10);
-            }
-            resetModalZoom();
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('imageModal');
-            if (modal) {
-                modal.classList.remove('show');
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 300);
-            }
-            document.body.style.overflow = 'auto';
-        }
-
-        function applyModalTransform() {
-            const container = document.getElementById('modalImgContainer');
-            if (container) {
-                container.style.transform = `translate(${currentPanX}px, ${currentPanY}px) scale(${currentModalScale})`;
-            }
-        }
-
-        function zoomModalImg(factor) {
-            currentModalScale *= factor;
-            currentModalScale = Math.min(Math.max(0.6, currentModalScale), 3.5);
-            applyModalTransform();
-        }
-
-        function resetModalZoom() {
-            currentModalScale = 1;
-            currentPanX = 0;
-            currentPanY = 0;
-            applyModalTransform();
-        }
-
-        // Mouse Drag / Pan logic inside Modal Body
-        const modalBody = document.getElementById('modalBody');
-        if (modalBody) {
-            modalBody.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.modal-btn')) return;
-                isPanDragging = true;
-                startPanX = e.clientX - currentPanX;
-                startPanY = e.clientY - currentPanY;
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                if (!isPanDragging) return;
-                currentPanX = e.clientX - startPanX;
-                currentPanY = e.clientY - startPanY;
-                applyModalTransform();
-            });
-
-            window.addEventListener('mouseup', () => {
-                isPanDragging = false;
-            });
-        }
-
-        // Keyboard ESC key listener to close modal
-        document.addEventListener('keydown', function(evt) {
-            if (evt.key === 'Escape') {
-                closeModal();
-            }
-        });
-
-        // Close modal when clicking dark backdrop
-        document.getElementById('imageModal').addEventListener('click', function(e) {
-            if (e.target === this || e.target.id === 'modalBody') {
-                closeModal();
-            }
-        });
-
-        async function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = document.getElementById('contactForm');
-            const submitBtn = document.getElementById('submitBtn');
-            const btnText = document.getElementById('btnText');
-            const btnIcon = document.getElementById('btnIcon');
-            const userSubject = document.getElementById('msgSubject').value;
-
-            if (!currentInquiryId) {
-                generateInquiryId();
-            }
-
-            // Set standard email subject with Reference ID
-            const fullSubject = `[CRTC Inquiry] ${userSubject} (Ref: ${currentInquiryId})`;
-            document.getElementById('subjectHidden').value = fullSubject;
-
-            // Update UI to loading state
-            submitBtn.disabled = true;
-            btnText.textContent = "Sending Message...";
-            btnIcon.className = "fas fa-spinner fa-spin";
-
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    showToast("Inquiry Sent Successfully!", `Reference ID: ${currentInquiryId}. We will get back to you soon.`);
-                    form.reset();
-                    generateInquiryId();
-                } else {
-                    showToast("Submission Failed", result.message || "Something went wrong. Please verify your access key and try again.");
-                }
-            } catch (error) {
-                showToast("Submission Error", "Network error occurred. Please check your connection and try again.");
-            } finally {
-                submitBtn.disabled = false;
-                btnText.textContent = "Send Message";
-                btnIcon.className = "fas fa-paper-plane";
-            }
-        }
-
-        function showToast(title, message) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `
-                <div class="toast-icon"><i class="fas fa-check"></i></div>
-                <div class="toast-content">
-                    <h6>${title}</h6>
-                    <p>${message}</p>
-                </div>
-            `;
-            container.appendChild(toast);
-
-            setTimeout(() => toast.classList.add('show'), 50);
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 4000);
-        }
-
-        function toggleMobileNav() {
-            const nav = document.getElementById('navLinks');
-            nav.classList.toggle('show');
-        }
-    </script>
+<script src="js/contact.js"></script>
 </body>
 </html>

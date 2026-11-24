@@ -9,142 +9,32 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <style>
-        /* --- COPYING VARIABLES FROM INDEX.HTML --- */
-        :root {
-            --primary-color: #003366;
-            --secondary-color: #e84c3d;
-            --light-bg: #f8f9fa;
-            --text-color: #333;
-            --white: #ffffff;
-            --border-color: #e1e4e8;
-            --transition: all 0.3s ease;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        body { line-height: 1.6; color: var(--text-color); background-color: var(--light-bg); display: flex; flex-direction: column; min-height: 100vh; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-
-        /* --- HEADER --- */
-        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
-        .logo { display: flex; align-items: center; gap: 15px; }
-		.logo-img { 
-            height: 50px; /* Adjust logo height here */
-            width: auto;
-            object-fit: contain;
-        }
-
-        .logo-text h1 { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; line-height: 1.1; }
-        .logo-text p { font-size: 1.1rem; color: #666; font-weight: 500; }
-
-        .nav-links { display: flex; gap: 5px; align-items: center; }
-        .nav-links li a { font-weight: 500; color: var(--primary-color); padding: 10px 15px; border-radius: 4px; transition: var(--transition); font-size: 0.95rem; }
-        .nav-links li a:hover, .nav-links li a.active { background-color: rgba(0, 51, 102, 0.05); color: var(--secondary-color); }
-
-        /* --- PAGE HEADER --- */
-        .page-header {
-            background: linear-gradient(rgba(0,51,102,0.5), rgba(0,30,60,0.9)), url('assets/abt.jpg?auto=format&fit=crop&q=80&w=1600');
-            background-size: cover;
-            background-position: center;
-            color: var(--white);
-            padding: 100px 0;
-            text-align: center;
-        }
-        .page-header h2 { font-size: 3rem; margin-bottom: 15px; }
-        .page-header p { opacity: 0.9; max-width: 700px; margin: 0 auto; font-size: 1.2rem; }
-
-        /* --- ABOUT CONTENT --- */
-        .about-content { padding: 80px 0; }
-        
-        .about-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 50px;
-        }
-
-        .main-col h3 { color: var(--primary-color); font-size: 1.8rem; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; display: inline-block; }
-        .main-col p { margin-bottom: 20px; text-align: justify; font-size: 1.05rem; }
-
-        .sidebar-col {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            height: fit-content;
-        }
-        
-        .sidebar-item { margin-bottom: 30px; }
-        .sidebar-item:last-child { margin-bottom: 0; }
-        .sidebar-item h4 { color: var(--secondary-color); font-size: 1.2rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .sidebar-item ul li { margin-bottom: 10px; padding-left: 10px; border-left: 3px solid #eee; }
-
-        .mission-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
-        .mission-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--primary-color);
-            transition: var(--transition);
-        }
-        .mission-card:hover { transform: translateY(-5px); }
-        .mission-icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px; }
-        .mission-card h4 { margin-bottom: 15px; font-size: 1.3rem; }
-
-        /* --- FOOTER --- */
-        footer { background: #111; color: #aaa; padding: 40px 0; font-size: 0.9rem; text-align: center; margin-top: auto; }
-        .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
-        .footer-links a:hover { color: var(--secondary-color); }
-        
-        @media (max-width: 900px) {
-            .about-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .page-header h2 { font-size: 2.5rem; }
-        }
-    </style>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/about.css">
+<meta name="description" content="About the Center of Research, Testing and Consultation (CRTC), Civil Engineering, PUST.">
+<meta name="theme-color" content="#003366">
+<script src="js/site.js" defer></script>
+<link rel="canonical" href="https://crtccepust.github.io/about.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_BD">
+<meta property="og:title" content="About CRTC | CRTC, PUST">
+<meta property="og:description" content="About the Center of Research, Testing and Consultation (CRTC), Civil Engineering, PUST.">
+<meta property="og:url" content="https://crtccepust.github.io/about.html">
+<meta property="og:image" content="https://crtccepust.github.io/assets/crtc_logo.svg">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="assets/crtc_logo.svg">
 </head>
 <body>
 
     <!-- NAVIGATION -->
-    <header>
-        <div class="container">
-            <div class="nav-container">
-					<a href="index.html" class="logo">
-                    <!-- LOGO IMAGE FROM LOCAL FOLDER -->
-                    <!-- Make sure 'crtc_logo.jpg' is in 'assets' folder -->
-                    <img src="assets/crtc_logo.svg" alt="CRTC Logo" class="logo-img" onerror="this.onerror=null;">
-                       <div class="logo-text">
-                        <h1>CRTC, CE</h1>
-                        <p>PUST, Pabna</p>
-                    </div>
-				</a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html" class="active">About</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="rates.html">Rates</a></li>
-                    <li><a href="forms.html">Forms & Guidlines</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
+    <div data-site="header"></div>
 
     <!-- PAGE HEADER -->
-    <section class="page-header">
+    <section class="page-hero page-hero--about">
         <div class="container">
-            <h2>About CRTC</h2>
+            <h1>About CRTC</h1>
             <p>Center of Research, Testing, and Consultation</p>
         </div>
     </section>
@@ -208,7 +98,7 @@
                         <p style="text-align: justify;">In line with the "Smart Bangladesh" vision, CRTC has integrated a modern digital platform to enhance client convenience and transparency:</p>
 						<ul style="margin-left: 10px; margin-bottom: 20px; list-style: none; text-align: justify;">
 							<li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: var(--secondary-color);"></i> <strong>Online Application Tracking:</strong> Clients can check the real-time status of their testing samples using a unique Application ID.</li>
-							<li><i class="fas fa-check-circle" style="color: var(--secondary-color);"></i> <strong>Report Verification:</strong> To ensure authenticity and prevent forgery, all test reports can be verified online using the Report ID generated by our system.</li>
+							<li><i class="fas fa-check-circle" style="color: var(--secondary-color);"></i> <strong>Report Verification:</strong> To ensure authenticity and prevent forgery, every test report can be verified online using the CRTC number printed on it, and the verified report can be opened from our records.</li>
 						</ul>
                     </div>
 
@@ -230,16 +120,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <ul class="footer-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="rates.html">Test Rates</a></li>
-                <li><a href="contact.html">Contact Support</a></li>
-            </ul>
-            <p>&copy; 2026 Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, PUST. All Rights Reserved.</p>
-        </div>
-    </footer>
+    <div data-site="footer"></div>
 
 </body>
 </html>

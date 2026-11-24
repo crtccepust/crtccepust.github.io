@@ -1,0 +1,23 @@
+/* personnel page-only styles */
+.chairman-section { padding: 60px 0 0; }
+.section-title { text-align: center; color: #003366; font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+.section-title::after { content: ""; display: block; width: 60px; height: 3px; background: #003366; margin: 10px auto 0; border-radius: 2px; }
+.chairman-wrap { max-width: 340px; margin: 32px auto 0; }
+.panel-heading { padding-top: 40px; }
+.team-section{padding-bottom:80px}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:40px}
+.team-card{overflow:hidden;transition:var(--transition);text-align:center;border-top:4px solid transparent}
+.team-card:hover{transform:translateY(-10px);box-shadow:0 15px 30px rgba(0,0,0,0.1);border-top-color:var(--secondary-color)}
+.img-wrapper{width:100%;height:400px;overflow:hidden;background:#eee;position:relative}
+.img-wrapper img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+.team-card:hover .img-wrapper img{transform:scale(1.05)}
+.team-info{padding:25px}
+.team-info h3{color:var(--primary-color);font-size:1.3rem;margin-bottom:5px}
+.team-info .designation{color:var(--secondary-color);font-weight:500;font-size:0.95rem;margin-bottom:15px;display:block}
+.team-info .dept{color:var(--text-light);font-size:0.9rem;margin-bottom:20px;font-style:italic}
+.team-contact{border-top:1px solid #eee;padding-top:15px;display:flex;justify-content:center;gap:15px}
+.team-contact a{width:35px;height:35px;border-radius:50%;background:#f8f9fa;color:var(--primary-color);display:flex;align-items:center;justify-content:center;transition:0.3s;border:1px solid #eee}
+.team-contact a:hover{background:var(--primary-color);color:white;border-color:var(--primary-color)}
+@media (max-width: 900px){
+  .team-grid{grid-template-columns:1fr}
+}

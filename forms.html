@@ -9,407 +9,32 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <style>
-        :root {
-            --primary-color: #003366; /* Academic Blue */
-            --secondary-color: #e84c3d; /* Accent Red */
-            --light-bg: #f8f9fa;
-            --text-color: #333;
-            --text-light: #666;
-            --white: #ffffff;
-            --border-color: #e1e4e8;
-            --transition: all 0.3s ease;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        body { line-height: 1.6; color: var(--text-color); background-color: var(--light-bg); display: flex; flex-direction: column; min-height: 100vh; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-
-        /* --- HEADER --- */
-        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
-        .logo { display: flex; align-items: center; gap: 15px; }
-		.logo-img { 
-            height: 50px; /* Adjust logo height here */
-            width: auto;
-            object-fit: contain;
-        }
-        .logo-text h1 { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; line-height: 1.1; }
-        .logo-text p { font-size: 1.1rem; color: #666; font-weight: 500; }
-
-        .nav-links { display: flex; gap: 5px; align-items: center; }
-        .nav-links li a { font-weight: 500; color: var(--primary-color); padding: 10px 15px; border-radius: 4px; transition: var(--transition); font-size: 0.95rem; }
-        .nav-links li a:hover, .nav-links li a.active { background-color: rgba(0, 51, 102, 0.05); color: var(--secondary-color); }
-
-        /* --- FORMS PAGE SPECIFIC --- */
-        .page-header {
-            background: var(--primary-color);
-            color: var(--white);
-            padding: 60px 0;
-            text-align: center;
-        }
-        .page-header h2 { font-size: 2.5rem; margin-bottom: 10px; }
-        .page-header p { opacity: 0.9; max-width: 600px; margin: 0 auto; }
-
-        .forms-content { padding: 60px 0; flex: 1; }
-        
-        /* Table Styles */
-        .table-responsive {
-            background: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            overflow: hidden;
-            overflow-x: auto;
-        }
-        
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        
-        th { 
-            background: #002244; 
-            color: var(--white); 
-            padding: 18px 25px; 
-            text-align: left; 
-            font-weight: 500;
-            font-size: 1rem;
-            border-right: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        td { 
-            padding: 18px 25px; 
-            border-bottom: 1px solid #eee; 
-            color: var(--text-light);
-            vertical-align: middle;
-        }
-        
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #f9fcfb; }
-
-        .sl-no { width: 80px; text-align: center; font-weight: bold; color: var(--white); }
-        .file-icon { font-size: 1.5rem; margin-right: 8px; vertical-align: middle; }
-        .pdf-link { color: #e74c3c; font-weight: 500; display: inline-flex; align-items: center; transition: var(--transition); }
-        .word-link { color: #2980b9; font-weight: 500; display: inline-flex; align-items: center; transition: var(--transition); }
-        
-        .pdf-link:hover, .word-link:hover { text-decoration: underline; transform: translateX(5px); }
-
-        /* --- INSTRUCTIONS SECTION --- */
-        .instructions-section { 
-            background: var(--white); 
-            padding: 60px 0; 
-            border-top: 5px solid var(--primary-color); 
-        }
-        .instructions-section h3 { 
-            text-align: center; 
-            color: var(--primary-color); 
-            font-size: 1.8rem; 
-            margin-bottom: 40px; 
-            line-height: 1.4; 
-        }
-        .instructions-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 30px; 
-        }
-        .instructions-col { 
-            background: var(--light-bg); 
-            padding: 35px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-        .instructions-col:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transform: translateY(-2px);
-        }
-        .instructions-col h4 { 
-            color: var(--secondary-color); 
-            font-size: 1.4rem; 
-            margin-bottom: 25px; 
-            padding-bottom: 15px; 
-            border-bottom: 2px solid #e1e4e8; 
-            text-align: center; 
-        }
-        
-        .inst-list { list-style: none; padding: 0; margin: 0 0 30px 0; }
-        .inst-list li { 
-            margin-bottom: 18px; 
-            font-size: 0.95rem; 
-            display: flex; 
-            align-items: flex-start; 
-            gap: 12px; 
-            line-height: 1.6; 
-            text-align: justify; 
-        }
-        .inst-list li .num { 
-            font-weight: 700; 
-            color: var(--primary-color); 
-            min-width: 20px; 
-            font-size: 1rem; 
-        }
-        
-        .contact-info-box, .schedule-box { 
-            background: var(--white); 
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-top: 20px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
-        }
-        .contact-info-box { border-left: 4px solid var(--primary-color); }
-        .schedule-box { border-left: 4px solid var(--secondary-color); }
-        .contact-info-box h5, .schedule-box h5 { font-size: 1.1rem; margin-bottom: 12px; }
-        .contact-info-box h5 { color: var(--primary-color); }
-        .schedule-box h5 { color: var(--secondary-color); }
-        .contact-info-box p, .schedule-box p { font-size: 0.95rem; margin-bottom: 6px; color: var(--text-color); line-height: 1.5; }
-        .contact-info-box strong, .schedule-box strong { color: var(--text-color); font-weight: 700; }
-		
-		/* ===== IMPORTANT GUIDELINES SECTION ===== */
-
-		.guidelines-section {
-			padding: 2px 20px;
-			background: #f7f9fc;
-			font-family: 'Segoe UI', Arial, sans-serif;
-		}
-
-		.guidelines-container {
-			max-width: 1200px;
-			margin: auto;
-		}
-
-		/* Heading */
-
-		.guidelines-heading {
-			margin-bottom: 35px;
-		}
-
-
-		.guidelines-heading h2 {
-			font-size: clamp(26px, 4vw, 36px);
-			color: #17365d;
-			margin: 0 0 12px;
-			font-weight: 700;
-		}
-
-		.guidelines-heading h2 span {
-			color: #1684c5;
-		}
-
-		.guidelines-heading p {
-			max-width: 750px;
-			color: #64748b;
-			font-size: 15px;
-			line-height: 1.8;
-			text-align: justify;
-		}
-
-		/* Grid */
-
-		.guidelines-grid {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 22px;
-		}
-
-		/* Cards */
-
-		.guideline-card {
-			position: relative;
-			display: flex;
-			flex-direction: column;
-			min-height: 310px;
-			padding: 25px;
-			background: #ffffff;
-			border: 1px solid #e5eaf1;
-			border-radius: 12px;
-			text-decoration: none;
-			color: inherit;
-			overflow: hidden;
-			transition:
-				transform 0.35s ease,
-				box-shadow 0.35s ease,
-				border-color 0.35s ease;
-			isolation: isolate;
-		}
-
-		/* Mouse spotlight */
-
-		.guideline-card::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background: radial-gradient(
-				350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-				rgba(29, 130, 195, 0.12),
-				transparent 70%
-			);
-			opacity: 0;
-			transition: opacity 0.3s ease;
-			z-index: -1;
-			pointer-events: none;
-		}
-
-		.guideline-card:hover::before {
-			opacity: 1;
-		}
-
-		.guideline-card:hover {
-			transform: translateY(-9px);
-			border-color: #91c7e8;
-			box-shadow: 0 18px 40px rgba(20, 65, 100, 0.12);
-		}
-
-		/* Card top */
-
-		.card-top {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			margin-bottom: 25px;
-		}
-
-		.card-number {
-			font-size: 35px;
-			font-weight: 800;
-			color: #e5edf5;
-			transition: color 0.3s ease;
-		}
-
-		.guideline-card:hover .card-number {
-			color: #b6d9ef;
-		}
-
-		.card-icon {
-			width: 48px;
-			height: 48px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			border-radius: 10px;
-			background: #eaf4fb;
-			color: #1679b8;
-			font-size: 20px;
-			transition: all 0.35s ease;
-			gap: 5px;
-		}
-
-		.guideline-card:hover .card-icon {
-			background: #1679b8;
-			color: white;
-			transform: rotate(-8deg) scale(1.08);
-		}
-
-		/* Card content */
-
-		.card-category {
-			font-size: 10px;
-			font-weight: 700;
-			letter-spacing: 1.3px;
-			color: #1684c5;
-		}
-
-		.card-content h3 {
-			font-size: 18px;
-			line-height: 1.5;
-			color: #17365d;
-			margin: 10px 0;
-			transition: color 0.3s ease;
-		}
-
-		.guideline-card:hover .card-content h3 {
-			color: #087bbd;
-		}
-
-		.card-content p {
-			font-size: 13px;
-			line-height: 1.8;
-			color: #64748b;
-			margin: 0;
-		}
-
-		/* Footer */
-
-		.card-footer {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			margin-top: auto;
-			padding-top: 22px;
-			color: #1679b8;
-			font-size: 13px;
-			font-weight: 700;
-		}
-
-		.card-footer i {
-			transition: transform 0.3s ease;
-		}
-
-		.guideline-card:hover .card-footer i {
-			transform: translateX(7px);
-		}
-
-		/* Responsive */
-
-		@media (max-width: 900px) {
-			.guidelines-grid {
-				grid-template-columns: repeat(2, 1fr);
-			}
-		}
-
-		@media (max-width: 600px) {
-			.guidelines-section {
-				padding: 40px 15px;
-			}
-
-			.guidelines-grid {
-				grid-template-columns: 1fr;
-				gap: 16px;
-			}
-
-			.guideline-card {
-				min-height: 280px;
-			}
-		}
-
-        /* --- FOOTER --- */
-        footer { background: #111; color: #aaa; padding: 40px 0; font-size: 0.9rem; text-align: center; margin-top: auto; }
-        .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
-        .footer-links a:hover { color: var(--secondary-color); }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .nav-links { display: none; } /* Simplified mobile handling for sub-page */
-            .page-header h2 { font-size: 2rem; }
-            .instructions-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/forms.css">
+<meta name="description" content="Download application forms and guidelines for CRTC, PUST testing services.">
+<meta name="theme-color" content="#003366">
+<script src="js/site.js" defer></script>
+<link rel="canonical" href="https://crtccepust.github.io/forms.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_BD">
+<meta property="og:title" content="Forms & Guidelines | CRTC, PUST">
+<meta property="og:description" content="Download application forms and guidelines for CRTC, PUST testing services.">
+<meta property="og:url" content="https://crtccepust.github.io/forms.html">
+<meta property="og:image" content="https://crtccepust.github.io/assets/crtc_logo.svg">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="assets/crtc_logo.svg">
 </head>
 <body>
 
     <!-- NAVIGATION -->
-    <header>
-        <div class="container">
-            <div class="nav-container">
-                <a href="index.html" class="logo">
-				<img src="assets/crtc_logo.svg" alt="CRTC Logo" class="logo-img" onerror="this.onerror=null;">
-						   <div class="logo-text">
-							<h1>CRTC, CE</h1>
-							<p>PUST, Pabna</p>
-						</div>
-						</a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#" class="active">Forms & Guidlines</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
+    <div data-site="header"></div>
 
     <!-- PAGE HEADER -->
-    <section class="page-header">
+    <section class="page-hero page-hero--forms">
         <div class="container">
-            <h2>Requisition Forms</h2>
+            <h1>Requisition Forms</h1>
             <p>Download the necessary forms for your testing requirements. Please fill them out and submit them along with your samples.</p>
         </div>
     </section>
@@ -542,7 +167,17 @@
             <a href="assets\forms\casting-guideline.html" class="guideline-card" target="_blank">
                 <div class="card-top">
                     <span class="card-number">01</span>
-                    <span class="card-icon"> <i class="fas fa-database"></i> </span>
+                    <span class="card-icon"> 
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align: -0.125em;">
+						<path d="M4 4.5 V19.5 C4 21.2 7.6 22.5 12 22.5 S20 21.2 20 19.5 V4.5 Z"/>
+						<ellipse cx="12" cy="4.5" rx="8" ry="3"
+								 fill="none" stroke="currentColor" stroke-width="1.2"/>
+						<path d="M4 19.5 C4 21.2 7.6 22.5 12 22.5 S20 21.2 20 19.5"
+							  fill="none" stroke="currentColor" stroke-width="0.8"/>
+					</svg>				
+					
+					</span>
+
                 </div>
                 <div class="card-content">
                     <span class="card-category">CONCRETE TESTING</span>
@@ -596,30 +231,282 @@
                 </div>
             </a>
 			<!-- Guideline 04 -->
-						<a href="assets\forms\fdd-site-preparation.html" class="guideline-card" target="_blank">
-							<div class="card-top">
-								<span class="card-number">04</span>
-								<span class="card-icon">
-								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align: -0.125em;">
-									<rect x="7.2" y="0.5" width="9.6" height="7.8" rx="1.2"/>
-									<rect x="10.2" y="8.8" width="3.6" height="1.7"/>
-									<polygon points="10.2,11 13.8,11 20.5,20.6 3.5,20.6"/>
-									<rect x="1" y="21.2" width="22" height="2.3" rx="0.6"/>
-								  </svg>
-								</span>
-							</div>
-							<div class="card-content">
-								<span class="card-category">FIELD TEST</span>
-								<h3>Site Preparation Guideline for Field Dry Density (Sand Cone) Test</h3>
-								<p>
-									What to prepare before CRTC arrives to measure in-place density of compacted fill, subgrade or base with the sand cone method, so that the test is valid and the visit is not wasted..
-								</p>
-							</div>
-							<div class="card-footer">
-								<span>Read Guideline</span>
-								<i class="fas fa-arrow-right"></i>
-							</div>
-						</a>
+			<a href="assets\forms\fdd-site-preparation.html" class="guideline-card" target="_blank">
+				<div class="card-top">
+					<span class="card-number">04</span>
+					<span class="card-icon">
+					  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align: -0.125em;">
+						<rect x="7.2" y="0.5" width="9.6" height="7.8" rx="1.2"/>
+						<rect x="10.2" y="8.8" width="3.6" height="1.7"/>
+						<polygon points="10.2,11 13.8,11 20.5,20.6 3.5,20.6"/>
+						<rect x="1" y="21.2" width="22" height="2.3" rx="0.6"/>
+					  </svg>
+					</span>
+				</div>
+				<div class="card-content">
+					<span class="card-category">FIELD TEST</span>
+					<h3>Site Preparation Guideline for Field Dry Density (Sand Cone) Test</h3>
+					<p>
+						What to prepare before CRTC arrives to measure in-place density of compacted fill, subgrade or base with the sand cone method, so that the test is valid and the visit is not wasted.
+					</p>
+				</div>
+				<div class="card-footer">
+					<span>Read Guideline</span>
+					<i class="fas fa-arrow-right"></i>
+				</div>
+			</a>
+						
+			<!-- Guideline 05 -->
+			<a href="assets\forms\core-cutting-guideline.html" class="guideline-card" target="_blank">
+				<div class="card-top">
+					<span class="card-number">05</span>
+					<span class="card-icon">
+					  <svg xmlns="http://www.w3.org/2000/svg"
+							 viewBox="5 8 152 92"
+							width="2em" height="2em"
+							preserveAspectRatio="xMidYMid meet"
+							 fill="none"
+							 stroke="currentColor"
+							 stroke-width="1.6"
+							 stroke-linejoin="round">
+
+						  <!-- Concrete block -->
+						  <path d="M8 38 65 12 116 34 59 62Z" fill="#c9c9c9"/>
+						  <path d="M8 38 59 62 59 98 8 73Z" fill="#929292"/>
+						  <path d="M59 62 116 34 116 70 59 98Z" fill="#aaa"/>
+
+						  <!-- Central circular drilled hole -->
+						  <ellipse cx="64" cy="38" rx="22" ry="11" fill="#444"/>
+						  <path d="M43 38v7q21 12 42 0v-7" fill="#666"/>
+						  <ellipse cx="64" cy="45" rx="21" ry="9" fill="#333"/>
+
+						  <!-- Extracted cylindrical concrete core -->
+						  <path d="M130 35v37q0 8 12 8t12-8V35" fill="#aaa"/>
+						  <ellipse cx="142" cy="35" rx="12" ry="6" fill="#dedede"/>
+						  <ellipse cx="142" cy="72" rx="12" ry="6" fill="#888"/>
+
+						  <!-- Aggregate details -->
+						  <g fill="#777" stroke="none" opacity=".55">
+							<circle cx="22" cy="41" r="1.5"/>
+							<circle cx="35" cy="29" r="1.4"/>
+							<circle cx="27" cy="59" r="1.6"/>
+							<circle cx="47" cy="20" r="1.4"/>
+							<circle cx="94" cy="29" r="1.5"/>
+							<circle cx="101" cy="51" r="1.4"/>
+							<circle cx="19" cy="69" r="1.4"/>
+						  </g>
+						</svg>
+					</span>
+				</div>
+				<div class="card-content">
+					<span class="card-category">DT TEST</span>
+					<h3>Site Preparation Guideline for Concrete Core Cutting</h3>
+					<p>
+						What to prepare before CRTC arrives to cut concrete cores for compressive strength testing, so that the cores are valid and the structure is not damaged.
+					</p>
+				</div>
+				<div class="card-footer">
+					<span>Read Guideline</span>
+					<i class="fas fa-arrow-right"></i>
+				</div>
+			</a>
+			<!-- Guideline 06 -->
+			<a href="assets\forms\rebar-scanner-guideline.html" class="guideline-card" target="_blank">
+				<div class="card-top">
+					<span class="card-number">06</span>
+					<span class="card-icon">
+					  
+					<svg xmlns="http://www.w3.org/2000/svg"
+						 viewBox="0 0 160 110"
+						 width="2em" height="2em"
+						 fill="none"
+						 stroke="currentColor"
+						 stroke-width="2"
+						 stroke-linecap="round"
+						 stroke-linejoin="round">
+
+					  <!-- Concrete slab -->
+					  <path d="M8 42 L75 15 L150 39 L82 68 Z" fill="#c9c9c9"/>
+					  <path d="M8 42 L82 68 V100 L8 73 Z" fill="#999"/>
+					  <path d="M82 68 L150 39 V70 L82 100 Z" fill="#aaa"/>
+
+					  <!-- Embedded reinforcement bars -->
+					  <g stroke="#454545" stroke-width="3">
+						<path d="M25 58 L25 81 M48 67 L48 91 M70 76 L70 97"/>
+						<path d="M15 67 L75 87"/>
+						<path d="M15 72 L75 92"/>
+					  </g>
+
+					  <!-- Rebar scanner -->
+					  <path d="M43 10 L68 10 L76 17 L69 31 L40 31 L34 23 Z"
+							fill="#263b59"/>
+					  <path d="M43 14 L64 14 L69 18 L64 26 L40 26 Z"
+							fill="#f5aa23"/>
+					  <path d="M51 31 L64 31 L64 37 L51 37 Z" fill="#263b59"/>
+
+					  <!-- Scanning waves -->
+					  <g stroke="#1689d5" stroke-width="2.5">
+						<path d="M45 39 Q55 44 65 39"/>
+						<path d="M39 44 Q55 52 71 44"/>
+						<path d="M33 49 Q55 61 77 49"/>
+					  </g>
+
+					</svg>
+
+					</span>
+				</div>
+				<div class="card-content">
+					<span class="card-category">NDT TEST</span>
+					<h3>Site Preparation for Rebar Scanning (Novascan R660)</h3>
+					<p>
+						What to prepare before CRTC arrives to locate reinforcement and measure concrete cover with the Novatest Novascan R660, so that the survey is accurate and the visit is not wasted.
+					</p>
+				</div>
+				<div class="card-footer">
+					<span>Read Guideline</span>
+					<i class="fas fa-arrow-right"></i>
+				</div>
+			</a>
+			<!-- Guideline 07 -->
+			<a href="assets\forms\subsoil-investigation-guideline.html" class="guideline-card" target="_blank">
+				<div class="card-top">
+					<span class="card-number">07</span>
+					<span class="card-icon">
+					  
+					
+					<svg xmlns="http://www.w3.org/2000/svg"
+						 viewBox="0 0 160 120"
+						 width="2em" height="2em"
+						 preserveAspectRatio="xMidYMid meet"
+						 fill="none"
+						 stroke="currentColor"
+						 stroke-width="2"
+						 stroke-linecap="round"
+						 stroke-linejoin="round">
+
+					  <!-- Ground and soil layers -->
+					  <path d="M5 65H155" stroke="#777"/>
+					  <path d="M5 65H155V110H5Z" fill="#d2b58b"/>
+					  <path d="M5 81H155M5 96H155" stroke="#9b805f" stroke-dasharray="3 3"/>
+					  <path d="M5 96H155V110H5Z" fill="#b2a18c"/>
+
+					  <!-- Tripod drilling rig -->
+					  <path d="M65 7L35 65M65 7L95 65M65 7V65"
+							stroke="#35465b" stroke-width="3"/>
+					  <path d="M56 16H74V23H56Z" fill="#e5a52b"/>
+					  <path d="M59 27H71V43H59Z" fill="#e5a52b"/>
+					  <circle cx="65" cy="25" r="4" fill="#fff"/>
+
+					  <!-- Drilling rod -->
+					  <path d="M62 43V83H68V43Z" fill="#777"/>
+
+					  <!-- Borehole casing -->
+					  <path d="M57 65V90H73V65Z" fill="#aaa"/>
+					  <path d="M60 65V102M70 65V102" stroke="#555"/>
+
+					  <!-- Water circulation -->
+					  <path d="M48 43Q39 49 48 56M82 43Q91 49 82 56"
+							stroke="#2799d2" stroke-width="2.5"/>
+					  <path d="M44 55l4 4 1-6M86 55l-4 4-1-6"
+							stroke="#2799d2"/>
+
+					  <!-- Wash boring water hose -->
+					  <path d="M73 43Q103 38 103 58V65"
+							stroke="#2799d2" stroke-width="2.5"/>
+					  <path d="M99 61l4 5 4-5" stroke="#2799d2"/>
+
+					  <!-- Borehole and SPT sampler -->
+					  <path d="M60 83H70V108H60Z" fill="#eee"/>
+					  <path d="M62 84H68V101H62Z" fill="#555"/>
+					  <path d="M61 101L59 108H71L69 101Z" fill="#d69b36"/>
+
+					  <!-- Soil texture -->
+					  <g stroke="#9b805f" stroke-width="1">
+						<path d="M17 74l5-3m8 10 5-3m12 12 5-3"/>
+						<path d="M104 74l5-3m12 11 5-3m10 13 5-3"/>
+					  </g>
+					</svg>
+
+
+					</span>
+				</div>
+				<div class="card-content">
+					<span class="card-category">FIELD TEST</span>
+					<h3>Site Preparation for Subsoil Investigation</h3>
+					<p>
+						What to prepare before CRTC arrives to drill boreholes and carry out Standard Penetration Tests and sampling by wash boring, so that the investigation is safe, complete and on time.
+					</p>
+				</div>
+				<div class="card-footer">
+					<span>Read Guideline</span>
+					<i class="fas fa-arrow-right"></i>
+				</div>
+			</a>
+			<!-- Guideline 08 -->
+			<a href="assets\forms\rebound-hammer-guideline.html" class="guideline-card" target="_blank">
+				<div class="card-top">
+					<span class="card-number">08</span>
+					<span class="card-icon">													
+					<svg xmlns="http://www.w3.org/2000/svg"
+						 viewBox="0 0 160 110"
+						 width="2em" height="2em"
+						 preserveAspectRatio="xMidYMid meet"
+						 fill="none"
+						 stroke="currentColor"
+						 stroke-width="2"
+						 stroke-linecap="round"
+						 stroke-linejoin="round">
+
+					  <!-- Concrete surface -->
+					  <rect x="112" y="12" width="34" height="86"
+							rx="2" fill="#b8b8b8"/>
+
+					  <!-- Concrete texture -->
+					  <g stroke="#888" stroke-width="1">
+						<path d="M118 25l5-3m9 16 6-3m-19 18 5-3m9 18 6-3m-16 17 5-3"/>
+					  </g>
+
+					  <!-- Rebound hammer body -->
+					  <path d="M19 36H86Q93 36 93 43V64Q93 71 86 71H19Z"
+							fill="#e4a52b"/>
+
+					  <!-- Hammer casing -->
+					  <path d="M25 40H78V67H25Z" fill="#35465b"/>
+
+					  <!-- Display -->
+					  <rect x="39" y="44" width="28" height="17"
+							rx="2" fill="#dce8ec"/>
+					  <path d="M45 56l5-6 5 4 6-7"
+							stroke="#2799d2"/>
+
+					  <!-- Plunger and impact tip -->
+					  <path d="M93 49H112V58H93Z" fill="#777"/>
+					  <path d="M107 47H112V60H107Z" fill="#444"/>
+
+					  <!-- Handle -->
+					  <path d="M30 71V88Q30 94 36 94H53Q59 94 59 88V71Z"
+							fill="#35465b"/>
+					  <path d="M35 78H54M35 84H54" stroke="#9ca9b5"/>
+
+					  <!-- Impact indication -->
+					  <path d="M99 36l-5-6m12 6 1-8m-16 17-7-3"
+							stroke="#d69b36"/>
+					</svg>
+					</span>
+				</div>
+				<div class="card-content">
+					<span class="card-category">NDT TEST</span>
+					<h3>Site Preparation for Rebound Hammer Test</h3>
+					<p>
+						What to prepare before CRTC arrives to test your concrete with the rebound hammer, so that the readings are reliable and the visit is not wasted.
+					</p>
+				</div>
+				<div class="card-footer">
+					<span>Read Guideline</span>
+					<i class="fas fa-arrow-right"></i>
+				</div>
+			</a>
+						
         </div>
     </div>
 </section>
@@ -698,31 +585,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <ul class="footer-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="rates.html">Test Rates</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <p>&copy; 2026 Center of Research, Testing and Consultation (CRTC), Department of Civil Engineering, PUST. All Rights Reserved.</p>
-        </div>
-    </footer>
-	<script>
-
-		document.querySelectorAll('.guideline-card').forEach(card => {
-
-			card.addEventListener('mousemove', (e) => {
-				const rect = card.getBoundingClientRect();
-
-				const x = e.clientX - rect.left;
-				const y = e.clientY - rect.top;
-
-				card.style.setProperty('--mouse-x', `${x}px`);
-				card.style.setProperty('--mouse-y', `${y}px`);
-			});
-
-		});
-	</script>
+    <div data-site="footer"></div>
+<script src="js/forms.js"></script>
 </body>
 </html>

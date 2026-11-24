@@ -6,14 +6,14 @@
 .cc-guide h1{font-size:clamp(1.7rem,4.5vw,2.4rem);font-weight:700;margin-bottom:10px}
 .cc-guide h2{font-size:1.45rem;margin:44px 0 14px;padding-top:18px;border-top:2px solid var(--ink)}
 .cc-guide h3{font-size:1.1rem;margin:22px 0 8px}
-.cc-guide p{margin:0 0 12px;max-width:none ; text-align: justify}
-.cc-guide .meta{font-size:.9rem;color:var(--muted);margin:14px 0 0; text-align: center}
+.cc-guide p{margin:0 0 12px;max-width:none;text-align:justify}
+.cc-guide .meta{font-size:.9rem;color:var(--muted);margin:14px 0 0;text-align:center}
 .cc-guide .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;margin:28px 0 0;border:1px solid var(--line)}
 .cc-guide .fact{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:-1px -1px 0 0}
 .cc-guide .fact b{display:block;font:700 1.55rem/1.2 Charter,Georgia,serif;color:var(--steel)}
 .cc-guide .fact span{font-size:.9rem;color:var(--muted)}
 .cc-guide ol.steps{list-style:none;counter-reset:s;margin:0;padding:0}
-.cc-guide ol.steps>li{counter-increment:s;position:relative;padding:0 0 16px 46px;max-width:none; text-align: justify}
+.cc-guide ol.steps>li{counter-increment:s;position:relative;padding:0 0 16px 46px;max-width:none;text-align:justify}
 .cc-guide ol.steps>li::before{content:counter(s);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:50%;background:var(--steel);color:#fff;font-weight:700;font-size:.95rem;display:grid;place-items:center}
 .cc-guide ul{margin:0 0 12px;padding-left:1.2em;max-width:none}
 .cc-guide li{margin-bottom:6px}
@@ -25,6 +25,7 @@
 .cc-guide .note p{margin:0}
 .cc-guide .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .cc-guide .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+.cc-guide .crtc-contact{margin-top:12px;font-size:.88rem;color:var(--muted);text-align:center}
 .cc-guide a{color:var(--steel)}
 .cc-guide a:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
 .cc-guide{--hl:#e3f0f9}
@@ -104,7 +105,6 @@
 @media (prefers-reduced-motion:reduce){.cc-bg{animation:none}}
 body{margin:0}
 .cc-guide{background:rgba(255,255,255,.9);box-shadow:0 0 0 1px var(--line);min-height:100vh}
-@media print{.cc-bg{display:none}.cc-guide{background:#fff;box-shadow:none}.cc-guide .faqbar{display:none}.cc-guide{max-width:none;padding:0}.cc-guide h2{break-after:avoid}.cc-guide .fact,.cc-guide tr{break-inside:avoid}}
 .cc-guide .prog{height:8px;background:var(--tint);border-radius:4px;overflow:hidden;margin:6px 0 14px}
 .cc-guide .prog i{display:block;height:100%;width:0;background:#1a7a4c;transition:width .25s}
 .cc-guide .chk{list-style:none;margin:0 0 12px;padding:0;max-width:none}
@@ -114,3 +114,46 @@ body{margin:0}
 .cc-guide .chk input:checked+span{color:var(--muted);text-decoration:line-through}
 .cc-guide .btnl{border:1.5px solid var(--steel);background:#fff;color:var(--steel);border-radius:4px;padding:8px 14px;font:600 .9rem system-ui,sans-serif;cursor:pointer;transition:all .15s}
 .cc-guide .btnl:hover{background:var(--steel);color:#fff}
+
+/* Upright stacked watermarks: CRTC (left) and GUIDELINE (right) */
+body::before,
+body::after {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font: 800 clamp(1.8rem, 4.5vw, 3.4rem)/1.05 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.12em;
+  color: #1f4e79;
+  opacity: 0.12;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+}
+
+body::before {
+  content: "CRTC";
+  left: 16px;
+}
+
+body::after {
+  content: "GUIDELINE";
+  right: 16px;
+}
+
+@media (max-width: 1024px) {
+  body::before,
+  body::after {
+    font-size: 1.4rem;
+    opacity: 0.08;
+  }
+}
+
+@media print {
+  .cc-bg, body::before, body::after { display: none; }
+  .cc-guide { background: #fff; box-shadow: none; max-width: none; padding: 0; }
+  .cc-guide .faqbar { display: none; }
+  .cc-guide h2 { break-after: avoid; }
+  .cc-guide .fact, .cc-guide tr { break-inside: avoid; }
+}

@@ -1,0 +1,17 @@
+/* Inline rate management (staff only) */
+.adm-bar{flex:1 1 100%;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:0 0 14px;padding:10px 14px;background:#eef4fa;border:1px solid var(--border-color);border-left:4px solid var(--primary-color);border-radius:var(--radius-sm);font-size:.9rem}
+.adm-bar .muted,.adm-warn{color:var(--text-light)}.adm-warn{color:#8a5a00;font-weight:500}
+.adm-role{font-style:normal;background:var(--hl);color:var(--steel);border-radius:999px;padding:1px 9px;font-size:.75rem;font-weight:700;text-transform:uppercase}
+.adm-link{background:none;border:0;color:var(--primary-color);font:600 .9rem var(--font);cursor:pointer;text-decoration:underline;margin-left:auto}.adm-link+.adm-link{margin-left:0}
+.adm-btn{background:var(--primary-color);color:#fff;border:0;border-radius:6px;padding:8px 16px;font:600 .9rem var(--font);cursor:pointer}.adm-btn:hover{background:var(--primary-dark)}
+.adm-act{display:flex;gap:6px;justify-content:center;margin-top:6px}
+.adm-act button{border:1px solid var(--border-color);background:#fff;color:var(--primary-color);border-radius:6px;padding:3px 9px;font-size:.78rem;cursor:pointer}
+.adm-act button:hover{background:var(--primary-color);color:#fff}.adm-act .del{color:#c0392b}.adm-act .del:hover{background:#c0392b;color:#fff}
+.adm-dlg{margin:auto;border:0;border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:26px;width:min(560px,94vw)}.adm-dlg::backdrop{background:rgba(0,20,40,.55)}
+.adm-form{display:flex;flex-direction:column;gap:12px}.adm-form label{display:flex;flex-direction:column;gap:5px;font-size:.9rem}.adm-form input:not([type=checkbox]){width:100%}
+.adm-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.adm-chk{flex-direction:row!important;align-items:center;gap:8px!important}
+.adm-err{color:#c0392b;min-height:1.2em;font-size:.88rem}.adm-btns{display:flex;justify-content:flex-end;gap:10px}
+.adm-btns button{padding:9px 20px;border-radius:6px;cursor:pointer;font:600 .9rem var(--font);border:1px solid var(--border-color);background:#fff}.adm-btns .adm-save{background:var(--primary-color);color:#fff;border-color:var(--primary-color)}
+#admToast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:#12304a;color:#fff;padding:12px 22px;border-radius:8px;opacity:0;pointer-events:none;transition:.25s;z-index:4000}#admToast.show{opacity:1;transform:translate(-50%,0)}#admToast.err{background:#b3302a}
+@media(max-width:600px){.adm-two{grid-template-columns:1fr}}
+@media print{.adm-bar,.adm-act,.adm-dlg,#admToast{display:none!important}}
